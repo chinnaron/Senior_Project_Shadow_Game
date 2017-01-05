@@ -2,3 +2,6 @@ https://en.wikipedia.org/wiki/Lee_algorithm
 
 http://answers.unity3d.com/questions/482128/draw-grid-lines-in-game-view.html
 
+https://en.wikipedia.org/wiki/A*_search_algorithm
+
+
