@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\CameraRig.cs" />
      <Compile Include="Assets\Scripts\GridOverlay.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\WhiteLight.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

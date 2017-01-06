@@ -1,9 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GridOverlay.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="54" Column="68" />
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="87" Column="36" />
+      <File FileName="Assets\Scripts\GridOverlay.cs" Line="88" Column="20" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="78" Column="50" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

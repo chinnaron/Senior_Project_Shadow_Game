@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GridOverlay : MonoBehaviour {
-	public static GridOverlay instance;
-
-	private int[,] grid;
+	private bool[,] grid;
 
 	private int lengthX;
 	private int lengthZ;
@@ -15,10 +13,8 @@ public class GridOverlay : MonoBehaviour {
 	private Ray ray;
 	private RaycastHit hit;
 
-	private int floorMask;
 	private int unWalkableMask;
-
-	private Collider floorCollider;
+	private int moveableMask;
 
 	void Awake (){
 		lengthX = (int)transform.localScale.x;
@@ -26,22 +22,19 @@ public class GridOverlay : MonoBehaviour {
 
 		start = transform.position - new Vector3 (lengthX / 2f, 0f, lengthZ / 2f);
 		start.y = 10f;
-		grid = new int[lengthX, lengthZ];
+		grid = new bool[lengthX, lengthZ];
 		ray = new Ray (start, Vector3.down);
 
-		floorMask = LayerMask.GetMask ("Floor");
 		unWalkableMask = LayerMask.GetMask ("UnWalkable");
+		moveableMask = LayerMask.GetMask ("Moveable");
 
 		for (int x = 0; x < lengthX; x++) {
 			for (int z = 0; z < lengthZ; z++) {
 				ray.origin = new Vector3 (x + start.x + 0.5f, ray.origin.y, z + start.z + 0.5f);
-				if (Physics.Raycast (ray, out hit, 11f, unWalkableMask)) {
-					grid [x, z] = -1;
-				} else if (Physics.Raycast (ray, out hit, 11f, floorMask)) {
-					grid [x, z] = 0;
-				} else {
-					grid [x, z] = -1;
-				}
+				if (Physics.Raycast (ray, out hit, 11f, unWalkableMask) || Physics.Raycast (ray, out hit, 11f, moveableMask))
+					grid [x, z] = false;
+				else
+					grid [x, z] = true;
 			}
 		}
 	}
@@ -54,19 +47,26 @@ public class GridOverlay : MonoBehaviour {
 		return lengthZ;
 	}
 
-	public void SetGrid (Vector3 idx, int v){
-		grid [(int)((idx.x > 0f ? (int)idx.x : (int)idx.x - 1f) - start.x), (int)((idx.z > 0f ? (int)idx.z : (int)idx.z - 1f) - start.z)] = v;
+	public void SetGridTrue (Vector3 v){
+		grid [toGrid (v, 'x'), toGrid (v, 'z')] = true;
 	}
 
-	public void SetGrid (int x, int z, int v){
-		grid [x, z] = v;
+	public void SetGridFalse (Vector3 v){
+		grid [toGrid (v, 'x'), toGrid (v, 'z')] = false;
 	}
 
-	public int GetGrid (Vector3 v){
-		return grid [(int)((v.x > 0f ? (int)v.x : (int)v.x - 1f) - start.x), (int)((v.z > 0f ? (int)v.z : (int)v.z - 1f) - start.z)];
+	public void SetGridTrue (int x, int z){
+		grid [x, z] = true;
+	}
+
+	public void SetGridFalse (int x, int z){
+		grid [x, z] = false;
+	}
+	public bool GetGrid (Vector3 v){
+		return grid [toGrid (v, 'x'), toGrid (v, 'z')];
 	}
 		
-	public int GetGrid (int x, int z){
+	public bool GetGrid (int x, int z){
 		return grid [x, z];
 	}
 
@@ -79,6 +79,7 @@ public class GridOverlay : MonoBehaviour {
 
 	public Vector3 toPoint (Vector3 v){
 		v.x = (v.x > 0f ? (int)v.x : (int)v.x - 1f) + 0.5f;
+		v.y = 0f;
 		v.z = (v.z > 0f ? (int)v.z : (int)v.z - 1f) + 0.5f;
 		return v;
 	}
@@ -86,18 +87,26 @@ public class GridOverlay : MonoBehaviour {
 	public Vector3 toPoint (int x, int z){
 		return new Vector3 (start.x + 0.5f + x, 0f, start.z + 0.5f + z);
 	}
-		
+
+	public bool isOutOfGrid (Vector3 v){
+		int gridX = toGrid (v, 'x');
+		int gridZ = toGrid (v, 'z');
+		if (!grid [gridX, gridZ] || gridX < 0 || gridX > lengthX - 1 || gridZ < 0 || gridZ > lengthZ - 1)
+			return false;
+		return true;
+	}
+
 	public List<Vector3> neighborOf (Vector3 v){
 		List<Vector3> l = new List<Vector3> ();
 		int gridX = toGrid (v, 'x');
 		int gridZ = toGrid (v, 'z');
-		if (gridX > 0 && grid [gridX - 1, gridZ] == 0)
+		if (gridX > 0 && grid [gridX - 1, gridZ])
 			l.Add (v + Vector3.left);
-		if (gridX < lengthX - 1 && grid [gridX + 1, gridZ] == 0)
+		if (gridX < lengthX - 1 && grid [gridX + 1, gridZ])
 			l.Add (v + Vector3.right);
-		if (gridZ > 0 && grid [gridX, gridZ - 1] == 0)
+		if (gridZ > 0 && grid [gridX, gridZ - 1])
 			l.Add (v + Vector3.back);
-		if (gridZ < lengthZ - 1 && grid [gridX, gridZ + 1] == 0)
+		if (gridZ < lengthZ - 1 && grid [gridX, gridZ + 1])
 			l.Add (v + Vector3.forward);
 		return l;
 	}
@@ -156,67 +165,4 @@ public class GridOverlay : MonoBehaviour {
 		}
 		return ans;
 	}
-
-//	Vector3 nearer (Vector3 a, Vector3 b, Vector3 des){
-//		return Vector3.Distance (a, des) < Vector3.Distance (b, des) ? a : b;
-//	}
-
-//	public Stack<Vector3> findPath(Vector3 start, Vector3 stop){
-//		start.x = (start.x > 0f ? (int)start.x : (int)start.x - 1f) + 0.5f;
-//		start.z = (start.z > 0f ? (int)start.z : (int)start.z - 1f) + 0.5f;
-//		stop.x = (stop.x > 0f ? (int)stop.x : (int)stop.x - 1f) + 0.5f;
-//		stop.z = (stop.z > 0f ? (int)stop.z : (int)stop.z - 1f) + 0.5f;
-//		Stack<Vector3> ans = new Stack<Vector3> ();
-//		Queue<Vector3> q = new Queue<Vector3> ();
-//		Vector3 now = start;
-//		int[,] grid2 = grid;
-//		int count = 0;
-//		q.Enqueue (now);
-//
-//		while (now != stop) {
-//			if (toGrid (now, 'z') > 0 && grid2 [toGrid (now, 'x'), toGrid (now, 'z') - 1] == 0) {
-//				grid2 [toGrid (now, 'x'), toGrid (now, 'z') - 1] = count;
-//				q.Enqueue (GetPoint (toGrid (now, 'x'), toGrid (now, 'z') - 1));
-//			}
-//			if (toGrid (now, 'z') <  lengthZ && grid2 [toGrid (now, 'x'), toGrid (now, 'z') + 1] == 0) {
-//				grid2 [toGrid (now, 'x'), toGrid (now, 'z') + 1] = count;
-//				q.Enqueue (GetPoint (toGrid (now, 'x'), toGrid (now, 'z') + 1));
-//			}
-//			if (toGrid (now, 'x') > 0 && grid2 [toGrid (now, 'x') - 1, toGrid (now, 'z')] == 0) {
-//				grid2 [toGrid (now, 'x') - 1, toGrid (now, 'z')] = count;
-//				q.Enqueue (GetPoint (toGrid (now, 'x') - 1, toGrid (now, 'z')));
-//			}
-//			if (toGrid (now, 'x') <  lengthX && grid2 [toGrid (now, 'x') + 1, toGrid (now, 'z')] == 0) {
-//				grid2 [toGrid (now, 'x') + 1, toGrid (now, 'z')] = count;
-//				q.Enqueue (GetPoint (toGrid (now, 'x') + 1, toGrid (now, 'z')));
-//			}
-//			q.Dequeue ();
-//			if (q.Count < 1)
-//				return ans;
-//			now = q.Peek ();
-//		}
-//
-//		count = GetGrid (now);
-//		ans.Push (now);
-//		Vector3 near = now;
-//		while (ans.Peek () != start) {
-//			count--;
-//			if (toGrid (now, 'z') > 0 && grid2 [toGrid (now, 'x'), toGrid (now, 'z') - 1] == count) {
-//				near = nearer (near, GetPoint (toGrid (now, 'x'), toGrid (now, 'z') - 1), start);
-//			}
-//			if (toGrid (now, 'z') <  lengthZ && grid2 [toGrid (now, 'x'), toGrid (now, 'z') + 1] == count) {
-//				near = nearer (near, GetPoint (toGrid (now, 'x'), toGrid (now, 'z') + 1), start);
-//			}
-//			if (toGrid (now, 'x') > 0 && grid2 [toGrid (now, 'x') - 1, toGrid (now, 'z')] == count) {
-//				near = nearer (near, GetPoint (toGrid (now, 'x') - 1, toGrid (now, 'z')), start);
-//			}
-//			if (toGrid (now, 'x') <  lengthX && grid2 [toGrid (now, 'x') + 1, toGrid (now, 'z')] == count) {
-//				near = nearer (near, GetPoint (toGrid (now, 'x') + 1, toGrid (now, 'z')), start);
-//			}
-//			ans.Push (near);
-//			now = near;
-//		}
-//
-//		return ans;
-//	}
 }
