@@ -6,5 +6,5 @@ Download: https://unity3d.com/get-unity/download/archive?_ga=1.199498279.8639466
 Github Guides: https://guides.github.com/
 
 Game Update:
-	Can click to walk
-	stand near ball click ball to push/pull
+- Can click to walk
+- stand near ball click ball to push/pull
