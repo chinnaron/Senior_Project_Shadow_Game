@@ -7,8 +7,8 @@ Github Guides: https://guides.github.com/
 
 Should Know:
 - How to use
-  Vector3
-  Ray/Raycast/RaycastHit
+  - Vector3
+  - Ray/Raycast/RaycastHit
 - How to call function from other script
 
 Code Explain:
