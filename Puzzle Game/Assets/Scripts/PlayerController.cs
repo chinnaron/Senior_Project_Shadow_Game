@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 	public GridOverlay grid;
+
 	public GameObject floor;
 	public GameObject desPic;
 	public GameObject grabPic;
+	private GameObject grabPlane;
+	private GameObject desPlane;
 
 	private readonly Vector3 grabPicV = new Vector3 (0f, 1.2f, 0f);
 	private readonly Vector3 desPicV = new Vector3 (0f, 0.3f, 0f);
-	private GameObject grabPlane;
-	private GameObject desPlane;
-	private GameObject grabObj;
+	private Vector3 movement;
+	private Vector3 pathDestination;
+	private Vector3 destination;
+	private Vector3 point;
+	private Vector3 grabPoint;
 
 	private Animator anim;
 	private Rigidbody playerRigidbody;
-	private Rigidbody grabRigidbody;
+	public Rigidbody grabRigidbody;
 
-	private bool walking;
-	private bool grabbing;
+	public bool walking;
+	public bool grabbing;
 
 	private int playerMask;
 
@@ -29,12 +34,6 @@ public class PlayerController : MonoBehaviour {
 	private float distance;
 	private float pathDistance;
 	private float lowestDistance;
-
-	private Vector3 movement;
-	private Vector3 pathDestination;
-	private Vector3 destination;
-	private Vector3 point;
-	private Vector3 grabPoint;
 
 	private Quaternion lookAt;
 
@@ -48,6 +47,7 @@ public class PlayerController : MonoBehaviour {
 	void Awake () {
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
+		walking = grabbing = false;
 
 		anim = GetComponent<Animator> ();
 		playerRigidbody = GetComponent<Rigidbody> ();
@@ -148,7 +148,6 @@ public class PlayerController : MonoBehaviour {
 				movement = pathDestination - transform.position;
 				lookAt = Quaternion.LookRotation (movement);
 				walking = true;
-				print (pathDestination + "" + destination);
 			}
 		} else
 			lowestDistance = pathDistance;

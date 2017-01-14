@@ -5,7 +5,7 @@ using UnityEngine;
 public class TriggerController : MonoBehaviour {
 	public GameObject showPic;
 
-	public bool isOn;
+	private bool isOn;
 
 	private readonly Vector3 picV = new Vector3 (-0.5f, 1.2f, 0f);
 	private GameObject show;
@@ -21,5 +21,13 @@ public class TriggerController : MonoBehaviour {
 		} else {
 			Destroy (show);
 		}
+	}
+
+	public void SetOnTrue(){
+		isOn = true;
+	}
+
+	public void SetOnFalse(){
+		isOn = false;
 	}
 }

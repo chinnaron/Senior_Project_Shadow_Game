@@ -38,16 +38,16 @@ public class YellowLight : MonoBehaviour {
 			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
 			if (hitN.collider.GetComponent<ObjectController> ().isTriggerable && hitN.collider.transform.position.x == transform.position.x) {
 				objN = hitN.collider.GetComponent<TriggerController> ();
-				objN.isOn = true;
+				objN.SetOnTrue ();
 				objN.ShowOn ();
 			} else if (objN != null) {
-				objN.isOn = false;
+				objN.SetOnFalse ();
 				objN.ShowOn ();
 				objN = null;
 			}
 		} else {
 			if (objN != null) {
-				objN.isOn = false;
+				objN.SetOnFalse ();
 				objN.ShowOn ();
 				objN = null;
 			}
