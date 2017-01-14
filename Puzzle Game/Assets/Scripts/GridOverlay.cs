@@ -297,7 +297,8 @@ public class GridOverlay : MonoBehaviour {
 					current = cameFrom [current];
 					ans.Push (current);
 				}
-
+				if (ans.Peek () == start)
+					ans.Pop ();
 				return ans;
 			}
 

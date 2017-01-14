@@ -17,7 +17,7 @@ public class ShadowController : MonoBehaviour {
 		shadowW.SetActive (false);
 	}
 
-	public void SetShadowN (bool active, float scale) {
+	public void SetShadowN (bool active, float scale, float a) {
 		if (!active) {
 			shadowN.SetActive (false);
 			return;
@@ -25,9 +25,10 @@ public class ShadowController : MonoBehaviour {
 		shadowN.SetActive (true);
 		shadowN.transform.localPosition = Vector3.up * shadowN.transform.localPosition.y + Vector3.forward * (scale / 2f + 0.5f);
 		shadowN.transform.localScale = new Vector3 (1f, scale, 1f);
+
 	}
 
-	public void SetShadowE (bool active, float scale) {
+	public void SetShadowE (bool active, float scale, float a) {
 		if (!active) {
 			shadowE.SetActive (false);
 			return;
@@ -37,7 +38,7 @@ public class ShadowController : MonoBehaviour {
 		shadowE.transform.localScale = new Vector3 (scale, 1f, 1f);
 	}
 
-	public void SetShadowS (bool active, float scale) {
+	public void SetShadowS (bool active, float scale, float a) {
 		if (!active) {
 			shadowS.SetActive (false);
 			return;
@@ -47,7 +48,7 @@ public class ShadowController : MonoBehaviour {
 		shadowS.transform.localScale = new Vector3 (1f, scale, 1f);
 	}
 
-	public void SetShadowW (bool active, float scale) {
+	public void SetShadowW (bool active, float scale, float a) {
 		if (!active) {
 			shadowW.SetActive (false);
 			return;

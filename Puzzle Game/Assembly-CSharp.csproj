@@ -46,13 +46,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BlueLight.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
+     <Compile Include="Assets\Scripts\DestroyController.cs" />
      <Compile Include="Assets\Scripts\GridOverlay.cs" />
      <Compile Include="Assets\Scripts\ObjectController.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\PushController.cs" />
+     <Compile Include="Assets\Scripts\RedLight.cs" />
      <Compile Include="Assets\Scripts\Rotation.cs" />
      <Compile Include="Assets\Scripts\ShadowController.cs" />
+     <Compile Include="Assets\Scripts\TriggerController.cs" />
      <Compile Include="Assets\Scripts\WhiteLight.cs" />
+     <Compile Include="Assets\Scripts\YellowLight.cs" />
      <Compile Include="Assets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
      <Compile Include="Assets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
      <Compile Include="Assets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
