@@ -276,6 +276,7 @@ public class GridOverlay : MonoBehaviour {
 		gScore [start] = Vector3.Distance (start, goal);
 		List<Vector3> l = new List<Vector3> ();
 		Vector3 current = start;
+		Vector3 last = goal;
 		float tGScore;
 
 		if (start == goal) {
@@ -293,9 +294,14 @@ public class GridOverlay : MonoBehaviour {
 
 			if (goal == current) {
 				ans.Push (current);
+				last = current;
 				while (cameFrom.ContainsKey (current)) {
 					current = cameFrom [current];
 					ans.Push (current);
+					if (cameFrom.ContainsKey (current) && (cameFrom [current].x == last.x || cameFrom [current].z == last.z))
+						ans.Pop ();
+					else
+						last = current;
 				}
 				if (ans.Peek () == start)
 					ans.Pop ();

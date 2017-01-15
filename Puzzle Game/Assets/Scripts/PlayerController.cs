@@ -123,6 +123,7 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
+
 		//check is arrive pathDestination
 		if (lowestDistance < 1f && lowestDistance < pathDistance) {
 			if (pathDestination == destination) {
@@ -154,10 +155,13 @@ public class PlayerController : MonoBehaviour {
 		if (walking) {
 			pathDistance = distance = Vector3.Distance (transform.position, pathDestination);
 		}
+
 	}
 
 	void FixedUpdate () {
 		movement = movement.normalized * speed * Time.fixedDeltaTime;
+		if (Vector3.Dot ((transform.position + movement - pathDestination).normalized, (transform.position - pathDestination).normalized) == -1f)
+			movement = pathDestination - transform.position;
 		playerRigidbody.MovePosition (transform.position + movement);
 		playerRigidbody.MoveRotation (Quaternion.Lerp(transform.rotation, lookAt, Time.fixedDeltaTime * turnSpeed));
 		if (grabbing) {
