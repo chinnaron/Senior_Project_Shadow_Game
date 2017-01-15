@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 	public GridOverlay grid;
 
-	public GameObject floor;
 	public GameObject desPic;
 	public GameObject grabPic;
 	private GameObject grabPlane;
@@ -76,6 +75,7 @@ public class PlayerController : MonoBehaviour {
 								desPlane = Instantiate (desPic, destination + grabPoint + desPicV, Quaternion.LookRotation (Vector3.forward));
 								movement = pathDestination - transform.position;
 								walking = true;
+								grid.moving = true;
 								path.Clear ();
 							} else if ((point - transform.position).normalized == -grabPoint) {
 								Destroy (desPlane);
@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour {
 								desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
 								movement = pathDestination - transform.position;
 								walking = true;
+								grid.moving = true;
 								path.Clear ();
 							}
 						}
@@ -101,6 +102,7 @@ public class PlayerController : MonoBehaviour {
 							movement = pathDestination - transform.position;
 							lookAt = Quaternion.LookRotation (pathDestination - transform.position);
 							walking = true;
+							grid.moving = true;
 							path.Pop ();
 							desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
 						}
@@ -125,7 +127,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//check is arrive pathDestination
-		if (lowestDistance < 1f && lowestDistance < pathDistance) {
+		if (transform.position == pathDestination) {
 			if (pathDestination == destination) {
 				if (grabbing) {
 					grabRigidbody.transform.position = pathDestination + grabPoint + Vector3.up * grabRigidbody.transform.position.y;
@@ -136,6 +138,7 @@ public class PlayerController : MonoBehaviour {
 				lowestDistance = pathDistance = distance = 0f;
 				movement = Vector3.zero;
 				walking = false;
+				grid.moving = false;
 			}
 
 			if (path.Count > 0) {
@@ -149,6 +152,7 @@ public class PlayerController : MonoBehaviour {
 				movement = pathDestination - transform.position;
 				lookAt = Quaternion.LookRotation (movement);
 				walking = true;
+				grid.moving = true;
 			}
 		} else
 			lowestDistance = pathDistance;
@@ -159,11 +163,11 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		movement = movement.normalized * speed * Time.fixedDeltaTime;
+		movement = movement.normalized * speed * Time.deltaTime;
 		if (Vector3.Dot ((transform.position + movement - pathDestination).normalized, (transform.position - pathDestination).normalized) == -1f)
 			movement = pathDestination - transform.position;
 		playerRigidbody.MovePosition (transform.position + movement);
-		playerRigidbody.MoveRotation (Quaternion.Lerp(transform.rotation, lookAt, Time.fixedDeltaTime * turnSpeed));
+		playerRigidbody.MoveRotation (Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * turnSpeed));
 		if (grabbing) {
 			grabRigidbody.MovePosition (grabRigidbody.transform.position + movement);
 		}

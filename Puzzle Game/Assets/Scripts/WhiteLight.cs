@@ -34,25 +34,34 @@ public class WhiteLight : MonoBehaviour {
 		lineW.SetPosition (lineW.numPositions - 1, Vector3.left * rayDistance);
 	}
 
-	void FixedUpdate () {
-		//Ray Direction z+
-		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
-			longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
-			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
-			if (hitN.collider.GetComponent<ObjectController> ().isShadowable && hitN.collider.transform.position.x == transform.position.x) {
-				shadowN = hitN.collider.GetComponent<ShadowController> ();
-				shadowN.SetShadowN (true, rayDistance - longN, transform.position.x);
-			} else if (shadowN != null) {
-				shadowN.SetShadowN (false, 0f, transform.position.x);
-				shadowN = null;
-				longN = 0f;
-			}
-		} else {
-			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
-			if (shadowN != null) {
-				shadowN.SetShadowN (false, 0f, transform.position.x);
-				shadowN = null;
-				longN = 0f;
+	void Update () {
+		if (grid.moving) {
+			//Ray Direction z+
+			if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
+				longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
+				lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
+				if (hitN.collider.GetComponent<ObjectController> ().isShadowable && hitN.collider.transform.position.x == transform.position.x) {
+					shadowN = hitN.collider.GetComponent<ShadowController> ();
+					shadowN.SetShadowN (true, rayDistance - longN);
+					grid.SetWalkable (shadowN.transform.position, shadowN.transform.position + Vector3.forward * (rayDistance - longN));
+				} else if (shadowN != null) {
+					grid.SetWalkableBack (shadowN.transform.position, shadowN.transform.position + Vector3.forward * (rayDistance - longN));
+					grid.SetWalkableBack (shadowN.transform.position + Vector3.right, shadowN.transform.position + Vector3.forward * (rayDistance - longN) + Vector3.right);
+					grid.SetWalkableBack (shadowN.transform.position + Vector3.left, shadowN.transform.position + Vector3.forward * (rayDistance - longN) + Vector3.left);
+					shadowN.SetShadowN (false, 0f);
+					shadowN = null;
+					longN = 0f;
+				}
+			} else {
+				lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
+				if (shadowN != null) {
+					grid.SetWalkableBack (shadowN.transform.position, shadowN.transform.position + Vector3.forward * (rayDistance - longN));
+					grid.SetWalkableBack (shadowN.transform.position + Vector3.right, shadowN.transform.position + Vector3.forward * (rayDistance - longN) + Vector3.right);
+					grid.SetWalkableBack (shadowN.transform.position + Vector3.left, shadowN.transform.position + Vector3.forward * (rayDistance - longN) + Vector3.left);
+					shadowN.SetShadowN (false, 0f);
+					shadowN = null;
+					longN = 0f;
+				}
 			}
 		}
 	}

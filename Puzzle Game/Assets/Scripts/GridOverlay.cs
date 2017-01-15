@@ -12,6 +12,8 @@ public class GridOverlay : MonoBehaviour {
 	public readonly int pushable = 5;
 	public readonly int destroyable = 7;
 	public readonly int triggerable = 11;
+	public readonly int tempWalkable = 13;
+	public bool moving;
 
 	private ObjectController objCon;
 
@@ -28,6 +30,7 @@ public class GridOverlay : MonoBehaviour {
 	void Awake (){
 		lengthX = (int)transform.localScale.x;
 		lengthZ = (int)transform.localScale.y;
+		moving = false;
 
 		start = transform.position - (Vector3.right * (lengthX / 2f) + Vector3.forward * (lengthZ / 2f));
 		start.y = 10f;
@@ -93,13 +96,13 @@ public class GridOverlay : MonoBehaviour {
 		List<Vector3> l = new List<Vector3> ();
 		int gridX = ToGridX (v);
 		int gridZ = ToGridZ (v);
-		if (gridX > 0 && grid [gridX - 1, gridZ] == walkable)
+		if (gridX > 0 && (grid [gridX - 1, gridZ] == walkable || grid [gridX - 1, gridZ] == tempWalkable))
 			l.Add (v + Vector3.left);
-		if (gridX < lengthX - 1 && grid [gridX + 1, gridZ] == walkable)
+		if (gridX < lengthX - 1 && (grid [gridX + 1, gridZ] == walkable || grid [gridX + 1, gridZ] == tempWalkable))
 			l.Add (v + Vector3.right);
-		if (gridZ > 0 && grid [gridX, gridZ - 1] == walkable)
+		if (gridZ > 0 && (grid [gridX, gridZ - 1] == walkable || grid [gridX, gridZ - 1] == tempWalkable))
 			l.Add (v + Vector3.back);
-		if (gridZ < lengthZ - 1 && grid [gridX, gridZ + 1] == walkable)
+		if (gridZ < lengthZ - 1 && (grid [gridX, gridZ + 1] == walkable || grid [gridX, gridZ + 1] == tempWalkable))
 			l.Add (v + Vector3.forward);
 		return l;
 	}
@@ -163,7 +166,7 @@ public class GridOverlay : MonoBehaviour {
 	public bool IsOutOfGrid (Vector3 v){
 		int gridX = ToGridX (v);
 		int gridZ = ToGridZ (v);
-		if (gridX >= 0 && gridX <= lengthX - 1 && gridZ >= 0 && gridZ <= lengthZ - 1 && (grid [gridX, gridZ] == walkable || grid [gridX, gridZ] == player))
+		if (gridX >= 0 && gridX <= lengthX - 1 && gridZ >= 0 && gridZ <= lengthZ - 1 && (grid [gridX, gridZ] == walkable || grid [gridX, gridZ] == tempWalkable || grid [gridX, gridZ] == player))
 			return false;
 		return true;
 	}
@@ -181,14 +184,14 @@ public class GridOverlay : MonoBehaviour {
 			far = (v1Z - v2Z) * dir;
 			for (int i = 0; i < far; i++) {
 				if (grid [v2X, v2Z + i * dir] == unwalkable)
-					grid [v2X, v2Z + i * dir] = walkable;
+					grid [v2X, v2Z + i * dir] = tempWalkable;
 			}
 		} else if (v1Z == v2Z) {
 			dir = v1X > v2X ? 1 : -1;
 			far = (v1X - v2X) * dir;
 			for (int i = 0; i < far; i++) {
 				if (grid [v2X + i * dir, v2Z] == unwalkable)
-					grid [v2X + i * dir, v2Z] = walkable;
+					grid [v2X + i * dir, v2Z] = tempWalkable;
 			}
 		} else
 			return;
@@ -201,67 +204,23 @@ public class GridOverlay : MonoBehaviour {
 		int v2Z = ToGridZ (v2);
 		int far;
 		int dir;
-		Ray ray;
-		RaycastHit hit;
-		ray = new Ray (Vector3.zero, Vector3.down);
 
 		if (v1X == v2X) {
 			dir = v1Z > v2Z ? 1 : -1;
 			far = (v1Z - v2Z) * dir;
 			for (int i = 0; i < far; i++) {
-				ray.origin = Vector3.right * (v2X) + Vector3.up * ray.origin.y + Vector3.forward * (v2Z + i * dir);
-				if (Physics.Raycast (ray, out hit, 11f)) {
-					objCon = hit.collider.GetComponent<ObjectController> ();
-					if (objCon.isPlayer)
-						grid [v2X, v2Z + i * dir] = player;
-					if (objCon.isBlock)
-						grid [v2X, v2Z + i * dir] = block;
-					if (objCon.isUnwalkable)
-						grid [v2X, v2Z + i * dir] = unwalkable;
-					if (objCon.isWalkable)
-						grid [v2X, v2Z + i * dir] = walkable;
-					if (objCon.isMoveable)
-						grid [v2X, v2Z + i * dir] = moveable;
-					if (objCon.isShadowable)
-						grid [v2X, v2Z + i * dir] = shadowable;
-					if (objCon.isPushable)
-						grid [v2X, v2Z + i * dir] = pushable;
-					if (objCon.isDestroyable)
-						grid [v2X, v2Z + i * dir] = destroyable;
-					if (objCon.isTriggerable)
-						grid [v2X, v2Z + i * dir] = triggerable;
-				}
+				if (grid [v2X, v2Z + i * dir] == tempWalkable)
+					grid [v2X, v2Z + i * dir] = walkable;
 			}
 		} else if (v1Z == v2Z) {
 			dir = v1X > v2X ? 1 : -1;
 			far = (v1X - v2X) * dir;
 			for (int i = 0; i < far; i++) {
-				ray.origin = Vector3.right * (v2X + i * dir) + Vector3.up * ray.origin.y + Vector3.forward * (v2Z);
-				if (Physics.Raycast (ray, out hit, 11f)) {
-					objCon = hit.collider.GetComponent<ObjectController> ();
-					if (objCon.isPlayer)
-						grid [v2X + i * dir, v2Z] = player;
-					if (objCon.isBlock)
-						grid [v2X + i * dir, v2Z] = block;
-					if (objCon.isUnwalkable)
-						grid [v2X + i * dir, v2Z] = unwalkable;
-					if (objCon.isWalkable)
-						grid [v2X + i * dir, v2Z] = walkable;
-					if (objCon.isMoveable)
-						grid [v2X + i * dir, v2Z] = moveable;
-					if (objCon.isShadowable)
-						grid [v2X + i * dir, v2Z] = shadowable;
-					if (objCon.isPushable)
-						grid [v2X + i * dir, v2Z] = pushable;
-					if (objCon.isDestroyable)
-						grid [v2X + i * dir, v2Z] = destroyable;
-					if (objCon.isTriggerable)
-						grid [v2X + i * dir, v2Z] = triggerable;
-				}
+				if (grid [v2X + i * dir, v2Z] == tempWalkable)
+					grid [v2X + i * dir, v2Z] = walkable;
 			}
-		} else {
+		} else
 			return;
-		}
 	}
 
 	public Stack<Vector3> FindPath(Vector3 start, Vector3 goal){

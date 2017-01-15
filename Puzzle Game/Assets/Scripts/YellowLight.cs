@@ -31,27 +31,29 @@ public class YellowLight : MonoBehaviour {
 		lineW.SetPosition (lineW.numPositions - 1, Vector3.left * rayDistance);
 	}
 
-	void FixedUpdate ()	{
-		//Ray Direction z+
-		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
-			longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
-			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
-			if (hitN.collider.GetComponent<ObjectController> ().isTriggerable && hitN.collider.transform.position.x == transform.position.x) {
-				objN = hitN.collider.GetComponent<TriggerController> ();
-				objN.SetOnTrue ();
-				objN.ShowOn ();
-			} else if (objN != null) {
-				objN.SetOnFalse ();
-				objN.ShowOn ();
-				objN = null;
+	void Update ()	{
+		if (grid.moving) {
+			//Ray Direction z+
+			if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
+				longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
+				lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
+				if (hitN.collider.GetComponent<ObjectController> ().isTriggerable && hitN.collider.transform.position.x == transform.position.x) {
+					objN = hitN.collider.GetComponent<TriggerController> ();
+					objN.SetOnTrue ();
+					objN.ShowOn ();
+				} else if (objN != null) {
+					objN.SetOnFalse ();
+					objN.ShowOn ();
+					objN = null;
+				}
+			} else {
+				if (objN != null) {
+					objN.SetOnFalse ();
+					objN.ShowOn ();
+					objN = null;
+				}
+				lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
 			}
-		} else {
-			if (objN != null) {
-				objN.SetOnFalse ();
-				objN.ShowOn ();
-				objN = null;
-			}
-			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
 		}
 	}
 }
