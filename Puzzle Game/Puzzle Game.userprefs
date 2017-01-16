@@ -1,14 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ReloadScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MenuScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\WhiteLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ShadowController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\YellowLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TriggerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ReloadScript.cs" Line="18" Column="51" />
+      <File FileName="Assets\Scripts\ReloadScript.cs" Line="17" Column="5" />
+      <File FileName="Assets\Scripts\MenuScript.cs" Line="27" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
