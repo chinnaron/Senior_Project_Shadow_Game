@@ -6,8 +6,6 @@ public class YellowLight : MonoBehaviour {
 	public int rayDistance = 5;
 	public GridOverlay grid;
 
-	private bool lastCheck;
-
 	private float longN = 0;
 	private float longE = 0;
 	private float longS = 0;
@@ -33,32 +31,26 @@ public class YellowLight : MonoBehaviour {
 	}
 
 	void Update ()	{
-		if (grid.moving || lastCheck) {
-			//Ray Direction z+
-			if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
-				longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
-				lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
-				if (hitN.collider.GetComponent<ObjectController> ().isTriggerable && hitN.collider.transform.position.x == transform.position.x) {
-					objN = hitN.collider.GetComponent<TriggerController> ();
-					objN.SetOnTrue ();
-					objN.ShowOn ();
-				} else if (objN != null) {
-					objN.SetOnFalse ();
-					objN.ShowOn ();
-					objN = null;
-				}
-			} else {
-				if (objN != null) {
-					objN.SetOnFalse ();
-					objN.ShowOn ();
-					objN = null;
-				}
-				lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
+		//Ray Direction z+
+		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
+			longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
+			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
+			if (hitN.collider.GetComponent<ObjectController> ().isTriggerable && hitN.collider.transform.position.x == transform.position.x) {
+				objN = hitN.collider.GetComponent<TriggerController> ();
+				objN.SetOnTrue ();
+				objN.ShowOn ();
+			} else if (objN != null) {
+				objN.SetOnFalse ();
+				objN.ShowOn ();
+				objN = null;
 			}
-
-			if (!grid.moving)
-				lastCheck = false;
-		} else
-			lastCheck = false;
+		} else {
+			if (objN != null) {
+				objN.SetOnFalse ();
+				objN.ShowOn ();
+				objN = null;
+			}
+			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
+		}
 	}
 }

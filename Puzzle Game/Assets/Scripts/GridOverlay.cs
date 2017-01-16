@@ -197,6 +197,7 @@ public class GridOverlay : MonoBehaviour {
 		}
 		return false;
 	}
+
 	public void SetWalkable(Vector3 v1, Vector3 v2){
 		int v1X = ToGridX (v1);
 		int v1Z = ToGridZ (v1);

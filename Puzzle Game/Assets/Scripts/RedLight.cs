@@ -7,8 +7,6 @@ public class RedLight : MonoBehaviour {
 	public GridOverlay grid;
 	public PlayerController player;
 
-	private bool lastCheck;
-
 	private float longN = 0;
 	private float longE = 0;
 	private float longS = 0;
@@ -34,30 +32,24 @@ public class RedLight : MonoBehaviour {
 	}
 
 	void Update ()	{
-		if (grid.moving || lastCheck) {
-			//Ray Direction z+
-			if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
-				longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
-				lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
-				if (hitN.collider.GetComponent<ObjectController> ().isDestroyable && hitN.collider.transform.position.x == transform.position.x) {
-					if (hitN.collider.GetComponent<Rigidbody> () == player.grabRigidbody) {
-						if (!player.walking) {
-							player.grabbing = false;
-							Destroy (hitN.collider.gameObject, Time.fixedDeltaTime * 2f);
-						}
+		//Ray Direction z+
+		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
+			longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
+			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
+			if (hitN.collider.GetComponent<ObjectController> ().isDestroyable && hitN.collider.transform.position.x == transform.position.x) {
+				if (hitN.collider.GetComponent<Rigidbody> () == player.grabRigidbody) {
+					if (!player.walking) {
+						player.grabbing = false;
+						Destroy (hitN.collider.gameObject, Time.deltaTime * 2f);
 					}
-					Destroy (hitN.collider.gameObject, Time.fixedDeltaTime * 2f);
-					//create particle
-				} else {
-					//create particle
 				}
+				Destroy (hitN.collider.gameObject, Time.deltaTime * 2f);
+				//create particle
 			} else {
-				lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
+				//create particle
 			}
-
-			if (!grid.moving)
-				lastCheck = false;
-		} else
-			lastCheck = false;
+		} else {
+			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
+		}
 	}
 }
