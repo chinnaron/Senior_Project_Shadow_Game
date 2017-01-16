@@ -66,7 +66,8 @@ public class PlayerController : MonoBehaviour {
 					if (grabbing) {
 						//check is has path or is grabbing point and same angle as grabbing and walkable
 						if ((path.Count > 0) && point != transform.position + grabPoint) {
-							if ((point - transform.position + grabPoint).normalized == grabPoint) {
+							//walk front
+							if ((point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2))) {
 								Destroy (desPlane);
 								destination = pathDestination = point - grabPoint;
 								lowestDistance = distance = pathDistance = Vector3.Distance (point - grabPoint, transform.position);
@@ -77,7 +78,7 @@ public class PlayerController : MonoBehaviour {
 								walking = true;
 								grid.moving = true;
 								path.Clear ();
-							} else if ((point - transform.position).normalized == -grabPoint) {
+							} else if ((point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint)) {
 								Destroy (desPlane);
 								destination = pathDestination = point;
 								lowestDistance = distance = pathDistance = Vector3.Distance (point, transform.position);

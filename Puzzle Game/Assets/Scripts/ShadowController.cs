@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ShadowController : MonoBehaviour {
 	public GridOverlay grid;
-
 	public GameObject shadowN;
 	public GameObject shadowE;
 	public GameObject shadowS;
 	public GameObject shadowW;
 
+	private float shadowY = 0.00006f;
 	void Awake () {
 		shadowN.SetActive (false);
 		shadowE.SetActive (false);
@@ -34,7 +34,7 @@ public class ShadowController : MonoBehaviour {
 			return;
 		}
 		shadowE.SetActive (true);
-		shadowE.transform.localPosition = Vector3.up * shadowE.transform.localPosition.y + Vector3.forward * (scale / 2f + 0.5f);
+		shadowE.transform.localPosition = Vector3.up * shadowY + Vector3.forward * (scale / 2f + 0.5f);
 		shadowE.transform.localScale = new Vector3 (scale, 1f, 1f);
 	}
 
@@ -44,7 +44,7 @@ public class ShadowController : MonoBehaviour {
 			return;
 		}
 		shadowS.SetActive (true);
-		shadowS.transform.localPosition = Vector3.up * shadowS.transform.localPosition.y + Vector3.forward * (scale / 2f + 0.5f);
+		shadowS.transform.localPosition = Vector3.up * shadowY + Vector3.forward * (scale / 2f + 0.5f);
 		shadowS.transform.localScale = new Vector3 (1f, scale, 1f);
 	}
 
@@ -54,7 +54,7 @@ public class ShadowController : MonoBehaviour {
 			return;
 		}
 		shadowW.SetActive (true);
-		shadowW.transform.localPosition = Vector3.up * shadowW.transform.localPosition.y + Vector3.forward * (scale / 2f + 0.5f);
+		shadowW.transform.localPosition = Vector3.up * shadowY + Vector3.forward * (scale / 2f + 0.5f);
 		shadowW.transform.localScale = new Vector3 (scale, 1f, 1f);
 	}
 }

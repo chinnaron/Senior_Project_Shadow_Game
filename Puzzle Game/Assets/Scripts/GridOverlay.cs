@@ -18,7 +18,6 @@ public class GridOverlay : MonoBehaviour {
 	private ObjectController objCon;
 
 	private int[,] grid;
-
 	private int lengthX;
 	private int lengthZ;
 
@@ -171,6 +170,33 @@ public class GridOverlay : MonoBehaviour {
 		return true;
 	}
 
+	public bool IsWalkable(Vector3 v1, Vector3 v2){
+		int v1X = ToGridX (v1);
+		int v1Z = ToGridZ (v1);
+		int v2X = ToGridX (v2);
+		int v2Z = ToGridZ (v2);
+		int far;
+		int dir;
+
+		if (v1X == v2X) {
+			dir = v1Z > v2Z ? 1 : -1;
+			far = (v1Z - v2Z) * dir;
+			for (int i = 0; i < far; i++) {
+				if (!(grid [v2X, v2Z + i * dir] == walkable))
+					return false;
+			}
+			return true;
+		} else if (v1Z == v2Z) {
+			dir = v1X > v2X ? 1 : -1;
+			far = (v1X - v2X) * dir;
+			for (int i = 0; i < far; i++) {
+				if (!(grid [v2X + i * dir, v2Z] == walkable))
+					return false;
+			}
+			return true;
+		}
+		return false;
+	}
 	public void SetWalkable(Vector3 v1, Vector3 v2){
 		int v1X = ToGridX (v1);
 		int v1Z = ToGridZ (v1);
@@ -210,14 +236,14 @@ public class GridOverlay : MonoBehaviour {
 			far = (v1Z - v2Z) * dir;
 			for (int i = 0; i < far; i++) {
 				if (grid [v2X, v2Z + i * dir] == tempWalkable)
-					grid [v2X, v2Z + i * dir] = walkable;
+					grid [v2X, v2Z + i * dir] = unwalkable;
 			}
 		} else if (v1Z == v2Z) {
 			dir = v1X > v2X ? 1 : -1;
 			far = (v1X - v2X) * dir;
 			for (int i = 0; i < far; i++) {
 				if (grid [v2X + i * dir, v2Z] == tempWalkable)
-					grid [v2X + i * dir, v2Z] = walkable;
+					grid [v2X + i * dir, v2Z] = unwalkable;
 			}
 		} else
 			return;

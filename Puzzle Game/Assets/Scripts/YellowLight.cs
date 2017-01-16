@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class YellowLight : MonoBehaviour {
 	public int rayDistance = 5;
-
 	public GridOverlay grid;
+
+	private bool lastCheck;
 
 	private float longN = 0;
 	private float longE = 0;
@@ -32,7 +33,7 @@ public class YellowLight : MonoBehaviour {
 	}
 
 	void Update ()	{
-		if (grid.moving) {
+		if (grid.moving || lastCheck) {
 			//Ray Direction z+
 			if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
 				longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
@@ -54,6 +55,10 @@ public class YellowLight : MonoBehaviour {
 				}
 				lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
 			}
-		}
+
+			if (!grid.moving)
+				lastCheck = false;
+		} else
+			lastCheck = false;
 	}
 }

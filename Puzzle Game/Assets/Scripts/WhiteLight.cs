@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class WhiteLight : MonoBehaviour {
 	public int rayDistance = 5;
-
 	public GridOverlay grid;
+
+	private bool lastCheck = false;
 
 	private float longN = 0;
 	private float longE = 0;
@@ -35,7 +36,7 @@ public class WhiteLight : MonoBehaviour {
 	}
 
 	void Update () {
-		if (grid.moving) {
+		if (grid.moving || lastCheck) {
 			//Ray Direction z+
 			if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
 				longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
@@ -63,6 +64,10 @@ public class WhiteLight : MonoBehaviour {
 					longN = 0f;
 				}
 			}
-		}
+
+			if (!grid.moving)
+				lastCheck = false;
+		} else
+			lastCheck = false;
 	}
 }
