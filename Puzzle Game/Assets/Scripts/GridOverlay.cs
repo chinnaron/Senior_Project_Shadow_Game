@@ -43,24 +43,10 @@ public class GridOverlay : MonoBehaviour {
 				if (Physics.Raycast (ray, out hit, 11f)) {
 					grid [x, z] = walkable;
 					objCon = hit.collider.GetComponent<ObjectController> ();
-					if (objCon.isPlayer) {
-						grid [x, z] *= player;
-						continue;
-					}
 					if (objCon.isBlock)
-						grid [x, z] *= block;
+						grid [x, z] = block;
 					else if (objCon.isUnwalkable)
-						grid [x, z] *= unwalkable;
-					if (objCon.isMoveable)
-						grid [x, z] *= moveable;
-					if (objCon.isShadowable)
-						grid [x, z] *= shadowable;
-					if (objCon.isPushable)
-						grid [x, z] *= pushable;
-					if (objCon.isDestroyable)
-						grid [x, z] *= destroyable;
-					if (objCon.isTriggerable)
-						grid [x, z] *= triggerable;
+						grid [x, z] = unwalkable;
 				}
 			}
 		}

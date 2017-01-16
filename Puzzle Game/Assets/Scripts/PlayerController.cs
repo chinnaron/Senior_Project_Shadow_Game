@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
 
 	public GameObject desPic;
 	public GameObject grabPic;
-	private GameObject grabPlane;
+	public GameObject grabPlane;
 	private GameObject desPlane;
 
 	private readonly Vector3 grabPicV = new Vector3 (0f, 1.2f, 0f);
@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
 
 	public bool walking;
 	public bool grabbing;
+	public bool pushing;
 
 	private int playerMask;
 
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour {
 	void Awake () {
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
-		walking = grabbing = false;
+		walking = grabbing = pushing = false;
 
 		anim = GetComponent<Animator> ();
 		playerRigidbody = GetComponent<Rigidbody> ();
@@ -127,53 +128,57 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		//check is arrive pathDestination
-		if (transform.position == pathDestination) {
-			if (pathDestination == destination) {
-				if (grabbing) {
-					grabRigidbody.transform.position = pathDestination + grabPoint + Vector3.up * grabRigidbody.transform.position.y;
-				}
-				Destroy (desPlane);
-				transform.position = destination;
-				path.Clear ();
-				lowestDistance = pathDistance = distance = 0f;
-				movement = Vector3.zero;
-				walking = false;
-				grid.moving = false;
-			}
 
-			if (path.Count > 0) {
-				if (grabbing) {
-					grabRigidbody.transform.position = pathDestination + grabPoint + Vector3.up * grabRigidbody.transform.position.y;
-				}
-				transform.position = pathDestination;
-				pathDestination = path.Peek ();
-				path.Pop ();
-				lowestDistance = pathDistance = Vector3.Distance (transform.position, pathDestination);
-				movement = pathDestination - transform.position;
-				lookAt = Quaternion.LookRotation (movement);
-				walking = true;
-				grid.moving = true;
-			}
-		} else
-			lowestDistance = pathDistance;
-		if (walking) {
-			pathDistance = distance = Vector3.Distance (transform.position, pathDestination);
-		}
 
 	}
 
 	void FixedUpdate () {
-		movement = movement.normalized * speed * Time.deltaTime;
-		if (Vector3.Dot ((transform.position + movement - pathDestination).normalized, (transform.position - pathDestination).normalized) == -1f)
-			movement = pathDestination - transform.position;
-		playerRigidbody.MovePosition (transform.position + movement);
-		playerRigidbody.MoveRotation (Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * turnSpeed));
-		if (grabbing) {
-			grabRigidbody.MovePosition (grabRigidbody.transform.position + movement);
-		}
+		if (!pushing) {
+			//check is arrive pathDestination
+			if (transform.position == pathDestination) {
+				if (pathDestination == destination) {
+					if (grabbing) {
+						grabRigidbody.transform.position = pathDestination + grabPoint + Vector3.up * grabRigidbody.transform.position.y;
+					}
+					Destroy (desPlane);
+					transform.position = destination;
+					path.Clear ();
+					lowestDistance = pathDistance = distance = 0f;
+					movement = Vector3.zero;
+					walking = false;
+					grid.moving = false;
+				}
 
-		anim.SetBool ("IsWalking", walking);
-		anim.SetBool ("IsGrabbing", grabbing);
+				if (path.Count > 0) {
+					if (grabbing) {
+						grabRigidbody.transform.position = pathDestination + grabPoint + Vector3.up * grabRigidbody.transform.position.y;
+					}
+					transform.position = pathDestination;
+					pathDestination = path.Peek ();
+					path.Pop ();
+					lowestDistance = pathDistance = Vector3.Distance (transform.position, pathDestination);
+					movement = pathDestination - transform.position;
+					lookAt = Quaternion.LookRotation (movement);
+					walking = true;
+					grid.moving = true;
+				}
+			} else
+				lowestDistance = pathDistance;
+			if (walking) {
+				pathDistance = distance = Vector3.Distance (transform.position, pathDestination);
+			}
+
+			movement = movement.normalized * speed * Time.deltaTime;
+			if (Vector3.Dot ((transform.position + movement - pathDestination).normalized, (transform.position - pathDestination).normalized) == -1f)
+				movement = pathDestination - transform.position;
+			playerRigidbody.MovePosition (transform.position + movement);
+			playerRigidbody.MoveRotation (Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed));
+			if (grabbing) {
+				grabRigidbody.MovePosition (grabRigidbody.transform.position + movement);
+			}
+
+			anim.SetBool ("IsWalking", walking);
+			anim.SetBool ("IsGrabbing", grabbing);
+		}
 	}
 }
