@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
 	public GameObject desPic;
 	public GameObject grabPic;
 	public GameObject grabPlane;
-	private GameObject desPlane;
+	public GameObject desPlane;
 
 	private readonly Vector3 grabPicV = new Vector3 (0f, 1.2f, 0f);
 	private readonly Vector3 desPicV = new Vector3 (0f, 0.3f, 0f);
@@ -20,20 +20,17 @@ public class PlayerController : MonoBehaviour {
 
 	private Animator anim;
 	private Rigidbody playerRigidbody;
-	public Rigidbody grabRigidbody;
+	private Rigidbody grabRigidbody;
+	private PushController playerPushController;
 
-	public bool walking;
-	public bool grabbing;
-	public bool pushing;
+	private bool walking;
+	private bool grabbing;
 
 	private int playerMask;
 
-	private readonly float speed = 3f;
-	private readonly float turnSpeed = 5f;
+	private readonly float speed = 5f;
+	private readonly float turnSpeed = 10f;
 	private readonly float camRayLength = 100f;
-	private float distance;
-	private float pathDistance;
-	private float lowestDistance;
 
 	private Quaternion lookAt;
 
@@ -42,15 +39,24 @@ public class PlayerController : MonoBehaviour {
 	private RaycastHit hit;
 	private RaycastHit grabHit;
 
-	private Stack<Vector3> path = new Stack<Vector3> ();
+	public Stack<Vector3> path = new Stack<Vector3> ();
+
+	public Rigidbody GetGrabRigidbody () {
+		return grabRigidbody;
+	}
+
+	public void SetPushController (Vector3 des, Vector3 dir) {
+		playerPushController.SetMoveTo (des, dir);
+	}
 
 	void Awake () {
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
-		walking = grabbing = pushing = false;
+		walking = grabbing = false;
 
 		anim = GetComponent<Animator> ();
 		playerRigidbody = GetComponent<Rigidbody> ();
+		playerPushController = GetComponent<PushController> ();
 		playerMask = LayerMask.GetMask ("Player");
 	}
 
@@ -71,24 +77,20 @@ public class PlayerController : MonoBehaviour {
 							if ((point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2))) {
 								Destroy (desPlane);
 								destination = pathDestination = point - grabPoint;
-								lowestDistance = distance = pathDistance = Vector3.Distance (point - grabPoint, transform.position);
 								grid.SwapGrid (transform.position + grabPoint, destination + grabPoint);
 								grid.SwapGrid (transform.position, destination);
 								desPlane = Instantiate (desPic, destination + grabPoint + desPicV, Quaternion.LookRotation (Vector3.forward));
 								movement = pathDestination - transform.position;
 								walking = true;
-								grid.moving = true;
 								path.Clear ();
 							} else if ((point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint)) {
 								Destroy (desPlane);
 								destination = pathDestination = point;
-								lowestDistance = distance = pathDistance = Vector3.Distance (point, transform.position);
 								grid.SwapGrid (transform.position, destination);
 								grid.SwapGrid (transform.position + grabPoint, destination + grabPoint);
 								desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
 								movement = pathDestination - transform.position;
 								walking = true;
-								grid.moving = true;
 								path.Clear ();
 							}
 						}
@@ -97,14 +99,11 @@ public class PlayerController : MonoBehaviour {
 						if (path.Count > 0) {
 							Destroy (desPlane);
 							destination = point;
-							distance = Vector3.Distance (point, transform.position);
 							pathDestination = path.Peek ();
-							lowestDistance = pathDistance = Vector3.Distance (pathDestination, transform.position);
 							grid.SwapGrid (transform.position, destination);
 							movement = pathDestination - transform.position;
 							lookAt = Quaternion.LookRotation (pathDestination - transform.position);
 							walking = true;
-							grid.moving = true;
 							path.Pop ();
 							desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
 						}
@@ -127,58 +126,73 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
-
-
-
 	}
 
 	void FixedUpdate () {
-		if (!pushing) {
+		if (playerPushController.moving) {
+			walking = false;
+			Destroy (desPlane);
+		}
+
+		if (walking) {
 			//check is arrive pathDestination
 			if (transform.position == pathDestination) {
 				if (pathDestination == destination) {
 					if (grabbing) {
 						grabRigidbody.transform.position = pathDestination + grabPoint + Vector3.up * grabRigidbody.transform.position.y;
 					}
+
 					Destroy (desPlane);
 					transform.position = destination;
 					path.Clear ();
-					lowestDistance = pathDistance = distance = 0f;
 					movement = Vector3.zero;
 					walking = false;
-					grid.moving = false;
 				}
 
 				if (path.Count > 0) {
 					if (grabbing) {
 						grabRigidbody.transform.position = pathDestination + grabPoint + Vector3.up * grabRigidbody.transform.position.y;
 					}
+
 					transform.position = pathDestination;
 					pathDestination = path.Peek ();
 					path.Pop ();
-					lowestDistance = pathDistance = Vector3.Distance (transform.position, pathDestination);
 					movement = pathDestination - transform.position;
 					lookAt = Quaternion.LookRotation (movement);
 					walking = true;
-					grid.moving = true;
 				}
-			} else
-				lowestDistance = pathDistance;
-			if (walking) {
-				pathDistance = distance = Vector3.Distance (transform.position, pathDestination);
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
+
 			if (Vector3.Dot ((transform.position + movement - pathDestination).normalized, (transform.position - pathDestination).normalized) == -1f)
 				movement = pathDestination - transform.position;
+			
 			playerRigidbody.MovePosition (transform.position + movement);
-			playerRigidbody.MoveRotation (Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed));
 			if (grabbing) {
 				grabRigidbody.MovePosition (grabRigidbody.transform.position + movement);
 			}
-
-			anim.SetBool ("IsWalking", walking);
-			anim.SetBool ("IsGrabbing", grabbing);
 		}
+
+		playerRigidbody.MoveRotation (Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed));
+
+		anim.SetBool ("IsWalking", walking);
+		anim.SetBool ("IsGrabbing", grabbing);
+	}
+
+	public void GrabRelease () {
+		grabbing = false;
+		Destroy (grabPlane);
+		grabPoint = Vector3.zero;
+		Destroy (desPlane);
+		path.Clear ();
+		movement = Vector3.zero;
+		walking = false;
+	}
+
+	public void Stop () {
+		walking = false;
+		transform.position = grid.ToPoint (transform.position);
+		Destroy (desPlane);
 	}
 }

@@ -135,6 +135,11 @@ public class GridOverlay : MonoBehaviour {
 		return v;
 	}
 
+	public Vector3 Set0Y(Vector3 v){
+		v.y = 0f;
+		return v;
+	}
+
 	public Vector3 NearAround (Vector3 start, Vector3 goal){
 		start = ToPoint (start);
 		goal = ToPoint (goal);
@@ -168,7 +173,7 @@ public class GridOverlay : MonoBehaviour {
 			dir = v1Z > v2Z ? 1 : -1;
 			far = (v1Z - v2Z) * dir;
 			for (int i = 0; i < far; i++) {
-				if (!(grid [v2X, v2Z + i * dir] == walkable))
+				if (grid [v2X, v2Z + i * dir] != walkable)
 					return false;
 			}
 			return true;
@@ -176,7 +181,7 @@ public class GridOverlay : MonoBehaviour {
 			dir = v1X > v2X ? 1 : -1;
 			far = (v1X - v2X) * dir;
 			for (int i = 0; i < far; i++) {
-				if (!(grid [v2X + i * dir, v2Z] == walkable))
+				if (grid [v2X + i * dir, v2Z] != walkable)
 					return false;
 			}
 			return true;

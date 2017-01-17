@@ -36,13 +36,12 @@ public class RedLight : MonoBehaviour {
 		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
 			longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
 			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
-			if (hitN.collider.GetComponent<ObjectController> ().isDestroyable && hitN.collider.transform.position.x == transform.position.x) {
-				if (hitN.collider.GetComponent<Rigidbody> () == player.grabRigidbody) {
-					if (!player.walking) {
-						player.grabbing = false;
-						Destroy (hitN.collider.gameObject, Time.deltaTime * 2f);
-					}
-				}
+			if (hitN.collider.GetComponent<ObjectController> ().isDestroyable
+				&& hitN.collider.transform.position.x < transform.position.x + 0.1f && hitN.collider.transform.position.x > transform.position.x - 0.1f) {
+				if (hitN.collider.GetComponent<Rigidbody> () == player.GetGrabRigidbody ()) {
+					Destroy (hitN.collider.gameObject, Time.deltaTime * 2f);
+				} else if (hitN.collider.gameObject == player.gameObject)
+					player.GrabRelease ();
 				Destroy (hitN.collider.gameObject, Time.deltaTime * 2f);
 				//create particle
 			} else {

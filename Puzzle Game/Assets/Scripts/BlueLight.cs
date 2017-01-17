@@ -12,7 +12,7 @@ public class BlueLight : MonoBehaviour {
 	private float longS = 0;
 	private float longW = 0;
 
-	private Rigidbody objN;
+	private PushController objN;
 
 	public LineRenderer lineN;
 	public LineRenderer lineE;
@@ -24,10 +24,6 @@ public class BlueLight : MonoBehaviour {
 	private RaycastHit hitS;
 	private RaycastHit hitW;
 
-	private float speed = 5f;
-	private bool moving;
-	private Vector3 movement;
-
 	void Awake () {
 		lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
 		lineE.SetPosition (lineE.numPositions - 1, Vector3.right * rayDistance);
@@ -37,50 +33,26 @@ public class BlueLight : MonoBehaviour {
 
 	void Update ()	{
 		//Ray Direction z+
-		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance + 0.5f)) {
+		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
 			longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
 			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
-			if (hitN.collider.GetComponent<ObjectController> ().isPushable && hitN.collider.transform.position.x == transform.position.x
+			if (hitN.collider.GetComponent<ObjectController> ().isPushable
+				&& hitN.collider.transform.position.x < transform.position.x + 0.1f && hitN.collider.transform.position.x > transform.position.x - 0.1f
 			    && hitN.collider.transform.position.z != (transform.position + Vector3.forward * (rayDistance + 1f)).z) {
-				objN = hitN.collider.GetComponent<Rigidbody> ();
-				if (!player.walking) {
-					if (objN == player.grabRigidbody) {
-						player.grabbing = false;
-						Destroy (player.grabPlane);
-						grid.SwapGrid (objN.transform.position, transform.position + Vector3.forward * (rayDistance + 1f));
-						moving = true;
-					} else {
-						grid.SwapGrid (objN.transform.position, transform.position + Vector3.forward * (rayDistance + 1f));
-						moving = true;
-					}
+				objN = hitN.collider.GetComponent<PushController> ();
+				if (objN.gameObject == player.gameObject && !objN.moving) {
+					objN.GetComponent<PlayerController> ().Stop ();
+				} else if (objN.GetComponent<Rigidbody> () == player.GetGrabRigidbody ()) {
+					if (player.transform.position.z == transform.position.z)
+						player.SetPushController (transform.position + Vector3.forward * (rayDistance + 2f), Vector3.forward);
+					else
+						player.GrabRelease ();
+					grid.SwapGrid (objN.transform.position, transform.position + Vector3.forward * (rayDistance + 1f));
 				}
+				objN.SetMoveTo (transform.position + Vector3.forward * (rayDistance + 1f), Vector3.forward);
 			}
 		} else {
 			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
-		}
-	}
-
-	void FixedUpdate ()  {
-		print (moving);
-		if (moving && objN != null) {
-			if (objN.gameObject == player) {
-				player.pushing = true;
-			}
-
-			movement = Vector3.forward * speed * Time.deltaTime;
-
-			if (movement + objN.transform.position == transform.position + Vector3.forward * (rayDistance + 1f)) {
-				movement = Vector3.zero;
-				moving = false;
-			}
-
-			if (Vector3.Dot ((movement + objN.transform.position - (transform.position + Vector3.forward * (rayDistance + 1f))).normalized
-				, (objN.transform.position - (transform.position + Vector3.forward * (rayDistance + 1f))).normalized) == -1f) {
-				movement = Vector3.forward * (rayDistance + 1f);
-				moving = false;
-			}
-
-			objN.MovePosition (objN.transform.position + Vector3.forward * speed * Time.deltaTime);
 		}
 	}
 }

@@ -1,15 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BlueLight.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="170" Column="4" />
-      <File FileName="Assets\Scripts\BlueLight.cs" Line="66" Column="36" />
-      <File FileName="Assets\Scripts\WhiteLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ShadowController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\YellowLight.cs" Line="52" Column="5" />
-      <File FileName="Assets\Scripts\TriggerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\RedLight.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GridOverlay.cs" Line="184" Column="46" />
+      <File FileName="Assets\Scripts\RedLight.cs" Line="42" Column="62" />
+      <File FileName="Assets\Scripts\BlueLight.cs" Line="47" Column="109" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="49" Column="3" />
+      <File FileName="Assets\Scripts\PushController.cs" Line="23" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
