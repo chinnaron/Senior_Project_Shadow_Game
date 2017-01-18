@@ -23,6 +23,7 @@ public class PushController : MonoBehaviour {
 	}
 
 	public void SetMoveTo (Vector3 des, Vector3 dir) {
+		transform.position = grid.ToPoint (transform.position);
 		destination = des;
 		destination.y = transform.position.y;
 		moving = true;

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
 	public GameObject grabPic;
 	public GameObject grabPlane;
 	public GameObject desPlane;
+	public MenuScript menu;
 
 	private readonly Vector3 grabPicV = new Vector3 (0f, 1.2f, 0f);
 	private readonly Vector3 desPicV = new Vector3 (0f, 0.3f, 0f);
@@ -54,63 +55,65 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update (){
-		//check is not walking and is click
-		if (Input.GetButtonDown ("Fire1") && !walking) {//Change Input to mobile ver.
-			ray = Camera.main.ScreenPointToRay (Input.mousePosition);//Change Input to mobile ver.
-			//check is hit sth and not player
-			if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask)) {
-				//check is hit the floor or not
-				if (hit.collider.GetComponent<ObjectController> ().isWalkable) {
-					point = grid.ToPoint (hit.point);
-					path = grid.FindPath (transform.position, point);
-					if (grabbing) {
-						//check is has path or is grabbing point and same angle as grabbing and walkable
-						if ((path.Count > 0) && point != transform.position + grabPoint) {
-							//walk front
-							if ((point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2))) {
+		if (!menu._isPaused) {
+			//check is not walking and is click
+			if (Input.GetButtonDown ("Fire1")) {//Change Input to mobile ver.
+				ray = Camera.main.ScreenPointToRay (Input.mousePosition);//Change Input to mobile ver.
+				//check is hit sth and not player
+				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask)) {
+					//check is hit the floor or not
+					if (hit.collider.GetComponent<ObjectController> ().isWalkable) {
+						point = grid.ToPoint (hit.point);
+						path = grid.FindPath (transform.position, point);
+						if (grabbing) {
+							//check is has path or is grabbing point and same angle as grabbing and walkable
+							if ((path.Count > 0) && point != transform.position + grabPoint) {
+								//walk front
+								if ((point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2))) {
+									Destroy (desPlane);
+									destination = pathDestination = point - grabPoint;
+									grid.SetGrid (transform.position + grabPoint, grid.walkable);
+									desPlane = Instantiate (desPic, destination + grabPoint + desPicV, Quaternion.LookRotation (Vector3.forward));
+									movement = pathDestination - transform.position;
+									walking = true;
+									path.Clear ();
+								} else if ((point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint)) {
+									Destroy (desPlane);
+									destination = pathDestination = point;
+									grid.SetGrid (transform.position + grabPoint, grid.walkable);
+									desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
+									movement = pathDestination - transform.position;
+									walking = true;
+									path.Clear ();
+								}
+							}
+						} else {
+							//check is has path
+							if (path.Count > 0) {
 								Destroy (desPlane);
-								destination = pathDestination = point - grabPoint;
-								grid.SetGrid (transform.position + grabPoint, grid.walkable);
-								desPlane = Instantiate (desPic, destination + grabPoint + desPicV, Quaternion.LookRotation (Vector3.forward));
+								destination = point;
+								pathDestination = path.Peek ();
 								movement = pathDestination - transform.position;
+								lookAt = Quaternion.LookRotation (pathDestination - transform.position);
 								walking = true;
-								path.Clear ();
-							} else if ((point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint)) {
-								Destroy (desPlane);
-								destination = pathDestination = point;
-								grid.SetGrid (transform.position + grabPoint, grid.walkable);
+								path.Pop ();
 								desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
-								movement = pathDestination - transform.position;
-								walking = true;
-								path.Clear ();
 							}
 						}
-					} else {
-						//check is has path
-						if (path.Count > 0) {
-							Destroy (desPlane);
-							destination = point;
-							pathDestination = path.Peek ();
-							movement = pathDestination - transform.position;
-							lookAt = Quaternion.LookRotation (pathDestination - transform.position);
-							walking = true;
-							path.Pop ();
-							desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
-						}
 					}
-				}
-				//check is hit moveable obj
-				if (Physics.Raycast (ray, out grabHit, camRayLength) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
-					grabPoint = grid.ToPoint0Y (grabHit.collider.GetComponentInParent<Transform> ().position) - grid.ToPoint0Y (transform.position);
-					//check is not grabbing and is next to player
-					if (!grabbing && grabPoint.magnitude == 1f) {
-						grabbing = true;
-						lookAt = Quaternion.LookRotation (grabPoint);
-						grabRigidbody = grabHit.collider.GetComponentInParent<Rigidbody> ();
-						grabType = grid.GetGrid (grid.Set0Y (transform.position + grabPoint));
-						grabPlane = Instantiate (grabPic, grabPoint + transform.position + grabPicV, Quaternion.LookRotation (Vector3.forward), grabRigidbody.transform);
-					} else {
-						GrabRelease ();
+					//check is hit moveable obj
+					if (Physics.Raycast (ray, out grabHit, camRayLength) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
+						grabPoint = grid.ToPoint0Y (grabHit.collider.GetComponentInParent<Transform> ().position) - grid.ToPoint0Y (transform.position);
+						//check is not grabbing and is next to player
+						if (!grabbing && grabPoint.magnitude == 1f) {
+							grabbing = true;
+							lookAt = Quaternion.LookRotation (grabPoint);
+							grabRigidbody = grabHit.collider.GetComponentInParent<Rigidbody> ();
+							grabType = grid.GetGrid (grid.Set0Y (transform.position + grabPoint));
+							grabPlane = Instantiate (grabPic, grabPoint + transform.position + grabPicV, Quaternion.LookRotation (Vector3.forward), grabRigidbody.transform);
+						} else {
+							GrabRelease ();
+						}
 					}
 				}
 			}

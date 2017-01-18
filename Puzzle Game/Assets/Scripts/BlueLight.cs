@@ -45,7 +45,7 @@ public class BlueLight : MonoBehaviour {
 
 	void Update ()	{
 		//Ray Direction z+
-		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
+		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistanceN)) {
 			longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z - 1f;
 
 			if (longN > rayDistance)
@@ -74,7 +74,7 @@ public class BlueLight : MonoBehaviour {
 						else
 							player.GrabRelease ();
 					}
-
+					
 					objN.SetMoveTo (transform.position + Vector3.forward * (rayDistanceN), Vector3.forward);
 				}
 			}

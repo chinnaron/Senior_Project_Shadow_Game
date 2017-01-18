@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour {
-
 	// Use this for initialization
-
 	public GameObject menu;
 	public GameObject pauseCloseButton;
 	public bool _isPaused;
@@ -14,24 +12,20 @@ public class MenuScript : MonoBehaviour {
 
 	void Start () {
 		
-		menu.SetActive(false);
+		menu.SetActive (false);
 		pauseCloseButton.SetActive (false);
 		_isPaused = false;
-		Button btn = GetComponent<Button>();
-		btn.onClick.AddListener(TaskOnClick);
-
+		Button btn = GetComponent<Button> ();
+		btn.onClick.AddListener (TaskOnClick);
 	}
 
-
 	void TaskOnClick(){
-
 		//if (!_isOpened) {
-			//Debug.Log ("You have clicked the button!");
-			Time.timeScale = 0;
-			menu.SetActive(true);
-			pauseCloseButton.SetActive(true);
-			_isPaused = true;
-
+		//Debug.Log ("You have clicked the button!");
+		Time.timeScale = 0;
+		menu.SetActive (true);
+		pauseCloseButton.SetActive (true);
+		_isPaused = true;
 	}
 
 	public void SetPause(bool value){

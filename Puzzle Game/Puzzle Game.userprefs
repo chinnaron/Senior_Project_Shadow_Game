@@ -1,24 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BlueLight.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\RedLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BlueLight.cs" Line="56" Column="4" />
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PushController.cs" Line="1" Column="1" />
-=======
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BackToStageSelection.cs">
-    <Files>
-      <File FileName="Assets\Scripts\ReloadScript.cs" Line="28" Column="49" />
-      <File FileName="Assets\Scripts\StartGameScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\StageSelection\GoToStage1.cs" Line="21" Column="33" />
-      <File FileName="Assets\Scripts\StageSelection\Quitbtn.cs" Line="29" Column="23" />
-      <File FileName="Assets\Scripts\quitpopupbuttonno.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BackToStageSelection.cs" Line="20" Column="27" />
->>>>>>> ton
+      <File FileName="Assets\Scripts\PauseMenuScript.cs" Line="18" Column="57" />
+      <File FileName="Assets\Scripts\MenuScript.cs" Line="26" Column="25" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="60" Column="37" />
+      <File FileName="Assets\Scripts\BlueLight.cs" Line="64" Column="116" />
+      <File FileName="Assets\Scripts\PushController.cs" Line="26" Column="58" />
+      <File FileName="Assets\Scripts\GridOverlay.cs" Line="125" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
