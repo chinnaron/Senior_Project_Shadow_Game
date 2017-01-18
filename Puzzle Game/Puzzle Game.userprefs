@@ -1,5 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
       <File FileName="Assets\Scripts\PauseMenuScript.cs" Line="18" Column="57" />
@@ -8,6 +9,16 @@
       <File FileName="Assets\Scripts\BlueLight.cs" Line="64" Column="116" />
       <File FileName="Assets\Scripts\PushController.cs" Line="26" Column="58" />
       <File FileName="Assets\Scripts\GridOverlay.cs" Line="125" Column="37" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GoalController.cs">
+    <Files>
+      <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\WhiteLight.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ShadowController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="65" Column="55" />
+      <File FileName="Assets\Scripts\GoalController.cs" Line="10" Column="51" />
+      <File FileName="Assets\Scripts\ObjectController.cs" Line="9" Column="34" />
+>>>>>>> feature/tpc
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

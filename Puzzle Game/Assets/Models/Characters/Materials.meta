@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 2907ed601ce2df448a5196ee4c1eb0a1
 folderAsset: yes
 timeCreated: 1484548506
+=======
+guid: 1cdb0ad250aa5ff48ab120dd61075cd6
+folderAsset: yes
+timeCreated: 1484542301
+>>>>>>> feature/tpc
 licenseType: Free
 DefaultImporter:
   userData: 
