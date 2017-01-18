@@ -4,14 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour {
-	// Use this for initialization
 	public GameObject menu;
 	public GameObject pauseCloseButton;
 	public bool _isPaused;
 
-
 	void Start () {
-		
 		menu.SetActive (false);
 		pauseCloseButton.SetActive (false);
 		_isPaused = false;

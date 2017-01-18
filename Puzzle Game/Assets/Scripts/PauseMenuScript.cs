@@ -8,18 +8,18 @@ public class PauseMenuScript : MonoBehaviour {
 	public GameObject pausebtn;
 	public GameObject menubutton;
 
-	void Start () {
+	void Awake () {
 		//_isOpened = false;
 		Button btn = GetComponent<Button>();
-		btn.onClick.AddListener(TaskOnClick);
+		btn.onClick.AddListener (TaskOnClick);
 	}
 
 	void TaskOnClick(){
 		MenuScript a = menubutton.GetComponent<MenuScript> ();
-		pausebtn.SetActive(false);
+		pausebtn.SetActive (false);
 		menupopup.SetActive (false);
 		Time.timeScale = 1;
-		a.SetPause(false);
+		a.SetPause (false);
 		//_isOpened = !_isOpened;
 	}
 }

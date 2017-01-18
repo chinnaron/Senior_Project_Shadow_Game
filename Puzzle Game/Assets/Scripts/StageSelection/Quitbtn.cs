@@ -5,38 +5,33 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Quitbtn : MonoBehaviour {
+	public GameObject quitPopup;
+	public GameObject quitPopupButtonYes;
+	public GameObject quitPopupButtonNo;
 
-	// Use this for initialization
-	public GameObject quitpopup;
-	public GameObject quitpopupbuttonyes;
-	public GameObject quitpopupbuttonno;
+	public bool quitPopupIsOpened;
 
-	public bool quitpopupIsOpened;
 	void Start () {
-		quitpopupIsOpened = false;
-		quitpopup.SetActive (false);
-		quitpopupbuttonyes.SetActive (false);
-		quitpopupbuttonno.SetActive (false);
+		quitPopupIsOpened = false;
+		quitPopup.SetActive (false);
+		quitPopupButtonYes.SetActive (false);
+		quitPopupButtonNo.SetActive (false);
 		Button btn = GetComponent<Button>();
 		btn.onClick.AddListener(TaskOnClick);
-
 	}
-	
-	// Update is called once per frame
+
 	void TaskOnClick(){
-		
-	
 		setQuitpopup (true);
-		quitpopup.SetActive (true);
-		quitpopupbuttonyes.SetActive (true);
-		quitpopupbuttonno.SetActive (true);
+		quitPopup.SetActive (true);
+		quitPopupButtonYes.SetActive (true);
+		quitPopupButtonNo.SetActive (true);
 	}
 
 	public bool quitpopupOpened(){
-		return quitpopupIsOpened;
+		return quitPopupIsOpened;
 	}
 
 	public void setQuitpopup(bool v){
-		quitpopupIsOpened = v;
+		quitPopupIsOpened = v;
 	}
 }

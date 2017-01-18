@@ -6,18 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class StartGameScript : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-
-		Button btn = GetComponent<Button>();
-		btn.onClick.AddListener(TaskOnClick);
-		
+	void Awake () {
+		Button btn = GetComponent<Button> ();
+		btn.onClick.AddListener (TaskOnClick);
 	}
-	
-	// Update is called once per frame
+
 	void TaskOnClick(){
-		SceneManager.LoadScene("StageSelection");
-
+		SceneManager.LoadScene ("StageSelection");
 	}
-
 }
