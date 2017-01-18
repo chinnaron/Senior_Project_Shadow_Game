@@ -7,10 +7,16 @@ public class MenuScript : MonoBehaviour {
 
 	// Use this for initialization
 
-	public bool _isOpened;
-	void Start () {
+	public GameObject menu;
+	public GameObject pauseCloseButton;
+	public bool _isPaused;
 
-		_isOpened = false;
+
+	void Start () {
+		
+		menu.SetActive(false);
+		pauseCloseButton.SetActive (false);
+		_isPaused = false;
 		Button btn = GetComponent<Button>();
 		btn.onClick.AddListener(TaskOnClick);
 
@@ -19,17 +25,20 @@ public class MenuScript : MonoBehaviour {
 
 	void TaskOnClick(){
 
-		if (!_isOpened) {
+		//if (!_isOpened) {
 			//Debug.Log ("You have clicked the button!");
 			Time.timeScale = 0;
-			//OpenMenu()
-		}
-		else Time.timeScale = 1;
-		
-		_isOpened = !_isOpened;
-			//CloseMenu()
-		
-		//Debug.Log ("You have clicked the button!");
+			menu.SetActive(true);
+			pauseCloseButton.SetActive(true);
+			_isPaused = true;
 
+	}
+
+	public void SetPause(bool value){
+		_isPaused = value;
+	}
+
+	public bool isPaused(){
+		return _isPaused;
 	}
 }
