@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class BlueLight : MonoBehaviour {
 	public PlayerController player;
-	public int rayDistance = 5;
 	public GridOverlay grid;
 
 	private float longN = 0;
 	private float longE = 0;
 	private float longS = 0;
 	private float longW = 0;
+
+	private float rayDistance = 6f;
+	private float rayDistanceN;
+	private float rayDistanceE;
+	private float rayDistanceS;
+	private float rayDistanceW;
+
+	private RaycastHit[] listN;
 
 	private PushController objN;
 
@@ -25,6 +32,11 @@ public class BlueLight : MonoBehaviour {
 	private RaycastHit hitW;
 
 	void Awake () {
+		rayDistanceN = rayDistance;
+		rayDistanceE = rayDistance;
+		rayDistanceS = rayDistance;
+		rayDistanceW = rayDistance;
+
 		lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
 		lineE.SetPosition (lineE.numPositions - 1, Vector3.right * rayDistance);
 		lineS.SetPosition (lineS.numPositions - 1, Vector3.back * rayDistance);
@@ -34,25 +46,41 @@ public class BlueLight : MonoBehaviour {
 	void Update ()	{
 		//Ray Direction z+
 		if (Physics.Raycast (transform.position, Vector3.forward, out hitN, rayDistance)) {
-			longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z;
+			longN = grid.ToPoint (hitN.collider.transform.position).z - grid.ToPoint (transform.position).z - 1f;
+
+			if (longN > rayDistance)
+				longN = rayDistance;
+			
 			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * longN);
+			listN = Physics.RaycastAll (transform.position, Vector3.forward, rayDistance + 1);
+
+			if (listN.Length < 2)
+				rayDistanceN = rayDistance + 1f;
+			else
+				rayDistanceN = grid.ToPoint0Y (listN [1].collider.transform.position).z - grid.ToPoint0Y (transform.position).z - 1f;
+			
 			if (hitN.collider.GetComponent<ObjectController> ().isPushable
 				&& hitN.collider.transform.position.x < transform.position.x + 0.1f && hitN.collider.transform.position.x > transform.position.x - 0.1f
-			    && hitN.collider.transform.position.z != (transform.position + Vector3.forward * (rayDistance + 1f)).z) {
+				&& grid.ToPoint0Y(hitN.collider.transform.position).z != grid.ToPoint0Y(transform.position).z + rayDistanceN) {
 				objN = hitN.collider.GetComponent<PushController> ();
-				if (objN.gameObject == player.gameObject && !objN.moving) {
-					objN.GetComponent<PlayerController> ().Stop ();
-				} else if (objN.GetComponent<Rigidbody> () == player.GetGrabRigidbody ()) {
-					if (player.transform.position.z == transform.position.z)
-						player.SetPushController (transform.position + Vector3.forward * (rayDistance + 2f), Vector3.forward);
-					else
-						player.GrabRelease ();
-					grid.SwapGrid (objN.transform.position, transform.position + Vector3.forward * (rayDistance + 1f));
+				if (!objN.moving) {
+					if (objN.gameObject == player.gameObject)
+						player.Stop ();
+					else if (objN.GetComponent<Rigidbody> () == player.GetGrabRigidbody ()) {
+						if (grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (transform.position).x) {
+							player.Stop ();
+							player.SetPushController (transform.position + Vector3.forward * (rayDistanceN + 1), Vector3.forward);
+						}
+						else
+							player.GrabRelease ();
+					}
+
+					objN.SetMoveTo (transform.position + Vector3.forward * (rayDistanceN), Vector3.forward);
 				}
-				objN.SetMoveTo (transform.position + Vector3.forward * (rayDistance + 1f), Vector3.forward);
 			}
 		} else {
-			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * rayDistance);
+			rayDistanceN = rayDistance + 1;
+			lineN.SetPosition (lineN.numPositions - 1, Vector3.forward * (rayDistanceN - 1));
 		}
 	}
 }

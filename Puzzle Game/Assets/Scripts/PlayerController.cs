@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour {
 	private bool grabbing;
 
 	private int playerMask;
+	private int grabType;
 
 	private readonly float speed = 5f;
 	private readonly float turnSpeed = 10f;
@@ -40,14 +41,6 @@ public class PlayerController : MonoBehaviour {
 	private RaycastHit grabHit;
 
 	public Stack<Vector3> path = new Stack<Vector3> ();
-
-	public Rigidbody GetGrabRigidbody () {
-		return grabRigidbody;
-	}
-
-	public void SetPushController (Vector3 des, Vector3 dir) {
-		playerPushController.SetMoveTo (des, dir);
-	}
 
 	void Awake () {
 		destination = pathDestination = transform.position;
@@ -77,8 +70,7 @@ public class PlayerController : MonoBehaviour {
 							if ((point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2))) {
 								Destroy (desPlane);
 								destination = pathDestination = point - grabPoint;
-								grid.SwapGrid (transform.position + grabPoint, destination + grabPoint);
-								grid.SwapGrid (transform.position, destination);
+								grid.SetGrid (transform.position + grabPoint, grid.walkable);
 								desPlane = Instantiate (desPic, destination + grabPoint + desPicV, Quaternion.LookRotation (Vector3.forward));
 								movement = pathDestination - transform.position;
 								walking = true;
@@ -86,8 +78,7 @@ public class PlayerController : MonoBehaviour {
 							} else if ((point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint)) {
 								Destroy (desPlane);
 								destination = pathDestination = point;
-								grid.SwapGrid (transform.position, destination);
-								grid.SwapGrid (transform.position + grabPoint, destination + grabPoint);
+								grid.SetGrid (transform.position + grabPoint, grid.walkable);
 								desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
 								movement = pathDestination - transform.position;
 								walking = true;
@@ -100,7 +91,6 @@ public class PlayerController : MonoBehaviour {
 							Destroy (desPlane);
 							destination = point;
 							pathDestination = path.Peek ();
-							grid.SwapGrid (transform.position, destination);
 							movement = pathDestination - transform.position;
 							lookAt = Quaternion.LookRotation (pathDestination - transform.position);
 							walking = true;
@@ -111,17 +101,16 @@ public class PlayerController : MonoBehaviour {
 				}
 				//check is hit moveable obj
 				if (Physics.Raycast (ray, out grabHit, camRayLength) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
-					grabPoint = grid.ToPoint0Y (grabHit.collider.GetComponentInParent<Transform> ().position) - transform.position;
+					grabPoint = grid.ToPoint0Y (grabHit.collider.GetComponentInParent<Transform> ().position) - grid.ToPoint0Y (transform.position);
 					//check is not grabbing and is next to player
 					if (!grabbing && grabPoint.magnitude == 1f) {
 						grabbing = true;
 						lookAt = Quaternion.LookRotation (grabPoint);
 						grabRigidbody = grabHit.collider.GetComponentInParent<Rigidbody> ();
+						grabType = grid.GetGrid (grid.Set0Y (transform.position + grabPoint));
 						grabPlane = Instantiate (grabPic, grabPoint + transform.position + grabPicV, Quaternion.LookRotation (Vector3.forward), grabRigidbody.transform);
 					} else {
-						grabbing = false;
-						Destroy (grabPlane);
-						grabPoint = Vector3.zero;
+						GrabRelease ();
 					}
 				}
 			}
@@ -138,23 +127,13 @@ public class PlayerController : MonoBehaviour {
 			//check is arrive pathDestination
 			if (transform.position == pathDestination) {
 				if (pathDestination == destination) {
-					if (grabbing) {
-						grabRigidbody.transform.position = pathDestination + grabPoint + Vector3.up * grabRigidbody.transform.position.y;
-					}
-
+					if (grabbing)
+						grid.SetGrid (destination + grabPoint, grabType);
 					Destroy (desPlane);
-					transform.position = destination;
 					path.Clear ();
 					movement = Vector3.zero;
 					walking = false;
-				}
-
-				if (path.Count > 0) {
-					if (grabbing) {
-						grabRigidbody.transform.position = pathDestination + grabPoint + Vector3.up * grabRigidbody.transform.position.y;
-					}
-
-					transform.position = pathDestination;
+				} else if (path.Count > 0) {
 					pathDestination = path.Peek ();
 					path.Pop ();
 					movement = pathDestination - transform.position;
@@ -169,15 +148,23 @@ public class PlayerController : MonoBehaviour {
 				movement = pathDestination - transform.position;
 			
 			playerRigidbody.MovePosition (transform.position + movement);
-			if (grabbing) {
+
+			if (grabbing)
 				grabRigidbody.MovePosition (grabRigidbody.transform.position + movement);
-			}
 		}
 
 		playerRigidbody.MoveRotation (Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed));
 
 		anim.SetBool ("IsWalking", walking);
 		anim.SetBool ("IsGrabbing", grabbing);
+	}
+
+	public Rigidbody GetGrabRigidbody () {
+		return grabRigidbody;
+	}
+
+	public void SetPushController (Vector3 des, Vector3 dir) {
+		playerPushController.SetMoveTo (des, dir);
 	}
 
 	public void GrabRelease () {
@@ -192,7 +179,6 @@ public class PlayerController : MonoBehaviour {
 
 	public void Stop () {
 		walking = false;
-		transform.position = grid.ToPoint (transform.position);
 		Destroy (desPlane);
 	}
 }

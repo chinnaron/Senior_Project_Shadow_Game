@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PushController : MonoBehaviour {
+	public ObjectController objController;
 	public GridOverlay grid;
 	public bool moving;
 
@@ -18,6 +19,7 @@ public class PushController : MonoBehaviour {
 		movement = Vector3.zero;
 		destination = transform.position;
 		objRigidbody = GetComponent<Rigidbody> ();
+		objController = GetComponent<ObjectController> ();
 	}
 
 	public void SetMoveTo (Vector3 des, Vector3 dir) {
@@ -30,10 +32,14 @@ public class PushController : MonoBehaviour {
 	void FixedUpdate ()  {
 		if (moving) {
 			if (transform.position == destination) {
+				if (objController.GetType () == objController.player)
+					grid.SetGrid (destination, grid.walkable);
+				else
+					grid.SetGrid (destination, objController.GetType ());
 				movement = Vector3.zero;
 				moving = false;
 			}
-			print ("" + movement + transform.position + destination);
+
 			movement = movement.normalized * speed * Time.deltaTime;
 
 			if (Vector3.Dot ((movement + transform.position - destination).normalized
@@ -41,7 +47,6 @@ public class PushController : MonoBehaviour {
 				movement = destination - transform.position;
 				moving = false;
 			}
-			print ("" + movement + transform.position + destination);
 
 			objRigidbody.MovePosition (transform.position + movement);
 		}
