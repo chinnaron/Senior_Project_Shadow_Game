@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ShadowController : MonoBehaviour {
-	public GridOverlay grid;
 	public GameObject shadowN;
 	public GameObject shadowE;
 	public GameObject shadowS;
 	public GameObject shadowW;
 
+	private GridOverlay grid;
+
 	void Awake () {
+		grid = FindObjectOfType<GridOverlay> ();
+
 		shadowN.SetActive (false);
 		shadowE.SetActive (false);
 		shadowS.SetActive (false);

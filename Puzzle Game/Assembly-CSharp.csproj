@@ -51,10 +51,6 @@
      <Compile Include="Assets\Scripts\CameraRotate.cs" />
      <Compile Include="Assets\Scripts\GoalController.cs" />
      <Compile Include="Assets\Scripts\GridOverlay.cs" />
-     <Compile Include="Assets\Scripts\Lights\BlueLight.cs" />
-     <Compile Include="Assets\Scripts\Lights\RedLight.cs" />
-     <Compile Include="Assets\Scripts\Lights\WhiteLight.cs" />
-     <Compile Include="Assets\Scripts\Lights\YellowLight.cs" />
      <Compile Include="Assets\Scripts\MenuScript.cs" />
      <Compile Include="Assets\Scripts\ObjController\ObjectController.cs" />
      <Compile Include="Assets\Scripts\ObjController\PlayerController.cs" />
@@ -64,6 +60,11 @@
      <Compile Include="Assets\Scripts\PauseMenuScript.cs" />
      <Compile Include="Assets\Scripts\ReloadScript.cs" />
      <Compile Include="Assets\Scripts\Rotation.cs" />
+     <Compile Include="Assets\Scripts\SpecialObj\BlueLight.cs" />
+     <Compile Include="Assets\Scripts\SpecialObj\JumpPad.cs" />
+     <Compile Include="Assets\Scripts\SpecialObj\RedLight.cs" />
+     <Compile Include="Assets\Scripts\SpecialObj\WhiteLight.cs" />
+     <Compile Include="Assets\Scripts\SpecialObj\YellowLight.cs" />
      <Compile Include="Assets\Scripts\StageSelection\GoToStage1.cs" />
      <Compile Include="Assets\Scripts\StageSelection\QuitPopupButtonNo.cs" />
      <Compile Include="Assets\Scripts\StageSelection\QuitPopupButtonYes.cs" />

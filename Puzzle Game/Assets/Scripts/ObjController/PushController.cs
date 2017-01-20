@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PushController : MonoBehaviour {
-	public ObjectController objController;
-	public GridOverlay grid;
+	private ObjectController objController;
 	public bool moving;
 
 	private readonly float speed = 10f;
@@ -13,6 +12,7 @@ public class PushController : MonoBehaviour {
 	private Vector3 destination;
 
 	private Rigidbody objRigidbody;
+	private GridOverlay grid;
 
 	void Awake () {
 		moving = false;
@@ -20,6 +20,7 @@ public class PushController : MonoBehaviour {
 		destination = transform.position;
 		objRigidbody = GetComponent<Rigidbody> ();
 		objController = GetComponent<ObjectController> ();
+		grid = FindObjectOfType<GridOverlay> ();
 	}
 
 	public void SetMoveTo (Vector3 des, Vector3 dir) {

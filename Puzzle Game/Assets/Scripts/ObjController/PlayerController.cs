@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-	public GridOverlay grid;
-
 	public GameObject desPic;
 	public GameObject grabPic;
 	public GameObject grabPlane;
@@ -23,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody playerRigidbody;
 	private Rigidbody grabRigidbody;
 	private PushController playerPushController;
+	private GridOverlay grid;
 
 	private bool walking;
 	private bool grabbing;
@@ -52,10 +51,11 @@ public class PlayerController : MonoBehaviour {
 		playerRigidbody = GetComponent<Rigidbody> ();
 		playerPushController = GetComponent<PushController> ();
 		playerMask = LayerMask.GetMask ("Player");
+		grid = FindObjectOfType<GridOverlay> ();
 	}
 
 	void Update (){
-		if (!menu._isPaused) {
+		if (!menu._isPaused && !walking) {
 			//check is not walking and is click
 			if (Input.GetButtonDown ("Fire1")) {//Change Input to mobile ver.
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);//Change Input to mobile ver.

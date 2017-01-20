@@ -17,7 +17,7 @@ public class TriggerController : MonoBehaviour {
 	public void ShowOn () {
 		if (isOn) {
 			if (show == null)
-				show = Instantiate (showPic, transform.position + picV, Quaternion.LookRotation (Vector3.forward));
+				show = Instantiate (showPic, transform.position + picV, Quaternion.LookRotation (Vector3.forward), gameObject.transform);
 		} else {
 			Destroy (show);
 		}
