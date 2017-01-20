@@ -6,12 +6,10 @@ public class JumpPad : MonoBehaviour {
 	public PlayerController player;
 	public GridOverlay grid;
 
-
-
 	void Awake () {
 		
 	}
-		
+
 	void Update () {
 		
 	}

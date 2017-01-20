@@ -37,8 +37,8 @@ public class BlueLight : MonoBehaviour {
 					else
 						longL [i] = Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x) - 1f;
 
-					if (longL [i] > rayDistanceDefault)
-						longL [i] = rayDistanceDefault;
+					if (longL [i] > rayDistanceDefault - 1)
+						longL [i] = rayDistanceDefault - 1;
 					else if (longL [i] < 0)
 						longL [i] = 0;
 					
@@ -57,10 +57,10 @@ public class BlueLight : MonoBehaviour {
 					if (hit [i].collider.GetComponent<ObjectController> ().isPushable
 					    && ((i % 2 == 0 && hit [i].collider.transform.position.x < transform.position.x + 0.1f
 					    && hit [i].collider.transform.position.x > transform.position.x - 0.1f
-					    && Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).z - grid.ToPoint0Y (transform.position).z) != rayDistance [i])
+					    && Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).z - grid.ToPoint0Y (transform.position).z) < rayDistance [i])
 					    || (i % 2 == 1 && hit [i].collider.transform.position.z < transform.position.z + 0.1f
 					    && hit [i].collider.transform.position.z > transform.position.z - 0.1f
-					    && Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).x - grid.ToPoint0Y (transform.position).x) != rayDistance [i]))) {
+					    && Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).x - grid.ToPoint0Y (transform.position).x) < rayDistance [i]))) {
 						obj [i] = hit [i].collider.GetComponent<PushController> ();
 
 						if (!obj [i].moving) {
