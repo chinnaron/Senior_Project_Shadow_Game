@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BlueLight : MonoBehaviour {
+	public GameObject pic;
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
 
@@ -16,6 +17,7 @@ public class BlueLight : MonoBehaviour {
 	private PushController[] obj = new PushController[4];
 	private RaycastHit[] hit = new RaycastHit[4];
 	private RaycastHit[] list;
+	private GameObject[] onPic = new GameObject[4];
 
 	void Awake () {
 		grid = FindObjectOfType<GridOverlay> ();
@@ -23,14 +25,18 @@ public class BlueLight : MonoBehaviour {
 
 		for (int i = 0; i < 4; i++) {
 			rayDistance [i] = rayDistanceDefault;
-			if (lightOn [i])
+			if (lightOn [i]) {
 				line [i].SetPosition (line [i].numPositions - 1, wayP [i] * (rayDistance [i] - 1f));
+			}
 		}
 	}
 
 	void Update ()	{
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i]) {
+				if (onPic [i] == null)
+					onPic [i] = Instantiate (pic, grid.Set0Y (transform.position) + wayP [i] * 0.3f, Quaternion.LookRotation (wayP [i]), transform);
+
 				if (Physics.Raycast (transform.position, wayP [i], out hit [i], rayDistanceDefault)) {
 					if (i % 2 == 0)
 						longL [i] = Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z) - 1f;
@@ -82,6 +88,8 @@ public class BlueLight : MonoBehaviour {
 					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * (rayDistance [i] - 1));
 				}
 			} else {
+				if (onPic [i] != null)
+					Destroy (onPic [i]);
 				rayDistance [i] = rayDistanceDefault;
 				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
 			}

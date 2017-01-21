@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour {
 	public GameObject desPlane;
 	public MenuScript menu;
 
-	private readonly Vector3 grabPicV = new Vector3 (0f, 1.2f, 0f);
-	private readonly Vector3 desPicV = new Vector3 (0f, 0.3f, 0f);
 	private Vector3 movement;
 	private Vector3 pathDestination;
 	private Vector3 destination;
@@ -73,7 +71,7 @@ public class PlayerController : MonoBehaviour {
 									Destroy (desPlane);
 									destination = pathDestination = point - grabPoint;
 									grid.SetGrid (transform.position + grabPoint, grid.walkable);
-									desPlane = Instantiate (desPic, destination + grabPoint + desPicV, Quaternion.LookRotation (Vector3.forward));
+									desPlane = Instantiate (desPic, destination + grabPoint, Quaternion.LookRotation (Vector3.forward));
 									movement = pathDestination - transform.position;
 									walking = true;
 									path.Clear ();
@@ -81,7 +79,7 @@ public class PlayerController : MonoBehaviour {
 									Destroy (desPlane);
 									destination = pathDestination = point;
 									grid.SetGrid (transform.position + grabPoint, grid.walkable);
-									desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
+									desPlane = Instantiate (desPic, destination, Quaternion.LookRotation (Vector3.forward));
 									movement = pathDestination - transform.position;
 									walking = true;
 									path.Clear ();
@@ -97,7 +95,7 @@ public class PlayerController : MonoBehaviour {
 								lookAt = Quaternion.LookRotation (pathDestination - transform.position);
 								walking = true;
 								path.Pop ();
-								desPlane = Instantiate (desPic, destination + desPicV, Quaternion.LookRotation (Vector3.forward));
+								desPlane = Instantiate (desPic, destination, Quaternion.LookRotation (Vector3.forward));
 							}
 						}
 					}
@@ -110,7 +108,7 @@ public class PlayerController : MonoBehaviour {
 							lookAt = Quaternion.LookRotation (grabPoint);
 							grabRigidbody = grabHit.collider.GetComponentInParent<Rigidbody> ();
 							grabType = grid.GetGrid (grid.Set0Y (transform.position + grabPoint));
-							grabPlane = Instantiate (grabPic, grabPoint + transform.position + grabPicV, Quaternion.LookRotation (Vector3.forward), grabRigidbody.transform);
+							grabPlane = Instantiate (grabPic, grabPoint + transform.position, Quaternion.LookRotation (Vector3.forward), grabRigidbody.transform);
 						} else {
 							GrabRelease ();
 						}
