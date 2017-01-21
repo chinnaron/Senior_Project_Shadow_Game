@@ -7,12 +7,9 @@ public class GridOverlay : MonoBehaviour {
 	public readonly int unwalkable = -1;
 	public readonly int player = 0;
 	public readonly int walkable = 1;
-	public readonly int moveable = 2;
-	public readonly int shadowable = 3;
-	public readonly int pushable = 5;
-	public readonly int destroyable = 7;
-	public readonly int triggerable = 11;
-	public readonly int tempWalkable = 13;
+	public readonly int walkable2 = 2;
+	public readonly int tempWalkable = int.MaxValue;
+
 	public bool moving;
 
 	private ObjectController objCon;
@@ -43,7 +40,9 @@ public class GridOverlay : MonoBehaviour {
 				if (Physics.Raycast (ray, out hit, 11f)) {
 					grid [x, z] = walkable;
 					objCon = hit.collider.GetComponent<ObjectController> ();
-					if (objCon.isBlock)
+					if (objCon.isWalkable2)
+						grid [x, z] = walkable2;
+					else if (objCon.isBlock)
 						grid [x, z] = block;
 					else if (objCon.isUnwalkable)
 						grid [x, z] = unwalkable;
@@ -81,14 +80,57 @@ public class GridOverlay : MonoBehaviour {
 		List<Vector3> l = new List<Vector3> ();
 		int gridX = ToGridX (v);
 		int gridZ = ToGridZ (v);
-		if (gridX > 0 && (grid [gridX - 1, gridZ] == walkable || grid [gridX - 1, gridZ] == tempWalkable))
-			l.Add (v + Vector3.left);
-		if (gridX < lengthX - 1 && (grid [gridX + 1, gridZ] == walkable || grid [gridX + 1, gridZ] == tempWalkable))
-			l.Add (v + Vector3.right);
-		if (gridZ > 0 && (grid [gridX, gridZ - 1] == walkable || grid [gridX, gridZ - 1] == tempWalkable))
-			l.Add (v + Vector3.back);
-		if (gridZ < lengthZ - 1 && (grid [gridX, gridZ + 1] == walkable || grid [gridX, gridZ + 1] == tempWalkable))
-			l.Add (v + Vector3.forward);
+//		print (gridX + " " + gridZ);
+
+		if (gridX > 0) {
+			if (v.y == 0) {
+				if (grid [gridX - 1, gridZ] == walkable || grid [gridX - 1, gridZ] == tempWalkable)
+					l.Add (v + Vector3.left);
+			} else {
+				if (grid [gridX - 1, gridZ] == walkable2)
+					l.Add (v + Vector3.left);
+				else if (grid [gridX - 1, gridZ] == walkable || grid [gridX - 1, gridZ] == tempWalkable)
+					l.Add (v + Vector3.left + Vector3.down);
+			}
+		}
+
+		if (gridX < lengthX - 1) {
+			if (v.y == 0) {
+				if (grid [gridX + 1, gridZ] == walkable || grid [gridX + 1, gridZ] == tempWalkable)
+					l.Add (v + Vector3.right);
+			} else {
+				if (grid [gridX + 1, gridZ] == walkable2)
+					l.Add (v + Vector3.right);
+				else if (grid [gridX + 1, gridZ] == walkable || grid [gridX + 1, gridZ] == tempWalkable)
+					l.Add (v + Vector3.right + Vector3.down);
+			}
+
+		}
+
+		if (gridZ > 0) {
+			if (v.y == 0) {
+				if (grid [gridX, gridZ - 1] == walkable || grid [gridX, gridZ - 1] == tempWalkable)
+					l.Add (v + Vector3.back);
+			} else {
+				if (grid [gridX, gridZ - 1] == walkable2)
+					l.Add (v + Vector3.back);
+				else if (grid [gridX, gridZ - 1] == walkable || grid [gridX, gridZ - 1] == tempWalkable)
+					l.Add (v + Vector3.back + Vector3.down);
+			}
+		}
+		
+		if (gridZ < lengthZ - 1) {
+			if (v.y == 0) {
+				if (grid [gridX, gridZ + 1] == walkable || grid [gridX, gridZ + 1] == tempWalkable)
+					l.Add (v + Vector3.forward);
+			} else {
+				if (grid [gridX, gridZ + 1] == walkable2)
+					l.Add (v + Vector3.forward);
+				else if (grid [gridX, gridZ + 1] == walkable || grid [gridX, gridZ + 1] == tempWalkable)
+					l.Add (v + Vector3.forward + Vector3.down);
+			}
+		}
+
 		return l;
 	}
 
@@ -271,14 +313,9 @@ public class GridOverlay : MonoBehaviour {
 
 			if (goal == current) {
 				ans.Push (current);
-				last = current;
 				while (cameFrom.ContainsKey (current)) {
 					current = cameFrom [current];
 					ans.Push (current);
-					if (cameFrom.ContainsKey (current) && (cameFrom [current].x == last.x || cameFrom [current].z == last.z))
-						ans.Pop ();
-					else
-						last = current;
 				}
 				if (ans.Peek () == start)
 					ans.Pop ();
@@ -288,6 +325,7 @@ public class GridOverlay : MonoBehaviour {
 			openSet.Remove (current);
 			closedSet.Add (current);
 
+//			print (current);
 			l = NeighborOf (current);
 			foreach(Vector3 neighbor in l){
 				if (closedSet.Contains (neighbor))

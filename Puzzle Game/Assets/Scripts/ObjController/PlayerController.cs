@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour {
 
 	private bool walking;
 	private bool grabbing;
+	private bool onFloor;
 
 	private int playerMask;
 	private int grabType;
@@ -45,6 +46,11 @@ public class PlayerController : MonoBehaviour {
 		movement = grabPoint = Vector3.zero;
 		walking = grabbing = false;
 
+		if (transform.position.y == 0)
+			onFloor = true;
+		else
+			onFloor = false;
+
 		anim = GetComponent<Animator> ();
 		playerRigidbody = GetComponent<Rigidbody> ();
 		playerPushController = GetComponent<PushController> ();
@@ -60,7 +66,7 @@ public class PlayerController : MonoBehaviour {
 				//check is hit sth and not player
 				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask)) {
 					//check is hit the floor or not
-					if (hit.collider.GetComponent<ObjectController> ().isWalkable) {
+					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2) {
 						point = grid.ToPoint (hit.point);
 						path = grid.FindPath (transform.position, point);
 						if (grabbing) {
@@ -91,8 +97,13 @@ public class PlayerController : MonoBehaviour {
 								Destroy (desPlane);
 								destination = point;
 								pathDestination = path.Peek ();
-								movement = pathDestination - transform.position;
-								lookAt = Quaternion.LookRotation (pathDestination - transform.position);
+								if (!onFloor && pathDestination.y == 0f) {
+									movement = pathDestination + Vector3.up - transform.position;
+									lookAt = Quaternion.LookRotation (movement);
+								} else {
+									movement = pathDestination - transform.position;
+									lookAt = Quaternion.LookRotation (movement);
+								}
 								walking = true;
 								path.Pop ();
 								desPlane = Instantiate (desPic, destination, Quaternion.LookRotation (Vector3.forward));
@@ -123,9 +134,20 @@ public class PlayerController : MonoBehaviour {
 			walking = false;
 			Destroy (desPlane);
 		}
+		if (playerPushController.falling) {
+			walking = false;
+		}
 
 		if (walking) {
-			//check is arrive pathDestination
+			if (transform.position == pathDestination + Vector3.up) {
+				if (!onFloor && pathDestination.y == 0f) {
+					movement = Vector3.zero;
+					walking = false;
+					onFloor = true;
+					playerPushController.SetFallTo (pathDestination);
+				}
+			}
+
 			if (transform.position == pathDestination) {
 				if (pathDestination == destination) {
 					if (grabbing)
@@ -134,11 +156,16 @@ public class PlayerController : MonoBehaviour {
 					path.Clear ();
 					movement = Vector3.zero;
 					walking = false;
-				} else if (path.Count > 0) {
+				} else /*if (path.Count > 0) */{
 					pathDestination = path.Peek ();
 					path.Pop ();
-					movement = pathDestination - transform.position;
-					lookAt = Quaternion.LookRotation (movement);
+					if (!onFloor && pathDestination.y == 0f) {
+						movement = pathDestination + Vector3.up - transform.position;
+						lookAt = Quaternion.LookRotation (movement);
+					} else {
+						movement = pathDestination - transform.position;
+						lookAt = Quaternion.LookRotation (movement);
+					}
 					walking = true;
 				}
 			}
@@ -158,6 +185,10 @@ public class PlayerController : MonoBehaviour {
 
 		anim.SetBool ("IsWalking", walking);
 		anim.SetBool ("IsGrabbing", grabbing);
+	}
+
+	public void ContinueWalking () {
+		walking = true;
 	}
 
 	public Rigidbody GetGrabRigidbody () {

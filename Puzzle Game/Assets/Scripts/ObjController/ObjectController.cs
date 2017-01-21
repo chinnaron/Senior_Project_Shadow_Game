@@ -8,16 +8,18 @@ public class ObjectController : MonoBehaviour {
 	public readonly int unwalkable = -1;
 	public readonly int player = 0;
 	public readonly int walkable = 1;
-	public readonly int moveable = 2;
-	public readonly int shadowable = 3;
-	public readonly int pushable = 4;
-	public readonly int destroyable = 5;
-	public readonly int triggerable = 6;
+	public readonly int walkable2 = 2;
+	public readonly int moveable = 3;
+	public readonly int shadowable = 4;
+	public readonly int pushable = 5;
+	public readonly int destroyable = 6;
+	public readonly int triggerable = 7;
 
 	public bool isBlock;
 	public bool isUnwalkable;
 	public bool isPlayer;
 	public bool isWalkable;
+	public bool isWalkable2;
 	public bool isMoveable;
 	public bool isShadowable;
 	public bool isPushable;
@@ -31,6 +33,8 @@ public class ObjectController : MonoBehaviour {
 			return block;
 		if (isUnwalkable)
 			return unwalkable;
+		if (isWalkable2)
+			return walkable2;
 		return walkable;
 	}
 }
