@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour {
 
 	private bool walking;
 	private bool grabbing;
-	private bool onFloor;
 
 	private int playerMask;
 	private int grabType;
@@ -45,11 +44,6 @@ public class PlayerController : MonoBehaviour {
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
 		walking = grabbing = false;
-
-		if (transform.position.y == 0)
-			onFloor = true;
-		else
-			onFloor = false;
 
 		anim = GetComponent<Animator> ();
 		playerRigidbody = GetComponent<Rigidbody> ();
@@ -97,7 +91,7 @@ public class PlayerController : MonoBehaviour {
 								Destroy (desPlane);
 								destination = point;
 								pathDestination = path.Peek ();
-								if (!onFloor && pathDestination.y == 0f) {
+								if (!playerPushController.GetOnFloor () && pathDestination.y == 0f) {
 									movement = pathDestination + Vector3.up - transform.position;
 									lookAt = Quaternion.LookRotation (movement);
 								} else {
@@ -112,7 +106,8 @@ public class PlayerController : MonoBehaviour {
 					}
 					//check is hit moveable obj
 					if (Physics.Raycast (ray, out grabHit, camRayLength) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
-						grabPoint = grid.ToPoint0Y (grabHit.collider.GetComponentInParent<Transform> ().position) - grid.ToPoint0Y (transform.position);
+						grabPoint = grid.ToPoint (grabHit.collider.GetComponentInParent<Transform> ().position) - grid.ToPoint0Y (transform.position);
+						grabPoint.y = grabPoint.y == 0.5f ? 0 : 1;
 						//check is not grabbing and is next to player
 						if (!grabbing && grabPoint.magnitude == 1f) {
 							grabbing = true;
@@ -140,10 +135,9 @@ public class PlayerController : MonoBehaviour {
 
 		if (walking) {
 			if (transform.position == pathDestination + Vector3.up) {
-				if (!onFloor && pathDestination.y == 0f) {
+				if (!playerPushController.GetOnFloor () && pathDestination.y == 0f) {
 					movement = Vector3.zero;
 					walking = false;
-					onFloor = true;
 					playerPushController.SetFallTo (pathDestination);
 				}
 			}
@@ -156,10 +150,10 @@ public class PlayerController : MonoBehaviour {
 					path.Clear ();
 					movement = Vector3.zero;
 					walking = false;
-				} else /*if (path.Count > 0) */{
+				} else if (path.Count > 0) {
 					pathDestination = path.Peek ();
 					path.Pop ();
-					if (!onFloor && pathDestination.y == 0f) {
+					if (!playerPushController.GetOnFloor () && pathDestination.y == 0f) {
 						movement = pathDestination + Vector3.up - transform.position;
 						lookAt = Quaternion.LookRotation (movement);
 					} else {

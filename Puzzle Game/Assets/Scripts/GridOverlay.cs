@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GridOverlay : MonoBehaviour {
+	public readonly int block2 = -3;
 	public readonly int block = -2;
 	public readonly int unwalkable = -1;
 	public readonly int player = 0;
 	public readonly int walkable = 1;
 	public readonly int walkable2 = 2;
 	public readonly int tempWalkable = int.MaxValue;
+	public readonly int tempWalkable2 = int.MaxValue - 1;
 
 	public bool moving;
 
@@ -22,6 +24,7 @@ public class GridOverlay : MonoBehaviour {
 
 	private Ray ray;
 	private RaycastHit hit;
+	private RaycastHit[] hitList;
 
 	void Awake (){
 		lengthX = (int)transform.localScale.x;
@@ -36,16 +39,20 @@ public class GridOverlay : MonoBehaviour {
 		for (int x = 0; x < lengthX; x++) {
 			for (int z = 0; z < lengthZ; z++) {
 				ray.origin = Vector3.right * (x + start.x + 0.5f) + Vector3.up * ray.origin.y + Vector3.forward * (z + start.z + 0.5f);
-				grid [x, z] = unwalkable;
-				if (Physics.Raycast (ray, out hit, 11f)) {
+				hitList = Physics.RaycastAll (ray, 11f);
+				if (hitList.Length > 0) {
 					grid [x, z] = walkable;
-					objCon = hit.collider.GetComponent<ObjectController> ();
-					if (objCon.isWalkable2)
-						grid [x, z] = walkable2;
-					else if (objCon.isBlock)
-						grid [x, z] = block;
-					else if (objCon.isUnwalkable)
-						grid [x, z] = unwalkable;
+					foreach (RaycastHit hit in hitList) {
+						objCon = hit.collider.GetComponent<ObjectController> ();
+						if (objCon.isBlock2)
+							grid [x, z] = block2;
+						else if (objCon.isWalkable2 && grid [x, z] != block2)
+							grid [x, z] = walkable2;
+						else if (objCon.isBlock && grid [x, z] != block2 && grid [x, z] != walkable2)
+							grid [x, z] = block;
+						else if (objCon.isUnwalkable)
+							grid [x, z] = unwalkable;
+					}
 				}
 			}
 		}
@@ -76,18 +83,17 @@ public class GridOverlay : MonoBehaviour {
 		return Mathf.Sqrt ((float)(Mathf.Pow (x1 - x2, 2) + Mathf.Pow (z1 - z2, 2)));
 	}
 
-	private List<Vector3> NeighborOf (Vector3 v){
+	private List<Vector3> NeighborOf (Vector3 v, bool isOnfloor){
 		List<Vector3> l = new List<Vector3> ();
 		int gridX = ToGridX (v);
 		int gridZ = ToGridZ (v);
-//		print (gridX + " " + gridZ);
 
 		if (gridX > 0) {
-			if (v.y == 0) {
+			if (isOnfloor) {
 				if (grid [gridX - 1, gridZ] == walkable || grid [gridX - 1, gridZ] == tempWalkable)
 					l.Add (v + Vector3.left);
 			} else {
-				if (grid [gridX - 1, gridZ] == walkable2)
+				if (grid [gridX - 1, gridZ] == walkable2 || grid [gridX - 1, gridZ] == tempWalkable2)
 					l.Add (v + Vector3.left);
 				else if (grid [gridX - 1, gridZ] == walkable || grid [gridX - 1, gridZ] == tempWalkable)
 					l.Add (v + Vector3.left + Vector3.down);
@@ -95,24 +101,23 @@ public class GridOverlay : MonoBehaviour {
 		}
 
 		if (gridX < lengthX - 1) {
-			if (v.y == 0) {
+			if (isOnfloor) {
 				if (grid [gridX + 1, gridZ] == walkable || grid [gridX + 1, gridZ] == tempWalkable)
 					l.Add (v + Vector3.right);
 			} else {
-				if (grid [gridX + 1, gridZ] == walkable2)
+				if (grid [gridX + 1, gridZ] == walkable2 || grid [gridX + 1, gridZ] == tempWalkable2)
 					l.Add (v + Vector3.right);
 				else if (grid [gridX + 1, gridZ] == walkable || grid [gridX + 1, gridZ] == tempWalkable)
 					l.Add (v + Vector3.right + Vector3.down);
 			}
-
 		}
 
 		if (gridZ > 0) {
-			if (v.y == 0) {
+			if (isOnfloor) {
 				if (grid [gridX, gridZ - 1] == walkable || grid [gridX, gridZ - 1] == tempWalkable)
 					l.Add (v + Vector3.back);
 			} else {
-				if (grid [gridX, gridZ - 1] == walkable2)
+				if (grid [gridX, gridZ - 1] == walkable2 || grid [gridX, gridZ - 1] == tempWalkable2)
 					l.Add (v + Vector3.back);
 				else if (grid [gridX, gridZ - 1] == walkable || grid [gridX, gridZ - 1] == tempWalkable)
 					l.Add (v + Vector3.back + Vector3.down);
@@ -120,11 +125,11 @@ public class GridOverlay : MonoBehaviour {
 		}
 		
 		if (gridZ < lengthZ - 1) {
-			if (v.y == 0) {
+			if (isOnfloor) {
 				if (grid [gridX, gridZ + 1] == walkable || grid [gridX, gridZ + 1] == tempWalkable)
 					l.Add (v + Vector3.forward);
 			} else {
-				if (grid [gridX, gridZ + 1] == walkable2)
+				if (grid [gridX, gridZ + 1] == walkable2 || grid [gridX, gridZ + 1] == tempWalkable2)
 					l.Add (v + Vector3.forward);
 				else if (grid [gridX, gridZ + 1] == walkable || grid [gridX, gridZ + 1] == tempWalkable)
 					l.Add (v + Vector3.forward + Vector3.down);
@@ -165,34 +170,21 @@ public class GridOverlay : MonoBehaviour {
 	}
 
 	public Vector3 ToPoint (Vector3 v){
-		v.x = Mathf.Floor(v.x) + 0.5f;
-		v.z = Mathf.Floor(v.z) + 0.5f;
+		v.x = Mathf.Floor (v.x) + 0.5f;
+		v.z = Mathf.Floor (v.z) + 0.5f;
 		return v;
 	}
 
 	public Vector3 ToPoint0Y (Vector3 v){
-		v.x = Mathf.Floor(v.x) + 0.5f;
+		v.x = Mathf.Floor (v.x) + 0.5f;
 		v.y = 0f;
-		v.z = Mathf.Floor(v.z) + 0.5f;
+		v.z = Mathf.Floor (v.z) + 0.5f;
 		return v;
 	}
 
 	public Vector3 Set0Y(Vector3 v){
 		v.y = 0f;
 		return v;
-	}
-
-	public Vector3 NearAround (Vector3 start, Vector3 goal){
-		start = ToPoint (start);
-		goal = ToPoint (goal);
-		List<Vector3> n = NeighborOf (goal);
-		Vector3 ans = goal;
-		float min = float.MaxValue;
-		foreach (Vector3 v in n) {
-			if (Vector3.Distance (start, v) < min)
-				ans = v;
-		}
-		return ans;
 	}
 
 	public bool IsOutOfGrid (Vector3 v){
@@ -295,8 +287,8 @@ public class GridOverlay : MonoBehaviour {
 		gScore [start] = Vector3.Distance (start, goal);
 		List<Vector3> l = new List<Vector3> ();
 		Vector3 current = start;
-		Vector3 last = goal;
 		float tGScore;
+		bool onFloor;
 
 		if (start == goal) {
 			return ans;
@@ -304,7 +296,7 @@ public class GridOverlay : MonoBehaviour {
 		
 		while (openSet.Count > 0) {
 			float lowest = float.MaxValue;
-			foreach(Vector3 v in openSet){
+			foreach (Vector3 v in openSet) {
 				if (lowest > gScore [v]) {
 					lowest = gScore [v];
 					current = v;
@@ -324,9 +316,9 @@ public class GridOverlay : MonoBehaviour {
 
 			openSet.Remove (current);
 			closedSet.Add (current);
+			onFloor = current.y == 0f ? true : false;
 
-//			print (current);
-			l = NeighborOf (current);
+			l = NeighborOf (current, onFloor);
 			foreach(Vector3 neighbor in l){
 				if (closedSet.Contains (neighbor))
 					continue;

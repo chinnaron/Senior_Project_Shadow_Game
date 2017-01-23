@@ -5,8 +5,9 @@ using UnityEngine;
 public class PushController : MonoBehaviour {
 	public bool moving;
 	public bool falling;
+	private bool onFloor;
 
-	private readonly float speed = 10f;
+	private readonly float speed = 11f;
 
 	private Vector3 movement;
 	private Vector3 destination;
@@ -17,6 +18,11 @@ public class PushController : MonoBehaviour {
 	private PlayerController player;
 
 	void Awake () {
+		if (transform.position.y == 0f)
+			onFloor = true;
+		else
+			onFloor = false;
+		
 		moving = falling = false;
 		movement = Vector3.zero;
 		destination = transform.position;
@@ -24,6 +30,10 @@ public class PushController : MonoBehaviour {
 		objController = GetComponent<ObjectController> ();
 		grid = FindObjectOfType<GridOverlay> ();
 		player = FindObjectOfType<PlayerController> ();
+	}
+
+	public bool GetOnFloor(){
+		return onFloor;
 	}
 
 	public void SetMoveTo (Vector3 des, Vector3 dir) {
@@ -37,8 +47,8 @@ public class PushController : MonoBehaviour {
 	public void SetFallTo (Vector3 des) {
 		transform.position = grid.ToPoint (transform.position);
 		destination = des;
-		destination.y = transform.position.y - 1f;
 		falling = true;
+		onFloor = true;
 		movement = Vector3.down;
 	}
 
@@ -51,6 +61,8 @@ public class PushController : MonoBehaviour {
 					grid.SetGrid (destination, objController.GetType ());
 				movement = Vector3.zero;
 				moving = false;
+
+				//is floating
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
@@ -58,7 +70,6 @@ public class PushController : MonoBehaviour {
 			if (Vector3.Dot ((movement + transform.position - destination).normalized
 				, (transform.position - destination).normalized) == -1f) {
 				movement = destination - transform.position;
-				moving = false;
 			}
 
 			objRigidbody.MovePosition (transform.position + movement);
@@ -66,11 +77,11 @@ public class PushController : MonoBehaviour {
 
 		if (falling) {
 			if (transform.position == destination) {
-				print ("hi");
 				movement = Vector3.zero;
 				falling = false;
-				if (objController.GetType () == objController.player)
+				if (objController.GetType () == objController.player) {
 					player.ContinueWalking ();
+				}
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
@@ -78,7 +89,6 @@ public class PushController : MonoBehaviour {
 			if (Vector3.Dot ((movement + transform.position - destination).normalized
 				, (transform.position - destination).normalized) == -1f) {
 				movement = destination - transform.position;
-				falling = false;
 			}
 
 			objRigidbody.MovePosition (transform.position + movement);
