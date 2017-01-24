@@ -45,7 +45,7 @@ public class RedLight : MonoBehaviour {
 					    && hit [i].collider.transform.position.x > transform.position.x - 0.1f)
 					    || i % 2 == 1 && (hit [i].collider.transform.position.z < transform.position.z + 0.1f
 					    && hit [i].collider.transform.position.z > transform.position.z - 0.1f))) {
-						if (hit [i].collider.GetComponent<Rigidbody> () == player.GetGrabRigidbody ()) {
+						if (hit [i].collider.GetComponent<GameObject> () == player.GetGrabObj ()) {
 							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
 						} else if (hit [i].collider.gameObject == player.gameObject)
 							player.GrabRelease ();

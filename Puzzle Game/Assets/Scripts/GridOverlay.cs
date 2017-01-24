@@ -9,8 +9,8 @@ public class GridOverlay : MonoBehaviour {
 	public readonly int player = 0;
 	public readonly int walkable = 1;
 	public readonly int walkable2 = 2;
-	public readonly int tempWalkable = int.MaxValue;
-	public readonly int tempWalkable2 = int.MaxValue - 1;
+	public readonly int tempWalkable = 3;
+	public readonly int tempWalkable2 = 4;
 
 	public bool moving;
 
@@ -65,14 +65,6 @@ public class GridOverlay : MonoBehaviour {
 
 	private int ToGridZ (Vector3 v){
 		return (int)(Mathf.Floor(v.z) - start.z);
-	}
-
-	private Vector3 ToPoint (int x, int z){
-		return Vector3.right * (start.x + 0.5f + x) + Vector3.forward * (start.z + 0.5f + z);
-	}
-		
-	private void SetGrid (int x, int z, int i){
-		grid [x, z] = i;
 	}
 
 	private float Distance (int x1, int z1, int x2, int z2){
@@ -140,21 +132,6 @@ public class GridOverlay : MonoBehaviour {
 	}
 
 	//public methods
-	public void CreateGrid (int[,] g){
-		grid = g;
-	}
-	public int GetLengthX (){
-		return lengthX;
-	}
-
-	public int GetLengthZ (){
-		return lengthZ;
-	}
-
-	public int GetGrid (int x, int z){
-		return grid [x, z];
-	}
-
 	public void SetGrid (Vector3 v, int i){
 		grid [ToGridX (v), ToGridZ (v)] = i;
 	}
@@ -175,6 +152,13 @@ public class GridOverlay : MonoBehaviour {
 		return v;
 	}
 
+	public Vector3 ToPointY (Vector3 v, bool onFloor){
+		v.x = Mathf.Floor (v.x) + 0.5f;
+		v.y = onFloor ? 0 : 1;
+		v.z = Mathf.Floor (v.z) + 0.5f;
+		return v;
+	}
+
 	public Vector3 ToPoint0Y (Vector3 v){
 		v.x = Mathf.Floor (v.x) + 0.5f;
 		v.y = 0f;
@@ -184,6 +168,11 @@ public class GridOverlay : MonoBehaviour {
 
 	public Vector3 Set0Y(Vector3 v){
 		v.y = 0f;
+		return v;
+	}
+
+	public Vector3 Set1Y(Vector3 v){
+		v.y = 1f;
 		return v;
 	}
 
@@ -207,7 +196,7 @@ public class GridOverlay : MonoBehaviour {
 			dir = v1Z > v2Z ? 1 : -1;
 			far = (v1Z - v2Z) * dir;
 			for (int i = 0; i < far; i++) {
-				if (grid [v2X, v2Z + i * dir] != walkable)
+				if (grid [v2X, v2Z + i * dir] != walkable && grid [v2X, v2Z + i * dir] != walkable2)
 					return false;
 			}
 			return true;
@@ -215,7 +204,7 @@ public class GridOverlay : MonoBehaviour {
 			dir = v1X > v2X ? 1 : -1;
 			far = (v1X - v2X) * dir;
 			for (int i = 0; i < far; i++) {
-				if (grid [v2X + i * dir, v2Z] != walkable)
+				if (grid [v2X + i * dir, v2Z] != walkable && grid [v2X, v2Z + i * dir] != walkable2)
 					return false;
 			}
 			return true;
@@ -275,8 +264,35 @@ public class GridOverlay : MonoBehaviour {
 			return;
 	}
 
-	public Stack<Vector3> FindPath(Vector3 start, Vector3 goal){
+	public Stack<Vector3> FindGrabPath(Vector3 goal, Vector3 start, Vector3 direction){
+		int b = 0;
 		start = ToPoint (start);
+		Vector3 current = goal = ToPoint (goal);
+		start.y = (GetGrid (start) == walkable ? 0f : 1f);
+		current.y = goal.y = (GetGrid (goal) == walkable ? 0f : 1f);
+		Stack<Vector3> ans = new Stack<Vector3> ();
+
+		if (ToPoint0Y (goal) + direction != ToPoint0Y (start)) {
+			ans.Push (goal);
+			while (current != start || b > 1000) {
+				if (GetGrid (current - direction) == walkable2) {
+					current = current - direction;
+					current.y = 1f;
+				} else {
+					current = current - direction;
+					current.y = 0f;
+				}
+				ans.Push (current);
+				b++;
+			}
+		}
+
+		return ans;
+	}
+
+	public Stack<Vector3> FindPath(Vector3 start, Vector3 goal, bool startFloor){
+		int b = 0;
+		Vector3 current = start = ToPointY (start, startFloor);
 		goal = ToPoint (goal);
 		Stack<Vector3> ans = new Stack<Vector3> ();
 		HashSet<Vector3> closedSet = new HashSet<Vector3> ();
@@ -286,7 +302,6 @@ public class GridOverlay : MonoBehaviour {
 		Dictionary<Vector3, float> gScore = new Dictionary<Vector3, float> ();
 		gScore [start] = Vector3.Distance (start, goal);
 		List<Vector3> l = new List<Vector3> ();
-		Vector3 current = start;
 		float tGScore;
 		bool onFloor;
 
@@ -294,7 +309,7 @@ public class GridOverlay : MonoBehaviour {
 			return ans;
 		}
 		
-		while (openSet.Count > 0) {
+		while (openSet.Count > 0 && b < 10000) {
 			float lowest = float.MaxValue;
 			foreach (Vector3 v in openSet) {
 				if (lowest > gScore [v]) {
@@ -309,16 +324,23 @@ public class GridOverlay : MonoBehaviour {
 					current = cameFrom [current];
 					ans.Push (current);
 				}
+
 				if (ans.Peek () == start)
 					ans.Pop ();
+
 				return ans;
 			}
 
 			openSet.Remove (current);
 			closedSet.Add (current);
-			onFloor = current.y == 0f ? true : false;
+
+			if (current.y == 0f)
+				onFloor = true;
+			else
+				onFloor = false;
 
 			l = NeighborOf (current, onFloor);
+
 			foreach(Vector3 neighbor in l){
 				if (closedSet.Contains (neighbor))
 					continue;
@@ -332,7 +354,9 @@ public class GridOverlay : MonoBehaviour {
 				cameFrom [neighbor] = current;
 				gScore [neighbor] = tGScore;
 			}
+
 			l.Clear ();
+			b++;
 		}
 
 		return ans;

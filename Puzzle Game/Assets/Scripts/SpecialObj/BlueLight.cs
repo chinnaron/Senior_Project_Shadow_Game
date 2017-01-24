@@ -72,8 +72,9 @@ public class BlueLight : MonoBehaviour {
 						if (!obj [i].moving) {
 							if (obj [i].gameObject == player.gameObject)
 								player.Stop ();
-							else if (obj [i].GetComponent<Rigidbody> () == player.GetGrabRigidbody ()) {
-								if (grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (transform.position).x) {
+							else if (obj [i] == player.GetGrabObj ()) {
+								if ((i % 2 == 0 && grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (transform.position).x)
+								    || (i % 2 == 1 && grid.ToPoint0Y (player.transform.position).z == grid.ToPoint0Y (transform.position).z)) {
 									player.Stop ();
 									player.SetPushController (transform.position + wayP [i] * (rayDistance [i] + 1), wayP [i]);
 								} else

@@ -9,11 +9,12 @@ public class ObjectController : MonoBehaviour {
 	public readonly int player = 0;
 	public readonly int walkable = 1;
 	public readonly int walkable2 = 2;
-	public readonly int moveable = 3;
-	public readonly int shadowable = 4;
-	public readonly int pushable = 5;
-	public readonly int destroyable = 6;
-	public readonly int triggerable = 7;
+	public readonly int moveable = 5;
+	public readonly int shadowable = 6;
+	public readonly int pushable = 7;
+	public readonly int destroyable = 8;
+	public readonly int triggerable = 9;
+	public readonly int wall = 10;
 
 	public bool isBlock2;
 	public bool isBlock;
@@ -26,8 +27,11 @@ public class ObjectController : MonoBehaviour {
 	public bool isPushable;
 	public bool isDestroyable;
 	public bool isTriggerable;
+	public bool isWall;
 
 	public int GetType (){
+		if (isWall)
+			return wall;
 		if (isPlayer)
 			return player;
 		if (isBlock)

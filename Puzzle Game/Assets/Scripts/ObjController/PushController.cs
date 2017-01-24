@@ -7,29 +7,33 @@ public class PushController : MonoBehaviour {
 	public bool falling;
 	private bool onFloor;
 
-	private readonly float speed = 11f;
+	private readonly float speed = 10f;
+	private float height;
 
 	private Vector3 movement;
 	private Vector3 destination;
 
-	private Rigidbody objRigidbody;
 	private GridOverlay grid;
 	private ObjectController objController;
 	private PlayerController player;
 
 	void Awake () {
-		if (transform.position.y == 0f)
-			onFloor = true;
-		else
-			onFloor = false;
-		
 		moving = falling = false;
 		movement = Vector3.zero;
 		destination = transform.position;
-		objRigidbody = GetComponent<Rigidbody> ();
 		objController = GetComponent<ObjectController> ();
 		grid = FindObjectOfType<GridOverlay> ();
 		player = FindObjectOfType<PlayerController> ();
+
+		if (objController.isPlayer)
+			height = 0f;
+		else
+			height = 0.5f;
+		
+		if (transform.position.y == height)
+			onFloor = true;
+		else
+			onFloor = false;
 	}
 
 	public bool GetOnFloor(){
@@ -37,51 +41,65 @@ public class PushController : MonoBehaviour {
 	}
 
 	public void SetMoveTo (Vector3 des, Vector3 dir) {
-		transform.position = grid.ToPoint (transform.position);
+		transform.position = grid.ToPointY (transform.position, onFloor);
 		destination = des;
-		destination.y = transform.position.y;
+		destination.y = (onFloor ? 0f : 1f) + height;
+		print (destination);
 		moving = true;
 		movement = dir;
 	}
 
 	public void SetFallTo (Vector3 des) {
-		transform.position = grid.ToPoint (transform.position);
-		destination = des;
+		transform.position = grid.ToPointY (transform.position, onFloor);
+		destination = des + Vector3.up * height;
 		falling = true;
 		onFloor = true;
 		movement = Vector3.down;
 	}
 
-	void FixedUpdate ()  {
+	public bool CheckFall () {
+		if (!onFloor && grid.GetGrid (transform.position) == grid.walkable) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public void SetFall () {
+		print ("" + onFloor + grid.GetGrid (transform.position) + grid.walkable);
+		if (!onFloor && grid.GetGrid (transform.position) == grid.walkable)
+			SetFallTo (grid.ToPoint0Y (transform.position));
+	}
+
+	void FixedUpdate () {
 		if (moving) {
 			if (transform.position == destination) {
-				if (objController.GetType () == objController.player)
-					grid.SetGrid (destination, grid.walkable);
-				else
+				if (objController.GetType () != objController.player)
 					grid.SetGrid (destination, objController.GetType ());
+
 				movement = Vector3.zero;
 				moving = false;
 
-				//is floating
+				CheckFall ();
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
 
-			if (Vector3.Dot ((movement + transform.position - destination).normalized
-				, (transform.position - destination).normalized) == -1f) {
+			if (Vector3.Dot (grid.Set0Y (movement + transform.position - destination).normalized
+				, grid.Set0Y (transform.position - destination).normalized) == -1f) {
 				movement = destination - transform.position;
 			}
 
-			objRigidbody.MovePosition (transform.position + movement);
+			transform.position = transform.position + movement;
 		}
 
 		if (falling) {
 			if (transform.position == destination) {
-				movement = Vector3.zero;
-				falling = false;
 				if (objController.GetType () == objController.player) {
 					player.ContinueWalking ();
 				}
+				movement = Vector3.zero;
+				falling = false;
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
@@ -91,7 +109,7 @@ public class PushController : MonoBehaviour {
 				movement = destination - transform.position;
 			}
 
-			objRigidbody.MovePosition (transform.position + movement);
+			transform.position = transform.position + movement;
 		}
 	}
 }
