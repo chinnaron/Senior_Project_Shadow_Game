@@ -76,10 +76,13 @@ public class PlayerController : MonoBehaviour {
 									movement = grid.Set0Y (pathDestination - transform.position);
 								} else if (grid.Set0Y (point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint)) {
 									path.Clear ();
-									path = grid.FindGrabPath (point, transform.position - grabPoint, -grabPoint);
+									if (grid.ToPoint0Y (point) == grid.ToPoint0Y (transform.position - grabPoint))
+										path.Push (point);
+									else
+										path = grid.FindGrabPath (point, transform.position - grabPoint, -grabPoint);
+									
 									StartToWalk (point, Vector3.zero);
 									lookAt = Quaternion.LookRotation (grabPoint);
-									print (path.Peek());
 
 									if (grabType == grid.block)
 										grid.SetGrid (transform.position + grabPoint, grid.walkable);
@@ -138,7 +141,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (walking) {
 			if (transform.position == pathDestination + Vector3.up) {
-				if (grabbing) {
+				if (grabbing && !grabPush.moving) {
 					if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {
 						playerPush.SetFall ();
 						grabPush.SetFall ();
@@ -156,7 +159,7 @@ public class PlayerController : MonoBehaviour {
 			}
 
 			if (transform.position == pathDestination) {
-				if (grabbing) {
+				if (grabbing && !grabPush.moving) {
 					if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {
 						playerPush.SetFall ();
 						grabPush.SetFall ();
@@ -222,8 +225,8 @@ public class PlayerController : MonoBehaviour {
 			walking = true;
 	}
 
-	public GameObject GetGrabObj () {
-		return grabObj;
+	public PushController GetGrabPush () {
+		return grabPush;
 	}
 
 	public void SetPushController (Vector3 des, Vector3 dir) {

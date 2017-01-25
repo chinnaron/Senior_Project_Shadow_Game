@@ -36,6 +36,9 @@ public class YellowLight : MonoBehaviour {
 						longL [i] = Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z);
 					else
 						longL [i] = Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x);
+
+					if (hit [i].collider.GetComponent<ObjectController> ().isWall)
+						longL [i] -= 1f;
 					
 					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * longL [i]);
 

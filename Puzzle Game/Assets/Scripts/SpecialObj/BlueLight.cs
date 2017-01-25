@@ -18,6 +18,7 @@ public class BlueLight : MonoBehaviour {
 	private RaycastHit[] hit = new RaycastHit[4];
 	private RaycastHit[] list;
 	private GameObject[] onPic = new GameObject[4];
+	private bool[] hitWall = new bool[4];
 
 	void Awake () {
 		grid = FindObjectOfType<GridOverlay> ();
@@ -38,6 +39,17 @@ public class BlueLight : MonoBehaviour {
 					onPic [i] = Instantiate (pic, grid.Set0Y (transform.position) + wayP [i] * 0.3f, Quaternion.LookRotation (wayP [i]), transform);
 
 				if (Physics.Raycast (transform.position, wayP [i], out hit [i], rayDistanceDefault)) {
+					list = Physics.RaycastAll (transform.position, wayP [i], rayDistanceDefault);
+
+					if (list.Length < 2)
+						rayDistance [i] = rayDistanceDefault;
+					else {
+						if (i % 2 == 0)
+							rayDistance [i] = Mathf.Abs (grid.ToPoint0Y (list [1].collider.transform.position).z - grid.ToPoint0Y (transform.position).z) - 1f;
+						else
+							rayDistance [i] = Mathf.Abs (grid.ToPoint0Y (list [1].collider.transform.position).x - grid.ToPoint0Y (transform.position).x) - 1f;
+					}
+
 					if (i % 2 == 0)
 						longL [i] = Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z) - 1f;
 					else
@@ -49,16 +61,6 @@ public class BlueLight : MonoBehaviour {
 						longL [i] = 0;
 					
 					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * longL [i]);
-					list = Physics.RaycastAll (transform.position, wayP [i], rayDistanceDefault);
-
-					if (list.Length < 2)
-						rayDistance [i] = rayDistanceDefault;
-					else {
-						if (i % 2 == 0)
-							rayDistance [i] = Mathf.Abs (grid.ToPoint0Y (list [1].collider.transform.position).z - grid.ToPoint0Y (transform.position).z) - 1f;
-						else
-							rayDistance [i] = Mathf.Abs (grid.ToPoint0Y (list [1].collider.transform.position).x - grid.ToPoint0Y (transform.position).x) - 1f;
-					}
 
 					if (hit [i].collider.GetComponent<ObjectController> ().isPushable
 					    && ((i % 2 == 0 && hit [i].collider.transform.position.x < transform.position.x + 0.1f
@@ -72,13 +74,14 @@ public class BlueLight : MonoBehaviour {
 						if (!obj [i].moving) {
 							if (obj [i].gameObject == player.gameObject)
 								player.Stop ();
-							else if (obj [i] == player.GetGrabObj ()) {
+							else if (obj [i] == player.GetGrabPush ()) {
 								if ((i % 2 == 0 && grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (transform.position).x)
-								    || (i % 2 == 1 && grid.ToPoint0Y (player.transform.position).z == grid.ToPoint0Y (transform.position).z)) {
+									|| (i % 2 == 1 && grid.ToPoint0Y (player.transform.position).z == grid.ToPoint0Y (transform.position).z)) {
 									player.Stop ();
 									player.SetPushController (transform.position + wayP [i] * (rayDistance [i] + 1), wayP [i]);
-								} else
+								} else {
 									player.GrabRelease ();
+								}
 							}
 							
 							obj [i].SetMoveTo (transform.position + wayP [i] * (rayDistance [i]), wayP [i]);

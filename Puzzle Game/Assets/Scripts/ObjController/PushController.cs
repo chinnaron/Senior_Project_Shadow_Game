@@ -41,12 +41,16 @@ public class PushController : MonoBehaviour {
 	}
 
 	public void SetMoveTo (Vector3 des, Vector3 dir) {
-		transform.position = grid.ToPointY (transform.position, onFloor);
+		transform.position = grid.ToPointY (transform.position, onFloor) + Vector3.up * height;
 		destination = des;
 		destination.y = (onFloor ? 0f : 1f) + height;
-		print (destination);
 		moving = true;
 		movement = dir;
+
+		if (objController.GetType () == grid.block)
+			grid.SetGrid (transform.position, grid.walkable);
+		else if (objController.GetType () == grid.block2)
+			grid.SetGrid (transform.position, grid.walkable2);
 	}
 
 	public void SetFallTo (Vector3 des) {
@@ -66,7 +70,6 @@ public class PushController : MonoBehaviour {
 	}
 
 	public void SetFall () {
-		print ("" + onFloor + grid.GetGrid (transform.position) + grid.walkable);
 		if (!onFloor && grid.GetGrid (transform.position) == grid.walkable)
 			SetFallTo (grid.ToPoint0Y (transform.position));
 	}
@@ -74,13 +77,16 @@ public class PushController : MonoBehaviour {
 	void FixedUpdate () {
 		if (moving) {
 			if (transform.position == destination) {
-				if (objController.GetType () != objController.player)
-					grid.SetGrid (destination, objController.GetType ());
-
 				movement = Vector3.zero;
 				moving = false;
+				print ("rock");
 
-				CheckFall ();
+				if (CheckFall ())
+					SetFall ();
+				
+				if (objController.GetType () != objController.player)
+					grid.SetGrid (destination, objController.GetType ());
+				
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;

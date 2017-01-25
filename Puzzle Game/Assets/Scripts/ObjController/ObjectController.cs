@@ -30,14 +30,12 @@ public class ObjectController : MonoBehaviour {
 	public bool isWall;
 
 	public int GetType (){
-		if (isWall)
-			return wall;
 		if (isPlayer)
 			return player;
 		if (isBlock)
 			return block;
 		if (isBlock2)
-			return block;
+			return block2;
 		if (isWalkable)
 			return unwalkable;
 		if (isWalkable2)

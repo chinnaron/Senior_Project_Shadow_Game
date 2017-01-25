@@ -37,6 +37,9 @@ public class RedLight : MonoBehaviour {
 						longL [i] = Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z);
 					else
 						longL [i] = Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x);
+
+					if (hit [i].collider.GetComponent<ObjectController> ().isWall)
+						longL [i] -= 1f;
 					
 					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * longL [i]);
 
@@ -45,7 +48,7 @@ public class RedLight : MonoBehaviour {
 					    && hit [i].collider.transform.position.x > transform.position.x - 0.1f)
 					    || i % 2 == 1 && (hit [i].collider.transform.position.z < transform.position.z + 0.1f
 					    && hit [i].collider.transform.position.z > transform.position.z - 0.1f))) {
-						if (hit [i].collider.GetComponent<GameObject> () == player.GetGrabObj ()) {
+						if (hit [i].collider.GetComponent<PushController> () == player.GetGrabPush ()) {
 							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
 						} else if (hit [i].collider.gameObject == player.gameObject)
 							player.GrabRelease ();
