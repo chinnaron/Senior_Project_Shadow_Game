@@ -58,6 +58,12 @@ public class PushController : MonoBehaviour {
 		destination = des + Vector3.up * height;
 		falling = true;
 		onFloor = true;
+
+		if (objController.isBlock2) {
+			objController.isBlock2 = false;
+			objController.isBlock = true;
+		}
+
 		movement = Vector3.down;
 	}
 
@@ -86,7 +92,6 @@ public class PushController : MonoBehaviour {
 				
 				if (objController.GetType () != objController.player)
 					grid.SetGrid (destination, objController.GetType ());
-				
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
@@ -101,11 +106,12 @@ public class PushController : MonoBehaviour {
 
 		if (falling) {
 			if (transform.position == destination) {
+				movement = Vector3.zero;
+				falling = false;
+
 				if (objController.GetType () == objController.player) {
 					player.ContinueWalking ();
 				}
-				movement = Vector3.zero;
-				falling = false;
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;

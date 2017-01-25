@@ -184,7 +184,7 @@ public class GridOverlay : MonoBehaviour {
 		return true;
 	}
 
-	public bool IsWalkable(Vector3 v1, Vector3 v2){
+	public bool IsWalkable(Vector3 v1, Vector3 v2, bool onFloor){
 		int v1X = ToGridX (v1);
 		int v1Z = ToGridZ (v1);
 		int v2X = ToGridX (v2);
@@ -196,7 +196,7 @@ public class GridOverlay : MonoBehaviour {
 			dir = v1Z > v2Z ? 1 : -1;
 			far = (v1Z - v2Z) * dir;
 			for (int i = 0; i < far; i++) {
-				if (grid [v2X, v2Z + i * dir] != walkable && grid [v2X, v2Z + i * dir] != walkable2)
+				if ((onFloor && grid [v2X, v2Z + i * dir] != walkable) || (!onFloor && grid [v2X, v2Z + i * dir] != walkable && grid [v2X, v2Z + i * dir] != walkable2))
 					return false;
 			}
 			return true;
@@ -204,7 +204,7 @@ public class GridOverlay : MonoBehaviour {
 			dir = v1X > v2X ? 1 : -1;
 			far = (v1X - v2X) * dir;
 			for (int i = 0; i < far; i++) {
-				if (grid [v2X + i * dir, v2Z] != walkable && grid [v2X, v2Z + i * dir] != walkable2)
+				if ((onFloor && grid [v2X, v2Z + i * dir] != walkable) || (!onFloor && grid [v2X, v2Z + i * dir] != walkable && grid [v2X, v2Z + i * dir] != walkable2))
 					return false;
 			}
 			return true;

@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour {
 						point = grid.ToPoint (hit.point);
 						if (grabbing) {
 							if (point != transform.position + grabPoint) {
-								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2))) {
+								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
 									path.Clear ();
 									path = grid.FindGrabPath (point - grabPoint, transform.position + (grabPoint * 2), grabPoint);
 									path.Push (grid.ToPointY (transform.position, playerPush.GetOnFloor ()) + grabPoint);
@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour {
 										grid.SetGrid (transform.position + grabPoint, grid.walkable2);
 
 									movement = grid.Set0Y (pathDestination - transform.position);
-								} else if (grid.Set0Y (point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint)) {
+								} else if (grid.Set0Y (point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint, playerPush.GetOnFloor ())) {
 									path.Clear ();
 									if (grid.ToPoint0Y (point) == grid.ToPoint0Y (transform.position - grabPoint))
 										path.Push (point);
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour {
 						}
 					}
 
-					if (Physics.Raycast (ray, out grabHit, camRayLength) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
+					if (Physics.Raycast (ray, out grabHit, camRayLength,~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
 						grabObj = grabHit.collider.gameObject;
 						grabPush = grabObj.GetComponent<PushController> ();
 						grabPoint = grid.ToPoint0Y (grabPush.transform.position) - grid.ToPoint0Y (transform.position);
@@ -218,6 +218,10 @@ public class PlayerController : MonoBehaviour {
 		else
 			desPlane = Instantiate (desPic, grid.Set1Y (destination + grabPoi), Quaternion.LookRotation (Vector3.forward));
 		walking = true;
+	}
+
+	public Vector3 GetMovement(){
+		return movement;
 	}
 
 	public void ContinueWalking () {
