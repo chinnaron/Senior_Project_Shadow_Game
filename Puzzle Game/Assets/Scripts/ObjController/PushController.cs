@@ -85,7 +85,6 @@ public class PushController : MonoBehaviour {
 			if (transform.position == destination) {
 				movement = Vector3.zero;
 				moving = false;
-				print ("rock");
 
 				if (CheckFall ())
 					SetFall ();
