@@ -7,7 +7,7 @@ public class YellowLight : MonoBehaviour {
 	public readonly float rayDistance = 5f;
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
-
+	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
 	private GridOverlay grid;
 
 	private readonly Vector3[] wayP = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left }; 
@@ -48,19 +48,34 @@ public class YellowLight : MonoBehaviour {
 					    || i % 2 == 1 && (hit [i].collider.transform.position.z < transform.position.z + 0.1f
 					    && hit [i].collider.transform.position.z > transform.position.z - 0.1f))) {
 						obj [i] = hit [i].collider.GetComponent<TriggerController> ();
-						obj [i].SetOnTrue ();
-						obj [i].ShowOn ();
+						obj [i].SetOnTrue();
+						//obj [i].ShowOn ();
+
+						//	if(obj[i].GetComponent<>.name=="WhiteLight")
+						//	obj[i].WhiteLightOn();
+						//obj[i].BlueLightOn();
+						//obj [i].RedLightOn ();
+						obj [i].LightOn ();
+
+
 					} else if (obj [i] != null) {
 						obj [i].SetOnFalse ();
-						obj [i].ShowOn ();
+						//obj [i].ShowOn ();
+
+						//	if(obj[i]==WhiteLight)
+						//	obj[i].WhiteLightOff();
+						//obj[i].BlueLightOff();
+						//obj [i].RedLightOff ();
+						obj[i].LightOff();
 						obj [i] = null;
+
 					}
 				} else {
 					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * rayDistance);
 
 					if (obj [i] != null) {
 						obj [i].SetOnFalse ();
-						obj [i].ShowOn ();
+						//obj [i].ShowOn ();
 						obj [i] = null;
 					}
 				}
@@ -72,7 +87,7 @@ public class YellowLight : MonoBehaviour {
 
 				if (obj [i] != null) {
 					obj [i].SetOnFalse ();
-					obj [i].ShowOn ();
+					//obj [i].ShowOn ();
 					obj [i] = null;
 				}
 			}

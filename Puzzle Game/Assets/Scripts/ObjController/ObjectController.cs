@@ -29,6 +29,11 @@ public class ObjectController : MonoBehaviour {
 	public bool isTriggerable;
 	public bool isWall;
 
+	public bool isBlueLight;
+	public bool isRedLight;
+	public bool isWhiteLight;
+	public bool isYellowLight;
+
 	public int GetType (){
 		if (isPlayer)
 			return player;
