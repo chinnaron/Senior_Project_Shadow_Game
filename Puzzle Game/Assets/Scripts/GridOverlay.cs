@@ -179,7 +179,7 @@ public class GridOverlay : MonoBehaviour {
 	public bool IsOutOfGrid (Vector3 v){
 		int gridX = ToGridX (v);
 		int gridZ = ToGridZ (v);
-		if (gridX >= 0 && gridX <= lengthX - 1 && gridZ >= 0 && gridZ <= lengthZ - 1 && (grid [gridX, gridZ] == walkable || grid [gridX, gridZ] == tempWalkable || grid [gridX, gridZ] == player))
+		if (gridX >= 0 && gridX <= lengthX - 1 && gridZ >= 0 && gridZ <= lengthZ - 1 && (grid [gridX, gridZ] == walkable2 || grid [gridX, gridZ] == tempWalkable2 || grid [gridX, gridZ] == walkable || grid [gridX, gridZ] == tempWalkable || grid [gridX, gridZ] == player))
 			return false;
 		return true;
 	}
@@ -209,6 +209,7 @@ public class GridOverlay : MonoBehaviour {
 			}
 			return true;
 		}
+
 		return false;
 	}
 
@@ -219,6 +220,12 @@ public class GridOverlay : MonoBehaviour {
 		int v2Z = ToGridZ (v2);
 		int far;
 		int dir;
+
+		if (IsOutOfGrid (v1))
+			return;
+
+		if (v1X < 0)
+			v1X = 0;
 
 		if (v1X == v2X) {
 			dir = v1Z > v2Z ? 1 : -1;

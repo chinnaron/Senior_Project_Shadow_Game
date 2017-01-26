@@ -12,6 +12,8 @@ public class PushController : MonoBehaviour {
 	private float height;
 
 	private Vector3 movement;
+	private Vector3 moveX;
+	private Vector3 moveY;
 	private Vector3 destination;
 
 	private GridOverlay grid;
@@ -20,7 +22,7 @@ public class PushController : MonoBehaviour {
 
 	void Awake () {
 		moving = falling = jumping = false;
-		movement = Vector3.zero;
+		movement = moveX = moveY = Vector3.zero;
 		destination = transform.position;
 		objController = GetComponent<ObjectController> ();
 		grid = FindObjectOfType<GridOverlay> ();
@@ -70,6 +72,7 @@ public class PushController : MonoBehaviour {
 
 	public void SetJumpTo (Vector3 des, Vector3 dir) {
 		transform.position = grid.ToPointY (transform.position, onFloor);
+
 		jumping = true;
 	}
 
