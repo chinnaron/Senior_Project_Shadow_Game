@@ -50,11 +50,11 @@ public class WhiteLight : MonoBehaviour {
 					    && hit [i].collider.transform.position.z > transform.position.z - 0.1f))) {
 						shadow [i] = hit [i].collider.GetComponent<ShadowController> ();
 						shadow [i].SetShadow (true, rayDistance - longL [i], i);
-						grid.SetWalkable (shadow [i].transform.position, shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]));
+//						grid.SetWalkable (shadow [i].transform.position, shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]));
 					} else if (shadow [i] != null) {
-						grid.SetWalkableBack (shadow [i].transform.position, shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]));
-						grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 1) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 1) % 4]);
-						grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 3) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 3) % 4]);
+//						grid.SetWalkableBack (shadow [i].transform.position, shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]));
+//						grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 1) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 1) % 4]);
+//						grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 3) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 3) % 4]);
 						shadow [i].SetShadow (false, 0f, i);
 						shadow [i] = null;
 						longL [i] = 0f;
@@ -63,9 +63,9 @@ public class WhiteLight : MonoBehaviour {
 					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * rayDistance);
 
 					if (shadow [i] != null) {
-						grid.SetWalkableBack (shadow [i].transform.position, shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]));
-						grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 1) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 1) % 4]);
-						grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 3) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 3) % 4]);
+//						grid.SetWalkableBack (shadow [i].transform.position, shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]));
+//						grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 1) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 1) % 4]);
+//						grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 3) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 3) % 4]);
 						shadow [i].SetShadow (false, 0f, i);
 						shadow [i] = null;
 						longL [i] = 0f;
@@ -78,9 +78,9 @@ public class WhiteLight : MonoBehaviour {
 				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
 
 				if (shadow [i] != null) {
-					grid.SetWalkableBack (shadow [i].transform.position, shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]));
-					grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 1) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 1) % 4]);
-					grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 3) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 3) % 4]);
+//					grid.SetWalkableBack (shadow [i].transform.position, shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]));
+//					grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 1) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 1) % 4]);
+//					grid.SetWalkableBack (shadow [i].transform.position + wayP [(i + 3) % 4], shadow [i].transform.position + wayP [i] * (rayDistance - longL [i]) + wayP [(i + 3) % 4]);
 					shadow [i].SetShadow (false, 0f, i);
 					shadow [i] = null;
 					longL [i] = 0f;

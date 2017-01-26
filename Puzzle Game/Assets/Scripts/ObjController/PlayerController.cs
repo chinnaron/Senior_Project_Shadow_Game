@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour {
 					}
 				}
 			}
-			print (transform.position + ""+pathDestination + destination);
+
 			if (transform.position == pathDestination) {
 				if (grabbing && !grabPush.moving) {
 					if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {

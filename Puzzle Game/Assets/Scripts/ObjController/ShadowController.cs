@@ -27,6 +27,7 @@ public class ShadowController : MonoBehaviour {
 		if (i % 2 == 0) {
 			shadow [i].transform.localPosition = wayP [i] * (scale / 2f + 0.25f) + high;
 			shadow [i].transform.localScale = new Vector3 (1f, scale + 0.5f, 1f);
+
 		} else {
 			shadow [i].transform.localPosition = wayP [i] * (scale / 2f + 0.25f) + high;
 			shadow [i].transform.localScale = new Vector3 (scale + 0.5f, 1f, 1f);
