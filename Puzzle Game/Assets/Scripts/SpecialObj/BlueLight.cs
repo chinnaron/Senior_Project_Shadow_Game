@@ -71,7 +71,7 @@ public class BlueLight : MonoBehaviour {
 					    && Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).x - grid.ToPoint0Y (transform.position).x) < rayDistance [i]))) {
 						obj [i] = hit [i].collider.GetComponent<PushController> ();
 
-						if (!obj [i].moving) {
+						if (!obj [i].moving && !obj [i].jumping && !obj [i].falling) {
 							if (obj [i].gameObject == player.gameObject)
 								player.Stop ();
 							else if (obj [i] == player.GetGrabPush ()) {

@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update (){
-		if (!menu._isPaused && !walking) {
+		if (!menu._isPaused && !walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping) {
 			if (Input.GetButtonDown ("Fire1")) {
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 

@@ -9,10 +9,14 @@ public class PushController : MonoBehaviour {
 	private bool onFloor;
 
 	private readonly float speed = 10f;
+	private readonly float speedOne = 4f;
+	private readonly float speedYOne = 15f;
+	private readonly float speedYTwo = 9f;
+	private float moveSpeed;
+	private float jumpSpeed;
 	private float height;
 
 	private Vector3 movement;
-	private Vector3 moveX;
 	private Vector3 moveY;
 	private Vector3 destination;
 
@@ -22,7 +26,7 @@ public class PushController : MonoBehaviour {
 
 	void Awake () {
 		moving = falling = jumping = false;
-		movement = moveX = moveY = Vector3.zero;
+		movement = moveY = Vector3.zero;
 		destination = transform.position;
 		objController = GetComponent<ObjectController> ();
 		grid = FindObjectOfType<GridOverlay> ();
@@ -70,10 +74,21 @@ public class PushController : MonoBehaviour {
 		movement = Vector3.down;
 	}
 
-	public void SetJumpTo (Vector3 des, Vector3 dir) {
+	public void SetJumpTo (Vector3 des, bool onF, Vector3 dir, bool one) {
 		transform.position = grid.ToPointY (transform.position, onFloor);
-
+		destination = grid.ToPointY (des, onF);
 		jumping = true;
+		onFloor = onF;
+
+		if (objController.isBlock) {
+			objController.isBlock = false;
+			objController.isBlock2 = true;
+		}
+
+		movement = dir;
+		moveSpeed = one ? speedOne : speed;
+		moveY = Vector3.up;
+		jumpSpeed = one ? speedYOne : speedYTwo;
 	}
 
 	public bool CheckFall () {
@@ -120,6 +135,9 @@ public class PushController : MonoBehaviour {
 				if (objController.GetType () == objController.player) {
 					player.ContinueWalking ();
 				}
+
+				if (objController.GetType () != objController.player)
+					grid.SetGrid (destination, objController.GetType ());
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
@@ -130,6 +148,32 @@ public class PushController : MonoBehaviour {
 			}
 
 			transform.position = transform.position + movement;
+		}
+
+		if (jumping) {
+			if (transform.position == destination) {
+				movement = Vector3.zero;
+				moveY = Vector3.zero;
+				jumping = false;
+
+				if (objController.GetType () != objController.player)
+					grid.SetGrid (destination, objController.GetType ());
+			}
+
+			movement = movement.normalized * moveSpeed * Time.deltaTime;
+			moveY = moveY.normalized * jumpSpeed * Time.deltaTime;
+			print (""+transform.position+ destination);
+			if (Vector3.Dot (grid.Set0Y (movement + transform.position - destination).normalized
+				, grid.Set0Y (transform.position - destination).normalized) == -1f) {
+				print ("" + transform.position + destination);
+				movement = destination - transform.position;
+				moveY = Vector3.zero;
+			}
+
+			transform.position = transform.position + movement + moveY;
+
+			jumpSpeed = jumpSpeed - 2f;
+			moveY = Vector3.up;
 		}
 	}
 }
