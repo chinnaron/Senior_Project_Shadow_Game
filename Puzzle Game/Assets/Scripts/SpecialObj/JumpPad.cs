@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class JumpPad : MonoBehaviour {
-	public PlayerController player;
-	public GridOverlay grid;
+	private PlayerController player;
+	private GridOverlay grid;
 
 	private readonly float rayDistance = 3f;
+	public bool[] way = { false, false, false, false };
+	private readonly Vector3[] direction = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left };
 
 	private RaycastHit hit;
+	private PushController obj = new PushController ();
 
 	void Awake () {
 		grid = FindObjectOfType<GridOverlay> ();
@@ -17,11 +20,23 @@ public class JumpPad : MonoBehaviour {
 
 	void Update () {
 		if (Physics.Raycast (transform.position, Vector3.up, out hit, rayDistance)) {
-			if (hit.collider.GetComponent<ObjectController> ().isPushable) {
-				
+			if (hit.collider.GetComponent<ObjectController> ().isPushable 
+				&& hit.collider.transform.position.x < transform.position.x + 0.1f
+				&& hit.collider.transform.position.x > transform.position.x - 0.1f
+				&& hit.collider.transform.position.z < transform.position.z + 0.1f
+				&& hit.collider.transform.position.z > transform.position.z - 0.1f) {
+				obj = hit.collider.GetComponent<PushController> ();
+
+				if (!obj.moving) {
+					if (obj.gameObject == player.gameObject)
+						player.Stop ();
+					else if (obj == player.GetGrabPush ()) {
+						player.GrabRelease ();
+					}
+
+//					obj.SetJumpTo (transform.position,direction);
+				}
 			}
-		} else {
-			
 		}
 	}
 }

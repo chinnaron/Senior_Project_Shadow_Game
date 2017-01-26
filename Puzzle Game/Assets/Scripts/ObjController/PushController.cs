@@ -5,6 +5,7 @@ using UnityEngine;
 public class PushController : MonoBehaviour {
 	public bool moving;
 	public bool falling;
+	public bool jumping;
 	private bool onFloor;
 
 	private readonly float speed = 10f;
@@ -18,7 +19,7 @@ public class PushController : MonoBehaviour {
 	private PlayerController player;
 
 	void Awake () {
-		moving = falling = false;
+		moving = falling = jumping = false;
 		movement = Vector3.zero;
 		destination = transform.position;
 		objController = GetComponent<ObjectController> ();
@@ -65,6 +66,11 @@ public class PushController : MonoBehaviour {
 		}
 
 		movement = Vector3.down;
+	}
+
+	public void SetJumpTo (Vector3 des, Vector3 dir) {
+		transform.position = grid.ToPointY (transform.position, onFloor);
+
 	}
 
 	public bool CheckFall () {
