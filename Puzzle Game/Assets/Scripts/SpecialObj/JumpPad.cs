@@ -12,7 +12,7 @@ public class JumpPad : MonoBehaviour {
 	private Vector3 direction;
 
 	private RaycastHit hit;
-	private PushController obj = new PushController ();
+	private PushController obj;
 
 	void Awake () {
 		grid = FindObjectOfType<GridOverlay> ();

@@ -1,30 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjController\PlayerController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjController\ShadowController.cs">
     <Files>
-<<<<<<< HEAD
-      <File FileName="Assets\Scripts\SpecialObj\JumpPad.cs" Line="24" Column="16" />
-      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="75" Column="3" />
-      <File FileName="Assets\Scripts\SpecialObj\BlueLight.cs" Line="13" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="250" Column="98" />
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="225" Column="11" />
-      <File FileName="Assets\Scripts\SpecialObj\WhiteLight.cs" Line="54" Column="128" />
-      <File FileName="Assets\Scripts\ObjController\TriggerController.cs" Line="1" Column="1" />
-=======
-      <File FileName="Assets\Scripts\ObjController\TriggerController.cs" Line="50" Column="4" />
-      <File FileName="Assets\Scripts\SpecialObj\YellowLight.cs" Line="69" Column="14" />
-=======
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SpecialObj\YellowLight.cs">
-    <Files>
-      <File FileName="Assets\Scripts\ObjController\TriggerController.cs" Line="77" Column="10" />
-      <File FileName="Assets\Scripts\SpecialObj\YellowLight.cs" Line="79" Column="7" />
->>>>>>> origin/ton2
-      <File FileName="Assets\Scripts\SpecialObj\WhiteLight.cs" Line="7" Column="2" />
-      <File FileName="Assets\Scripts\SpecialObj\BlueLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpecialObj\RedLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="32" Column="25" />
->>>>>>> origin/ton2
+      <File FileName="Assets\Scripts\SpecialObj\YellowLight.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SpecialObj\WhiteLight.cs" Line="53" Column="23" />
+      <File FileName="Assets\Scripts\ObjController\ShadowController.cs" Line="19" Column="59" />
+      <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour {
 					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2) {
 						point = grid.ToPoint (hit.point);
 						if (grabbing) {
-							if (point != transform.position + grabPoint) {
+							if (point != grid.ToPoint(transform.position + grabPoint) && point != grid.ToPoint(transform.position)) {
 								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
 									path.Clear ();
 									path = grid.FindGrabPath (point - grabPoint, transform.position + (grabPoint * 2), grabPoint);
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour {
 						} else {
 							path.Clear ();
 							path = grid.FindPath (transform.position, point, playerPush.GetOnFloor ());
-							
+
 							if (path.Count > 0) {
 								StartToWalk (point, Vector3.zero);
 								movement = grid.Set0Y (pathDestination - transform.position);
@@ -247,14 +247,14 @@ public class PlayerController : MonoBehaviour {
 		Destroy (desPlane);
 		destination = des - grabPoi;
 
-		if (grid.GetGrid (des - grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.block)
+		if (grid.GetGrid (des - grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable || (grabbing && grid.GetGrid (des - grabPoi) == grid.block))
 			destination.y = 0f;
 		else
 			destination.y = 1f;
 		
 		pathDestination = path.Peek ();
 		path.Pop ();
-		if (grid.GetGrid (destination + grabPoi) == grid.walkable)
+		if (grid.GetGrid (destination + grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable)
 			desPlane = Instantiate (desPic, grid.Set0Y (destination + grabPoi), Quaternion.LookRotation (Vector3.forward));
 		else
 			desPlane = Instantiate (desPic, grid.Set1Y (destination + grabPoi), Quaternion.LookRotation (Vector3.forward));

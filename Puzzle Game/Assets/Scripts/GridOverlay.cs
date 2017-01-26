@@ -148,6 +148,14 @@ public class GridOverlay : MonoBehaviour {
 
 	public Vector3 ToPoint (Vector3 v){
 		v.x = Mathf.Floor (v.x) + 0.5f;
+		if (v.y > 1.4f)
+			v.y = 1.5f;
+		else if (v.y > 0.9f)
+			v.y = 1f;
+		else if (v.y > 0.4)
+			v.y = 0.5f;
+		else
+			v.y = 0f;
 		v.z = Mathf.Floor (v.z) + 0.5f;
 		return v;
 	}
