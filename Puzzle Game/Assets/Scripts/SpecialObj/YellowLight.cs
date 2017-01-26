@@ -76,6 +76,7 @@ public class YellowLight : MonoBehaviour {
 					if (obj [i] != null) {
 						obj [i].SetOnFalse ();
 						//obj [i].ShowOn ();
+						obj[i].LightOff();
 						obj [i] = null;
 					}
 				}
@@ -88,6 +89,7 @@ public class YellowLight : MonoBehaviour {
 				if (obj [i] != null) {
 					obj [i].SetOnFalse ();
 					//obj [i].ShowOn ();
+					obj[i].LightOff();
 					obj [i] = null;
 				}
 			}
