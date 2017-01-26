@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour {
 
 	private bool walking;
 	private bool grabbing;
+	private bool pulling;
+	private bool pushing;
 
 	private int playerMask;
 	private int grabType;
@@ -153,7 +155,7 @@ public class PlayerController : MonoBehaviour {
 					if (!playerPush.falling && playerPush.CheckFall ()) {
 						movement = Vector3.zero;
 						walking = false;
-						playerPush.SetFall ();
+ 							playerPush.SetFall ();
 					}
 				}
 			}
@@ -192,14 +194,53 @@ public class PlayerController : MonoBehaviour {
 			
 			transform.position = transform.position + movement;
 
-			if (grabbing)
+			if (grabbing) {
 				grabPush.transform.position = grabPush.transform.position + movement;
+				if (grabPoint.x == 1) {
+					if (movement.x > 0) {
+						pulling = false;
+						pushing = true;
+					} else if (movement.x < 0) {
+						pushing = false;
+						pulling = true;
+					}
+				} else if (grabPoint.x == -1) {
+					if (movement.x < 0) {
+						pulling = false;
+						pushing = true;
+					} else if (movement.x > 0) {
+						pushing = false;
+						pulling = true;
+					}
+				} else if (grabPoint.z == 1) {
+					if (movement.z > 0) {
+						pulling = false;
+						pushing = true;
+					} else if (movement.z < 0) {
+						pushing = false;
+						pulling = true;
+					}
+				} else if (grabPoint.z == -1) {
+					if (movement.z < 0) {
+						pulling = false;
+						pushing = true;
+					} else if (movement.z > 0) {
+						pushing = false;
+						pulling = true;
+					}
+				}
+
+			}
+
+		
 		}
 			
 		transform.rotation = Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed);
 
 		anim.SetBool ("IsWalking", walking);
 		anim.SetBool ("IsGrabbing", grabbing);
+		anim.SetBool ("IsPushing" , pushing);
+		anim.SetBool ("IsPulling", pulling);
 	}
 
 	void StartToWalk (Vector3 des, Vector3 grabPoi) {
@@ -235,6 +276,8 @@ public class PlayerController : MonoBehaviour {
 
 	public void GrabRelease () {
 		grabbing = false;
+		pulling = false;
+		pushing = false;
 		Destroy (grabPlane);
 		grabPoint = Vector3.zero;
 		Destroy (desPlane);
