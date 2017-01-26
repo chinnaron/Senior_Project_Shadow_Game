@@ -6,9 +6,10 @@ public class JumpPad : MonoBehaviour {
 	private PlayerController player;
 	private GridOverlay grid;
 
-	private readonly float rayDistance = 3f;
 	public bool[] way = { false, false, false, false };
-	private readonly Vector3[] direction = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left };
+	private readonly float rayDistance = 3f;
+	private readonly Vector3[] wayP = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left };  
+	private Vector3 direction;
 
 	private RaycastHit hit;
 	private PushController obj = new PushController ();
@@ -16,6 +17,13 @@ public class JumpPad : MonoBehaviour {
 	void Awake () {
 		grid = FindObjectOfType<GridOverlay> ();
 		player = FindObjectOfType<PlayerController> ();
+
+		direction = Vector3.zero;
+
+		for (int i = 0; i < 4; i++) {
+			if (way [i])
+				direction = wayP [i];
+		}
 	}
 
 	void Update () {
@@ -34,7 +42,7 @@ public class JumpPad : MonoBehaviour {
 						player.GrabRelease ();
 					}
 
-//					obj.SetJumpTo (transform.position,direction);
+					obj.SetJumpTo (transform.position, direction);
 				}
 			}
 		}

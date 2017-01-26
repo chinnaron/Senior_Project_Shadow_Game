@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour {
 					}
 				}
 			}
-
+			print (transform.position + ""+pathDestination + destination);
 			if (transform.position == pathDestination) {
 				if (grabbing && !grabPush.moving) {
 					if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {
@@ -247,7 +247,7 @@ public class PlayerController : MonoBehaviour {
 		Destroy (desPlane);
 		destination = des - grabPoi;
 
-		if (grid.GetGrid (des - grabPoi) == grid.walkable)
+		if (grid.GetGrid (des - grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.block)
 			destination.y = 0f;
 		else
 			destination.y = 1f;

@@ -70,7 +70,7 @@ public class PushController : MonoBehaviour {
 
 	public void SetJumpTo (Vector3 des, Vector3 dir) {
 		transform.position = grid.ToPointY (transform.position, onFloor);
-
+		jumping = true;
 	}
 
 	public bool CheckFall () {
