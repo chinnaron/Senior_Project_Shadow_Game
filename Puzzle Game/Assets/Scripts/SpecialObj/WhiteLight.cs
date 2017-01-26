@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class WhiteLight : MonoBehaviour {
 	public GameObject pic;
+
 	public readonly float rayDistance = 5f;
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
-
+	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
 	private GridOverlay grid;
 
 	private readonly Vector3[] wayP = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left }; 

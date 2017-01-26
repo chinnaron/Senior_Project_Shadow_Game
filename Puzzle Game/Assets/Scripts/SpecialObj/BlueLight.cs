@@ -6,7 +6,7 @@ public class BlueLight : MonoBehaviour {
 	public GameObject pic;
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
-
+	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
 	private PlayerController player;
 	private GridOverlay grid;
 	private readonly float rayDistanceDefault = 6f;
