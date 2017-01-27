@@ -38,24 +38,41 @@ public class JumpPad : MonoBehaviour {
 			    && hit.collider.transform.position.z > transform.position.z - 0.1f) {
 				obj = hit.collider.GetComponent<PushController> ();
 
-				if (!obj.moving && !obj.jumping && !obj.falling
-				    && (grid.GetGrid (transform.position + direction) == grid.walkable || grid.GetGrid (transform.position + direction) == grid.tempWalkable
-				    || grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)) {
-					if (obj.gameObject == player.gameObject)
-						player.Stop ();
-					else if (obj == player.GetGrabPush ()) {
-						player.GrabRelease ();
-					}
+				if (!obj.moving && !obj.jumping && !obj.falling) {
+					if ((onFloor && grid.GetGrid (transform.position + direction) != grid.block && grid.GetGrid (transform.position + direction) != grid.block2
+					    && grid.GetGrid (transform.position + direction) != grid.walkable2 && grid.GetGrid (transform.position + direction) != grid.tempWalkable2
+					    && grid.GetGrid (transform.position + direction * 2) != grid.block && grid.GetGrid (transform.position + direction * 2) != grid.block2
+					    && grid.GetGrid (transform.position + direction * 2) != grid.walkable2 && grid.GetGrid (transform.position + direction * 2) != grid.tempWalkable2)
+					    || (!onFloor && (grid.GetGrid (transform.position + direction) != grid.block2) && grid.GetGrid (transform.position + direction * 2) != grid.block2)) {
+						obj.SetJumpTo ((transform.position + direction * 2), onFloor, direction, 2);
 
-					if ((onFloor && (grid.GetGrid (transform.position + direction) == grid.walkable || grid.GetGrid (transform.position + direction) == grid.tempWalkable))
-					    || (!onFloor && (grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2))) {
-						if ((onFloor && (grid.GetGrid (transform.position + direction * 2) == grid.walkable || grid.GetGrid (transform.position + direction * 2) == grid.tempWalkable))
-						    || (!onFloor && (grid.GetGrid (transform.position + direction * 2) == grid.walkable2 || grid.GetGrid (transform.position + direction * 2) == grid.tempWalkable2)))
-							obj.SetJumpTo ((transform.position + direction * 2), onFloor, direction, 2);
-						else
-							obj.SetJumpTo (transform.position + direction, onFloor, direction, 3);
-					} else if (onFloor && grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)
+						if (obj.gameObject == player.gameObject)
+							player.Stop ();
+						else if (obj == player.GetGrabPush ()) {
+							player.GrabRelease ();
+						}
+					} else if ((onFloor && grid.GetGrid (transform.position + direction) != grid.block && grid.GetGrid (transform.position + direction) != grid.block2
+					           && grid.GetGrid (transform.position + direction) != grid.walkable2 && grid.GetGrid (transform.position + direction) != grid.tempWalkable2
+					           && (grid.GetGrid (transform.position + direction * 2) == grid.block || grid.GetGrid (transform.position + direction * 2) == grid.block2
+					           || grid.GetGrid (transform.position + direction * 2) == grid.walkable2 || grid.GetGrid (transform.position + direction * 2) == grid.tempWalkable2))
+					           || (!onFloor && grid.GetGrid (transform.position + direction) != grid.block2
+					           && grid.GetGrid (transform.position + direction * 2) == grid.block2)) {
+						obj.SetJumpTo (transform.position + direction, onFloor, direction, 3);
+
+						if (obj.gameObject == player.gameObject)
+							player.Stop ();
+						else if (obj == player.GetGrabPush ()) {
+							player.GrabRelease ();
+						}
+					} else if (onFloor && (grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)) {
 						obj.SetJumpTo (transform.position + direction, !onFloor, direction, 1);
+
+						if (obj.gameObject == player.gameObject)
+							player.Stop ();
+						else if (obj == player.GetGrabPush ()) {
+							player.GrabRelease ();
+						}
+					}
 				}
 			}
 		}

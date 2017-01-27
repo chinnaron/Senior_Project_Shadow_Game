@@ -21,11 +21,13 @@ public class PlayerController : MonoBehaviour {
 	private PushController playerPush;
 	private GridOverlay grid;
 
+	private bool dying;
 	private bool walking;
 	private bool grabbing;
 	private bool pulling;
 	private bool pushing;
 
+	private int dieSpeed;
 	private int playerMask;
 	private int grabType;
 
@@ -45,7 +47,8 @@ public class PlayerController : MonoBehaviour {
 	void Awake () {
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
-		walking = grabbing = false;
+		walking = grabbing = dying = false;
+		dieSpeed = 10;
 
 		anim = GetComponent<Animator> ();
 		playerPush = GetComponent<PushController> ();
@@ -133,6 +136,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping && grid.GetGrid (transform.position) == grid.unwalkable) {
+			YouDied ();
+		}
+
 		if (playerPush.moving) {
 			walking = false;
 			Destroy (desPlane);
@@ -229,18 +236,26 @@ public class PlayerController : MonoBehaviour {
 						pulling = true;
 					}
 				}
-
 			}
-
-		
 		}
 			
 		transform.rotation = Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed);
+
+		if (dying) {
+			transform.position = transform.position + Vector3.down * dieSpeed * Time.deltaTime;
+			dieSpeed++;
+			if (transform.position.y < -8)
+				Application.LoadLevel (Application.loadedLevel);
+		}
 
 		anim.SetBool ("IsWalking", walking);
 		anim.SetBool ("IsGrabbing", grabbing);
 		anim.SetBool ("IsPushing" , pushing);
 		anim.SetBool ("IsPulling", pulling);
+	}
+
+	void YouDied(){
+		dying = true;
 	}
 
 	void StartToWalk (Vector3 des, Vector3 grabPoi) {

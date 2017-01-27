@@ -8,7 +8,7 @@ public class PushController : MonoBehaviour {
 	public bool jumping;
 	private bool onFloor;
 
-	private readonly float speed = 10f;
+	private readonly float speed = 8f;
 	private float moveSpeed;
 	private float jumpSpeed;
 	private float height;
@@ -83,12 +83,13 @@ public class PushController : MonoBehaviour {
 		}
 
 		movement = dir;
+
 		if (num == 1) {
 			moveSpeed = 4f;
 			jumpSpeed = 15f;
 		} else if (num == 2) {
 			moveSpeed = speed;
-			jumpSpeed = 9f;
+			jumpSpeed = 12f;
 		} else {
 			moveSpeed = speed;
 			jumpSpeed = 9f;
@@ -98,15 +99,14 @@ public class PushController : MonoBehaviour {
 	}
 
 	public bool CheckFall () {
-		if (!onFloor && grid.GetGrid (transform.position) == grid.walkable) {
+		if (!onFloor && (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable))
 			return true;
-		}
 
 		return false;
 	}
 
 	public void SetFall () {
-		if (!onFloor && grid.GetGrid (transform.position) == grid.walkable)
+		if (!onFloor && (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable))
 			SetFallTo (grid.ToPoint0Y (transform.position));
 	}
 
@@ -147,7 +147,7 @@ public class PushController : MonoBehaviour {
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
-			print ("" + transform.position + destination);
+
 			if (Vector3.Dot ((movement + transform.position - destination).normalized
 				, (transform.position - destination).normalized) == -1f) {
 				movement = destination - transform.position;
@@ -165,8 +165,13 @@ public class PushController : MonoBehaviour {
 				if (objController.GetType () != objController.player)
 					grid.SetGrid (destination, objController.GetType ());
 
-				if (transform.position.y != destination.y) {
-					SetFallTo (destination);
+				if (onFloor && transform.position.y != 0f) {
+					SetFallTo (grid.ToPoint0Y (transform.position));
+				} else if (!onFloor) {
+					if (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable)
+						SetFallTo (grid.ToPoint0Y (transform.position));
+					else if (transform.position.y != 1f)
+						SetFallTo (grid.ToPointY (transform.position, onFloor));
 				}
 			}
 
