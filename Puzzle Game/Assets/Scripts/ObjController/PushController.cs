@@ -9,9 +9,6 @@ public class PushController : MonoBehaviour {
 	private bool onFloor;
 
 	private readonly float speed = 10f;
-	private readonly float speedOne = 4f;
-	private readonly float speedYOne = 15f;
-	private readonly float speedYTwo = 9f;
 	private float moveSpeed;
 	private float jumpSpeed;
 	private float height;
@@ -49,7 +46,7 @@ public class PushController : MonoBehaviour {
 
 	public void SetMoveTo (Vector3 des, Vector3 dir) {
 		transform.position = grid.ToPointY (transform.position, onFloor) + Vector3.up * height;
-		destination = des;
+		destination = grid.ToPointY (des, onFloor) + Vector3.up * height;
 		destination.y = (onFloor ? 0f : 1f) + height;
 		moving = true;
 		movement = dir;
@@ -61,8 +58,8 @@ public class PushController : MonoBehaviour {
 	}
 
 	public void SetFallTo (Vector3 des) {
-		transform.position = grid.ToPointY (transform.position, onFloor);
-		destination = des + Vector3.up * height;
+		transform.position = grid.ToPointIgnoreY (transform.position) + Vector3.up * height;
+		destination = grid.ToPoint0Y (des) + Vector3.up * height;
 		falling = true;
 		onFloor = true;
 
@@ -74,9 +71,9 @@ public class PushController : MonoBehaviour {
 		movement = Vector3.down;
 	}
 
-	public void SetJumpTo (Vector3 des, bool onF, Vector3 dir, bool one) {
-		transform.position = grid.ToPointY (transform.position, onFloor);
-		destination = grid.ToPointY (des, onF);
+	public void SetJumpTo (Vector3 des, bool onF, Vector3 dir, int num) {
+		transform.position = grid.ToPointY (transform.position, onFloor) + Vector3.up * height;
+		destination = grid.ToPointY (des, onF) + Vector3.up * height;
 		jumping = true;
 		onFloor = onF;
 
@@ -86,9 +83,18 @@ public class PushController : MonoBehaviour {
 		}
 
 		movement = dir;
-		moveSpeed = one ? speedOne : speed;
+		if (num == 1) {
+			moveSpeed = 4f;
+			jumpSpeed = 15f;
+		} else if (num == 2) {
+			moveSpeed = speed;
+			jumpSpeed = 9f;
+		} else {
+			moveSpeed = speed;
+			jumpSpeed = 9f;
+		}
+		
 		moveY = Vector3.up;
-		jumpSpeed = one ? speedYOne : speedYTwo;
 	}
 
 	public bool CheckFall () {
@@ -141,7 +147,7 @@ public class PushController : MonoBehaviour {
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
-
+			print ("" + transform.position + destination);
 			if (Vector3.Dot ((movement + transform.position - destination).normalized
 				, (transform.position - destination).normalized) == -1f) {
 				movement = destination - transform.position;
@@ -151,21 +157,24 @@ public class PushController : MonoBehaviour {
 		}
 
 		if (jumping) {
-			if (transform.position == destination) {
+			if (grid.Set0Y (transform.position) == grid.Set0Y (destination)) {
 				movement = Vector3.zero;
 				moveY = Vector3.zero;
 				jumping = false;
 
 				if (objController.GetType () != objController.player)
 					grid.SetGrid (destination, objController.GetType ());
+
+				if (transform.position.y != destination.y) {
+					SetFallTo (destination);
+				}
 			}
 
 			movement = movement.normalized * moveSpeed * Time.deltaTime;
 			moveY = moveY.normalized * jumpSpeed * Time.deltaTime;
-			print (""+transform.position+ destination);
+
 			if (Vector3.Dot (grid.Set0Y (movement + transform.position - destination).normalized
 				, grid.Set0Y (transform.position - destination).normalized) == -1f) {
-				print ("" + transform.position + destination);
 				movement = destination - transform.position;
 				moveY = Vector3.zero;
 			}

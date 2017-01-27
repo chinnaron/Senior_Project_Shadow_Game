@@ -15,6 +15,9 @@ public class ObjectController : MonoBehaviour {
 	public readonly int destroyable = 8;
 	public readonly int triggerable = 9;
 	public readonly int wall = 10;
+	public readonly int tempWalkable = 11;
+	public readonly int tempWalkable2 = 12;
+
 
 	public bool isBlock2;
 	public bool isBlock;
@@ -28,6 +31,8 @@ public class ObjectController : MonoBehaviour {
 	public bool isDestroyable;
 	public bool isTriggerable;
 	public bool isWall;
+	public bool isTempWalkable;
+	public bool isTempWalkable2;
 
 	public bool isBlueLight;
 	public bool isRedLight;
@@ -42,9 +47,13 @@ public class ObjectController : MonoBehaviour {
 		if (isBlock2)
 			return block2;
 		if (isWalkable)
-			return unwalkable;
+			return walkable;
 		if (isWalkable2)
 			return walkable2;
+		if (isTempWalkable)
+			return tempWalkable;
+		if (isTempWalkable2)
+			return tempWalkable2;
 		return unwalkable;
 	}
 }

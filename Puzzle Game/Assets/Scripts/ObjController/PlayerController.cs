@@ -63,7 +63,8 @@ public class PlayerController : MonoBehaviour {
 						point = grid.ToPoint (hit.point);
 						if (grabbing) {
 							if (point != grid.ToPoint(transform.position + grabPoint) && point != grid.ToPoint(transform.position)) {
-								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
+								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint
+									&& grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
 									path.Clear ();
 									path = grid.FindGrabPath (point - grabPoint, transform.position + (grabPoint * 2), grabPoint);
 									path.Push (grid.ToPointY (transform.position, playerPush.GetOnFloor ()) + grabPoint);
@@ -151,7 +152,6 @@ public class PlayerController : MonoBehaviour {
 						grid.SetGrid (grabPush.transform.position, grabType);
 					}
 				} else {
-					print (transform.position);
 					if (!playerPush.falling && playerPush.CheckFall ()) {
 						movement = Vector3.zero;
 						walking = false;
@@ -292,6 +292,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void Stop () {
 		walking = false;
+		path.Clear ();
 		Destroy (desPlane);
 	}
 }

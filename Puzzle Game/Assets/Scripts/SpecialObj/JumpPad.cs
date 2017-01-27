@@ -30,7 +30,7 @@ public class JumpPad : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Physics.Raycast (transform.position + Vector3.up * 1.5f, Vector3.down, out hit, 0.5f)) {
+		if (Physics.Raycast (transform.position + Vector3.up * 1.5f, Vector3.down, out hit, 1f)) {
 			if (hit.collider.GetComponent<ObjectController> ().isPushable
 			    && hit.collider.transform.position.x < transform.position.x + 0.1f
 			    && hit.collider.transform.position.x > transform.position.x - 0.1f
@@ -38,7 +38,9 @@ public class JumpPad : MonoBehaviour {
 			    && hit.collider.transform.position.z > transform.position.z - 0.1f) {
 				obj = hit.collider.GetComponent<PushController> ();
 
-				if (!obj.moving && !obj.jumping && !obj.falling) {
+				if (!obj.moving && !obj.jumping && !obj.falling
+				    && (grid.GetGrid (transform.position + direction) == grid.walkable || grid.GetGrid (transform.position + direction) == grid.tempWalkable
+				    || grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)) {
 					if (obj.gameObject == player.gameObject)
 						player.Stop ();
 					else if (obj == player.GetGrabPush ()) {
@@ -46,10 +48,14 @@ public class JumpPad : MonoBehaviour {
 					}
 
 					if ((onFloor && (grid.GetGrid (transform.position + direction) == grid.walkable || grid.GetGrid (transform.position + direction) == grid.tempWalkable))
-					    || (!onFloor && (grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)))
-						obj.SetJumpTo ((transform.position + direction * 2), onFloor, direction, false);
-					else if (onFloor && grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)
-						obj.SetJumpTo (transform.position + direction, !onFloor, direction, true);
+					    || (!onFloor && (grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2))) {
+						if ((onFloor && (grid.GetGrid (transform.position + direction * 2) == grid.walkable || grid.GetGrid (transform.position + direction * 2) == grid.tempWalkable))
+						    || (!onFloor && (grid.GetGrid (transform.position + direction * 2) == grid.walkable2 || grid.GetGrid (transform.position + direction * 2) == grid.tempWalkable2)))
+							obj.SetJumpTo ((transform.position + direction * 2), onFloor, direction, 2);
+						else
+							obj.SetJumpTo (transform.position + direction, onFloor, direction, 3);
+					} else if (onFloor && grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)
+						obj.SetJumpTo (transform.position + direction, !onFloor, direction, 1);
 				}
 			}
 		}
