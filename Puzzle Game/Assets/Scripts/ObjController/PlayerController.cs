@@ -62,12 +62,13 @@ public class PlayerController : MonoBehaviour {
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
 				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask)) {
-					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2) {
+					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2
+					    || hit.collider.GetComponent<ObjectController> ().isTempWalkable || hit.collider.GetComponent<ObjectController> ().isTempWalkable2) {
 						point = grid.ToPoint (hit.point);
 						if (grabbing) {
-							if (point != grid.ToPoint(transform.position + grabPoint) && point != grid.ToPoint(transform.position)) {
+							if (point != grid.ToPoint (transform.position + grabPoint) && point != grid.ToPoint (transform.position)) {
 								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint
-									&& grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
+								    && grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
 									path.Clear ();
 									path = grid.FindGrabPath (point - grabPoint, transform.position + (grabPoint * 2), grabPoint);
 									path.Push (grid.ToPointY (transform.position, playerPush.GetOnFloor ()) + grabPoint);

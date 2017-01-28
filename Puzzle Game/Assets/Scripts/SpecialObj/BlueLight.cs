@@ -38,7 +38,18 @@ public class BlueLight : MonoBehaviour {
 				if (onPic [i] == null)
 					onPic [i] = Instantiate (pic, grid.Set0Y (transform.position) + wayP [i] * 0.3f, Quaternion.LookRotation (wayP [i]), transform);
 
-				if (Physics.Raycast (transform.position, wayP [i], out hit [i], rayDistanceDefault)) {
+				if (Physics.Raycast (transform.position, wayP [i], out hit [i], rayDistanceDefault - 1f)) {
+					if (i % 2 == 0)
+						longL [i] = Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z) - 1f;
+					else
+						longL [i] = Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x) - 1f;
+
+					if (longL [i] > rayDistanceDefault - 1)
+						longL [i] = rayDistanceDefault - 1;
+					else if (longL [i] < 0)
+						longL [i] = 0;
+
+					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * longL [i]);
 					list = Physics.RaycastAll (transform.position, wayP [i], rayDistanceDefault);
 
 					if (list.Length < 2)
@@ -49,19 +60,7 @@ public class BlueLight : MonoBehaviour {
 						else
 							rayDistance [i] = Mathf.Abs (grid.ToPoint0Y (list [1].collider.transform.position).x - grid.ToPoint0Y (transform.position).x) - 1f;
 					}
-
-					if (i % 2 == 0)
-						longL [i] = Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z) - 1f;
-					else
-						longL [i] = Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x) - 1f;
-
-					if (longL [i] > rayDistanceDefault - 1)
-						longL [i] = rayDistanceDefault - 1;
-					else if (longL [i] < 0)
-						longL [i] = 0;
-					
-					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * longL [i]);
-
+					print (""+hit [i].collider.GetComponent<ObjectController> ().isPushable+rayDistance[i]);
 					if (hit [i].collider.GetComponent<ObjectController> ().isPushable
 					    && ((i % 2 == 0 && hit [i].collider.transform.position.x < transform.position.x + 0.1f
 					    && hit [i].collider.transform.position.x > transform.position.x - 0.1f

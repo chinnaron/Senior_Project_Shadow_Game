@@ -17,7 +17,7 @@ public class ObjectController : MonoBehaviour {
 	public readonly int wall = 10;
 	public readonly int tempWalkable = 11;
 	public readonly int tempWalkable2 = 12;
-
+	public readonly int mirror = 13;
 
 	public bool isBlock2;
 	public bool isBlock;
@@ -33,6 +33,7 @@ public class ObjectController : MonoBehaviour {
 	public bool isWall;
 	public bool isTempWalkable;
 	public bool isTempWalkable2;
+	public bool isMirror;
 
 	public bool isBlueLight;
 	public bool isRedLight;
@@ -42,6 +43,8 @@ public class ObjectController : MonoBehaviour {
 	public int GetType (){
 		if (isPlayer)
 			return player;
+		if (isMirror)
+			return mirror;
 		if (isBlock)
 			return block;
 		if (isBlock2)

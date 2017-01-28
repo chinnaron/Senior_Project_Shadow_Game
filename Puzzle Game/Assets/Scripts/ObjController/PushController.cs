@@ -38,6 +38,16 @@ public class PushController : MonoBehaviour {
 			onFloor = true;
 		else
 			onFloor = false;
+
+		if (!objController.isPlayer) {
+			if (onFloor) {
+				objController.isBlock = true;
+				objController.isBlock2 = false;
+			} else {
+				objController.isBlock = false;
+				objController.isBlock2 = true;
+			}
+		}
 	}
 
 	public bool GetOnFloor(){
@@ -51,9 +61,9 @@ public class PushController : MonoBehaviour {
 		moving = true;
 		movement = dir;
 
-		if (objController.GetType () == grid.block)
+		if (objController.isBlock)
 			grid.SetGrid (transform.position, grid.walkable);
-		else if (objController.GetType () == grid.block2)
+		else if (objController.isBlock2)
 			grid.SetGrid (transform.position, grid.walkable2);
 	}
 
@@ -99,8 +109,9 @@ public class PushController : MonoBehaviour {
 	}
 
 	public bool CheckFall () {
-		if (!onFloor && (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable))
+		if (!onFloor && (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable)) {
 			return true;
+		}
 
 		return false;
 	}
@@ -119,7 +130,7 @@ public class PushController : MonoBehaviour {
 				if (CheckFall ())
 					SetFall ();
 				
-				if (objController.GetType () != objController.player)
+				if (!objController.isPlayer)
 					grid.SetGrid (destination, objController.GetType ());
 			}
 
@@ -142,7 +153,7 @@ public class PushController : MonoBehaviour {
 					player.ContinueWalking ();
 				}
 
-				if (objController.GetType () != objController.player)
+				if (!objController.isPlayer)
 					grid.SetGrid (destination, objController.GetType ());
 			}
 
@@ -162,7 +173,7 @@ public class PushController : MonoBehaviour {
 				moveY = Vector3.zero;
 				jumping = false;
 
-				if (objController.GetType () != objController.player)
+				if (!objController.isPlayer)
 					grid.SetGrid (destination, objController.GetType ());
 
 				if (onFloor && transform.position.y != 0f) {

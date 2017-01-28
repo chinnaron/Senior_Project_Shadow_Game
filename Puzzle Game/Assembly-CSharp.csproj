@@ -46,6 +46,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\MagicMirror\Demo\DemoScript.cs" />
+     <Compile Include="Assets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
+     <Compile Include="Assets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
+     <Compile Include="Assets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\MeshContainer.cs" />
+     <Compile Include="Assets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\PlanarReflection.cs" />
+     <Compile Include="Assets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\SpecularLighting.cs" />
+     <Compile Include="Assets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\Water.cs" />
+     <Compile Include="Assets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\WaterBase.cs" />
+     <Compile Include="Assets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
+     <Compile Include="Assets\MagicMirror\Prefab\MirrorCameraScript.cs" />
+     <Compile Include="Assets\MagicMirror\Prefab\MirrorReflectionScript.cs" />
+     <Compile Include="Assets\MagicMirror\Prefab\MirrorScript.cs" />
      <Compile Include="Assets\Models\UntitiledControllerScript.cs" />
      <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Script\CameraTarget.cs" />
      <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Script\EffectController.cs" />
@@ -59,7 +71,6 @@
      <Compile Include="Assets\Scripts\GoalController.cs" />
      <Compile Include="Assets\Scripts\GridOverlay.cs" />
      <Compile Include="Assets\Scripts\MenuScript.cs" />
-     <Compile Include="Assets\Scripts\ObjController\ObjectController.cs" />
      <Compile Include="Assets\Scripts\ObjController\PlayerController.cs" />
      <Compile Include="Assets\Scripts\ObjController\PushController.cs" />
      <Compile Include="Assets\Scripts\ObjController\ShadowController.cs" />
@@ -69,6 +80,8 @@
      <Compile Include="Assets\Scripts\Rotation.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\BlueLight.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\JumpPad.cs" />
+     <Compile Include="Assets\Scripts\SpecialObj\Mirror.cs" />
+     <Compile Include="Assets\Scripts\SpecialObj\ObjectController.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\RedLight.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\WhiteLight.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\YellowLight.cs" />
@@ -92,17 +105,22 @@
      <Compile Include="Assets\VolumetricLines\Scripts\VolumetricLineBehavior.cs" />
      <Compile Include="Assets\VolumetricLines\Scripts\VolumetricLineStripBehavior.cs" />
      <Compile Include="Assets\VolumetricLines\Scripts\VolumetricMultiLineBehavior.cs" />
+     <None Include="Assets\MagicMirror\Prefab\MirrorShaderOld.shader" />
      <None Include="Assets\StreamingAssets\build_info.txt" />
+     <None Include="Assets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />
      <None Include="Assets\VolumetricLines\Shaders\VolumetricLineShaderAlphaBlended.shader" />
      <None Include="Assets\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />
      <None Include="Assets\ColorfulButtons\Credits.txt" />
      <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
+     <None Include="Assets\MagicMirror\Prefab\Readme.txt" />
      <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddSoftEffect.shader" />
      <None Include="Assets\VolumetricLines\Shaders\VolumetricLineShaderAdditiveFast.shader" />
      <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
      <None Include="Assets\Particlecollection_Free samples\READ ME.txt" />
+     <None Include="Assets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
      <None Include="Assets\VolumetricLines\Shaders\VolumetricLineStripShaderAdditive.shader" />
      <None Include="Assets\VolumetricLines\Shaders\VolumetricLineStripShaderAlphaBlended.shader" />
+     <None Include="Assets\MagicMirror\Prefab\MirrorShader.shader" />
      <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddEffect.shader" />
      <None Include="Assets\VolumetricLines\Shaders\VolumetricLineShaderAlphaBlendedFast.shader" />
      <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
