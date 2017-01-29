@@ -34,6 +34,8 @@ public class ObjectController : MonoBehaviour {
 	public bool isWhiteLight;
 	public bool isYellowLight;
 
+	public bool isLever;
+
 	public int GetType (){
 		if (isPlayer)
 			return player;

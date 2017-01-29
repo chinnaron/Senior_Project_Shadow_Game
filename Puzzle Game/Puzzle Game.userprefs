@@ -1,12 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GoalController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LeverController.cs">
     <Files>
       <File FileName="Assets\Scripts\SpecialObj\WhiteLight.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GoalController.cs" Line="1" Column="26" />
+      <File FileName="Assets\Scripts\GoalController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjController\TriggerController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LeverController.cs" Line="84" Column="4" />
+      <File FileName="Assets\Scripts\SpecialObj\YellowLight.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
