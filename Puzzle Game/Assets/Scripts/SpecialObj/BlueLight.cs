@@ -9,7 +9,7 @@ public class BlueLight : MonoBehaviour {
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
 	private PlayerController player;
 	private GridOverlay grid;
-	private readonly float rayDistanceDefault = 6f;
+	public float rayDistanceDefault = 6f;
 
 	private float distance;
 	private List<Vector3> positions = new List<Vector3> ();
