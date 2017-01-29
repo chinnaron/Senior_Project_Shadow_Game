@@ -40,6 +40,7 @@ public class RedLight : MonoBehaviour {
 					positions.Clear ();
 					positions.Add (Vector3.zero);
 					old = transform.position;
+					reflect = wayP [i];
 
 					if (i % 2 == 0) {
 						if (hit [i].collider.GetComponent<ObjectController> ().isWall)

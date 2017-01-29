@@ -48,6 +48,7 @@ public class BlueLight : MonoBehaviour {
 					positions.Clear ();
 					positions.Add (Vector3.zero);
 					old = transform.position;
+					reflect = wayP [i];
 
 					if (i % 2 == 0) {
 						positions.Add (wayP [i] * (Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z)));

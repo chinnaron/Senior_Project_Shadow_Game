@@ -250,7 +250,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		anim.SetBool ("IsWalking", walking);
-		anim.SetBool ("IsGrabbing", grabbing);
+//		anim.SetBool ("IsGrabbing", grabbing);
 		anim.SetBool ("IsPushing" , pushing);
 		anim.SetBool ("IsPulling", pulling);
 	}
