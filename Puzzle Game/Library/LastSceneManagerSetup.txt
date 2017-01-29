@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-- path: Assets/Scenes/StageSelection.unity
-=======
-- path: Assets/Scenes/Scene3.unity
->>>>>>> tonagain
+- path: Assets/Scenes/Scene1.unity
   isLoaded: 1
   isActive: 1

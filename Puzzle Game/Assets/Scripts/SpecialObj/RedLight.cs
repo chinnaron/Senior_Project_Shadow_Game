@@ -101,12 +101,21 @@ public class RedLight : MonoBehaviour {
 					    && hit [i].collider.transform.position.x > old.x - 0.1f))
 					    || ((reflect.x != 0) && (hit [i].collider.transform.position.z < old.z + 0.1f
 					    && hit [i].collider.transform.position.z > old.z - 0.1f)))) {
+						if (hit [i].collider.gameObject == player.gameObject)
+							player.GrabRelease ();
+
 						if (hit [i].collider.GetComponent<PushController> () == player.GetGrabPush ()) {
 							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
-						} else if (hit [i].collider.gameObject == player.gameObject)
-							player.GrabRelease ();
-						
-						Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
+							Application.LoadLevel (Application.loadedLevel);
+						} else {
+							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
+
+							if (hit [i].collider.GetComponent<ObjectController> ().isBlock) {
+								grid.SetGrid (hit [i].point, grid.walkable);
+							} else {
+								grid.SetGrid (hit [i].point, grid.walkable2);
+							}
+						}
 						//create particle
 					} else {
 						//create particle

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GoToStage1 : MonoBehaviour {
+public class StageSelectionGoToStage1 : MonoBehaviour {
 	public GameObject quitButton;
 
 	void Start () {

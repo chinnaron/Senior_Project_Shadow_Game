@@ -267,6 +267,7 @@ public class PlayerController : MonoBehaviour {
 		if (dying) {
 			transform.position = transform.position + Vector3.down * dieSpeed * Time.deltaTime;
 			dieSpeed++;
+
 			if (transform.position.y < -8)
 				Application.LoadLevel (Application.loadedLevel);
 		}
