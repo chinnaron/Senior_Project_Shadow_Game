@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RedLight : MonoBehaviour {
-	public GameObject pic;
 	public float rayDistance = 5f;
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
-	private GridOverlay grid;
 	private PlayerController player;
+	private GridOverlay grid;
+	private GameObject pic;
 
 	private float distance;
 	private List<Vector3> positions = new List<Vector3> ();
@@ -22,6 +22,7 @@ public class RedLight : MonoBehaviour {
 	void Awake () {
 		grid = FindObjectOfType<GridOverlay> ();
 		player = FindObjectOfType<PlayerController> ();
+		pic = Resources.Load ("DirPic", typeof(GameObject)) as GameObject;
 
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i])
@@ -101,13 +102,13 @@ public class RedLight : MonoBehaviour {
 					    && hit [i].collider.transform.position.x > old.x - 0.1f))
 					    || ((reflect.x != 0) && (hit [i].collider.transform.position.z < old.z + 0.1f
 					    && hit [i].collider.transform.position.z > old.z - 0.1f)))) {
-						if (hit [i].collider.gameObject == player.gameObject)
-							player.GrabRelease ();
-
-						if (hit [i].collider.GetComponent<PushController> () == player.GetGrabPush ()) {
+						if (hit [i].collider.gameObject == player.gameObject) {
 							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
 							Application.LoadLevel (Application.loadedLevel);
 						} else {
+							if (hit [i].collider.GetComponent<PushController> () == player.GetGrabPush ())
+								player.GrabRelease ();
+							
 							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
 
 							if (hit [i].collider.GetComponent<ObjectController> ().isBlock) {

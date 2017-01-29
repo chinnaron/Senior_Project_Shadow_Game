@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WhiteLight : MonoBehaviour {
-	public GameObject pic;
 	public float rayDistance = 5f;
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
 	private GridOverlay grid;
 	private PlayerController player;
+	private GameObject pic;
 
 	private float distance;
 	private List<Vector3> positions = new List<Vector3> ();
@@ -26,6 +26,7 @@ public class WhiteLight : MonoBehaviour {
 	void Awake () {
 		grid = FindObjectOfType<GridOverlay> ();
 		player = FindObjectOfType<PlayerController> ();
+		pic = Resources.Load ("DirPic", typeof(GameObject)) as GameObject;
 
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i])

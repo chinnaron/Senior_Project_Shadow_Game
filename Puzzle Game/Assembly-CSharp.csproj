@@ -88,6 +88,7 @@
      <Compile Include="Assets\Scripts\GridOverlay.cs" />
      <Compile Include="Assets\Scripts\LeverController.cs" />
      <Compile Include="Assets\Scripts\MenuScript.cs" />
+     <Compile Include="Assets\Scripts\ObjController\ObjectController.cs" />
      <Compile Include="Assets\Scripts\ObjController\PlayerController.cs" />
      <Compile Include="Assets\Scripts\ObjController\PushController.cs" />
      <Compile Include="Assets\Scripts\ObjController\ShadowController.cs" />
@@ -99,7 +100,6 @@
      <Compile Include="Assets\Scripts\SpecialObj\BlueLight.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\JumpPad.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\Mirror.cs" />
-     <Compile Include="Assets\Scripts\SpecialObj\ObjectController.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\RedLight.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\WhiteLight.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\YellowLight.cs" />

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-	public GameObject desPic;
-	public GameObject grabPic;
+	public MenuScript menu;
 	public GameObject grabPlane;
 	public GameObject desPlane;
-	public MenuScript menu;
+	private GameObject desPic;
+	private GameObject grabPic;
 
 	private Vector3 movement;
 	private Vector3 pathDestination;
@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour {
 		playerPush = GetComponent<PushController> ();
 		playerMask = LayerMask.GetMask ("Player");
 		grid = FindObjectOfType<GridOverlay> ();
+		desPic = Resources.Load ("DesPic", typeof(GameObject)) as GameObject;
+		grabPic = Resources.Load ("GrabPic", typeof(GameObject)) as GameObject;
 	}
 
 	void Update (){
