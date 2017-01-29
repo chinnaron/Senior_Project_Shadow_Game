@@ -42,6 +42,10 @@ public class PlayerController : MonoBehaviour {
 	private RaycastHit hit;
 	private RaycastHit grabHit;
 
+	private GameObject grabLever;
+	private Vector3 grabPointLever;
+	private LeverController leverController;
+
 	public Stack<Vector3> path = new Stack<Vector3> ();
 
 	void Awake () {
@@ -131,6 +135,24 @@ public class PlayerController : MonoBehaviour {
 							grid.SetGrid (grabPush.transform.position, grabType);
 						}
 					}
+
+					//When grabbing lever
+					if (Physics.Raycast (ray, out grabHit, camRayLength,~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isLever) {
+						grabLever = grabHit.collider.gameObject;
+						//grabPush = grabObj.GetComponent<PushController> ();
+						grabPointLever = grid.ToPoint0Y (grabLever.transform.position) - grid.ToPoint0Y (transform.position);
+						leverController = grabLever.GetComponent<LeverController>();
+						if (!grabbing && grabPointLever.magnitude == 1f) {
+							lookAt = Quaternion.LookRotation (grabPointLever);
+							//grabPlane = Instantiate (grabPic, grabPointLever + transform.position, Quaternion.LookRotation (Vector3.forward));
+							Debug.Log ("Lever Grabbed");
+							leverController.changeState ();
+							//grabLever.changeState ();
+						} else {
+							//Nothing?
+						}
+					}
+					//======================
 				}
 			}
 		}
