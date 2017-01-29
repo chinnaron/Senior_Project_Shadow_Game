@@ -32,14 +32,14 @@ public class GridOverlay : MonoBehaviour {
 		moving = false;
 
 		start = transform.position - (Vector3.right * (lengthX / 2f) + Vector3.forward * (lengthZ / 2f));
-		start.y = 10f;
+		start.y = 5f;
 		grid = new int[lengthX, lengthZ];
 		ray = new Ray (start, Vector3.down);
 
 		for (int x = 0; x < lengthX; x++) {
 			for (int z = 0; z < lengthZ; z++) {
 				ray.origin = Vector3.right * (x + start.x + 0.5f) + Vector3.up * ray.origin.y + Vector3.forward * (z + start.z + 0.5f);
-				hitList = Physics.RaycastAll (ray, 11f);
+				hitList = Physics.RaycastAll (ray, 10f);
 				if (hitList.Length > 0) {
 					grid [x, z] = walkable;
 					foreach (RaycastHit hit in hitList) {
@@ -146,8 +146,22 @@ public class GridOverlay : MonoBehaviour {
 		return grid [ToGridX (v), ToGridZ (v)];
 	}
 
+	public Vector3 ToPointIgnoreY (Vector3 v){
+		v.x = Mathf.Floor (v.x) + 0.5f;
+		v.z = Mathf.Floor (v.z) + 0.5f;
+		return v;
+	}
+
 	public Vector3 ToPoint (Vector3 v){
 		v.x = Mathf.Floor (v.x) + 0.5f;
+		if (v.y > 1.4f)
+			v.y = 1.5f;
+		else if (v.y > 0.9f)
+			v.y = 1f;
+		else if (v.y > 0.4)
+			v.y = 0.5f;
+		else
+			v.y = 0f;
 		v.z = Mathf.Floor (v.z) + 0.5f;
 		return v;
 	}
@@ -192,11 +206,18 @@ public class GridOverlay : MonoBehaviour {
 		int far;
 		int dir;
 
+		if ((onFloor && (grid [v1X, v1Z] != walkable && grid [v1X, v1Z] != tempWalkable))
+		    || (!onFloor && (grid [v1X, v1Z] != walkable && grid [v1X, v1Z] != tempWalkable)
+		    && (grid [v1X, v1Z] != walkable2 && grid [v1X, v1Z] != tempWalkable2)))
+			return false;
+
 		if (v1X == v2X) {
 			dir = v1Z > v2Z ? 1 : -1;
 			far = (v1Z - v2Z) * dir;
 			for (int i = 0; i < far; i++) {
-				if ((onFloor && grid [v2X, v2Z + i * dir] != walkable) || (!onFloor && grid [v2X, v2Z + i * dir] != walkable && grid [v2X, v2Z + i * dir] != walkable2))
+				if ((onFloor && (grid [v2X, v2Z + i * dir] != walkable && grid [v2X, v2Z + i * dir] != tempWalkable))
+				    || (!onFloor && (grid [v2X, v2Z + i * dir] != walkable && grid [v2X, v2Z + i * dir] != tempWalkable)
+				    && (grid [v2X, v2Z + i * dir] != walkable2 && grid [v2X, v2Z + i * dir] != tempWalkable2)))
 					return false;
 			}
 			return true;
@@ -204,7 +225,9 @@ public class GridOverlay : MonoBehaviour {
 			dir = v1X > v2X ? 1 : -1;
 			far = (v1X - v2X) * dir;
 			for (int i = 0; i < far; i++) {
-				if ((onFloor && grid [v2X + i * dir, v2Z] != walkable) || (!onFloor && grid [v2X + i * dir, v2Z] != walkable && grid [v2X + i * dir, v2Z] != walkable2))
+				if ((onFloor && grid [v2X + i * dir, v2Z] != walkable && grid [v2X + i * dir, v2Z] != tempWalkable)
+				    || (!onFloor && (grid [v2X + i * dir, v2Z] != walkable && grid [v2X + i * dir, v2Z] != tempWalkable)
+				    && (grid [v2X + i * dir, v2Z] != walkable2 && grid [v2X + i * dir, v2Z] != tempWalkable2)))
 					return false;
 			}
 			return true;
@@ -213,63 +236,87 @@ public class GridOverlay : MonoBehaviour {
 		return false;
 	}
 
-	public void SetWalkable(Vector3 v1, Vector3 v2){
-		int v1X = ToGridX (v1);
-		int v1Z = ToGridZ (v1);
-		int v2X = ToGridX (v2);
-		int v2Z = ToGridZ (v2);
-		int far;
-		int dir;
-
-		if (IsOutOfGrid (v1))
-			return;
-
-		if (v1X < 0)
-			v1X = 0;
-
-		if (v1X == v2X) {
-			dir = v1Z > v2Z ? 1 : -1;
-			far = (v1Z - v2Z) * dir;
-			for (int i = 0; i < far; i++) {
-				if (grid [v2X, v2Z + i * dir] == unwalkable)
-					grid [v2X, v2Z + i * dir] = tempWalkable;
-			}
-		} else if (v1Z == v2Z) {
-			dir = v1X > v2X ? 1 : -1;
-			far = (v1X - v2X) * dir;
-			for (int i = 0; i < far; i++) {
-				if (grid [v2X + i * dir, v2Z] == unwalkable)
-					grid [v2X + i * dir, v2Z] = tempWalkable;
-			}
-		} else
-			return;
-	}
-
-	public void SetWalkableBack(Vector3 v1, Vector3 v2){
-		int v1X = ToGridX (v1);
-		int v1Z = ToGridZ (v1);
-		int v2X = ToGridX (v2);
-		int v2Z = ToGridZ (v2);
-		int far;
-		int dir;
-
-		if (v1X == v2X) {
-			dir = v1Z > v2Z ? 1 : -1;
-			far = (v1Z - v2Z) * dir;
-			for (int i = 0; i < far; i++) {
-				if (grid [v2X, v2Z + i * dir] == tempWalkable)
-					grid [v2X, v2Z + i * dir] = unwalkable;
-			}
-		} else if (v1Z == v2Z) {
-			dir = v1X > v2X ? 1 : -1;
-			far = (v1X - v2X) * dir;
-			for (int i = 0; i < far; i++) {
-				if (grid [v2X + i * dir, v2Z] == tempWalkable)
-					grid [v2X + i * dir, v2Z] = unwalkable;
-			}
-		} else
-			return;
-	}
+//	public void SetWalkable(Vector3 v1, Vector3 v2){
+//		int v1X = ToGridX (v1);
+//		int v1Z = ToGridZ (v1);
+//		int v2X = ToGridX (v2);
+//		int v2Z = ToGridZ (v2);
+//		int far;
+//		int dir;
+//
+//		if (IsOutOfGrid (v1))
+//			return;
+//
+//		if (v2X < 0)
+//			v2X = 0;
+//		
+//		if (v2X > lengthX - 1)
+//			v2X = lengthX - 1;
+//
+//		if (v2Z < 0)
+//			v2Z = 0;
+//		
+//		if (v2Z > lengthZ - 1)
+//			v2Z = lengthZ - 1;
+//
+//		if (v1X == v2X) {
+//			dir = v1Z > v2Z ? 1 : -1;
+//			far = (v1Z - v2Z) * dir;
+//			for (int i = 0; i < far; i++) {
+//				if (grid [v2X, v2Z + i * dir] == unwalkable)
+//					grid [v2X, v2Z + i * dir] = tempWalkable;
+//			}
+//		} else if (v1Z == v2Z) {
+//			dir = v1X > v2X ? 1 : -1;
+//			far = (v1X - v2X) * dir;
+//			for (int i = 0; i < far; i++) {
+//				if (grid [v2X + i * dir, v2Z] == unwalkable)
+//					grid [v2X + i * dir, v2Z] = tempWalkable;
+//			}
+//		} else
+//			return;
+//	}
+//
+//	public void SetWalkableBack(Vector3 v1, Vector3 v2){
+//		int v1X = ToGridX (v1);
+//		int v1Z = ToGridZ (v1);
+//		int v2X = ToGridX (v2);
+//		int v2Z = ToGridZ (v2);
+//		int far;
+//		int dir;
+//
+//		if (IsOutOfGrid (v1))
+//			return;
+//
+//		if (v2X < 0)
+//			v2X = 0;
+//
+//		if (v2X > lengthX - 1)
+//			v2X = lengthX - 1;
+//
+//		if (v2Z < 0)
+//			v2Z = 0;
+//
+//		if (v2Z > lengthZ - 1)
+//			v2Z = lengthZ - 1;
+//		
+//		if (v1X == v2X) {
+//			dir = v1Z > v2Z ? 1 : -1;
+//			far = (v1Z - v2Z) * dir;
+//			for (int i = 0; i < far; i++) {
+//				if (grid [v2X, v2Z + i * dir] == tempWalkable)
+//					grid [v2X, v2Z + i * dir] = unwalkable;
+//			}
+//		} else if (v1Z == v2Z) {
+//			dir = v1X > v2X ? 1 : -1;
+//			far = (v1X - v2X) * dir;
+//			for (int i = 0; i < far; i++) {
+//				if (grid [v2X + i * dir, v2Z] == tempWalkable)
+//					grid [v2X + i * dir, v2Z] = unwalkable;
+//			}
+//		} else
+//			return;
+//	}
 
 	public Stack<Vector3> FindGrabPath(Vector3 goal, Vector3 start, Vector3 direction){
 		int b = 0;

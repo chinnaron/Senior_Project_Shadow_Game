@@ -21,11 +21,13 @@ public class PlayerController : MonoBehaviour {
 	private PushController playerPush;
 	private GridOverlay grid;
 
+	private bool dying;
 	private bool walking;
 	private bool grabbing;
 	private bool pulling;
 	private bool pushing;
 
+	private int dieSpeed;
 	private int playerMask;
 	private int grabType;
 
@@ -49,7 +51,8 @@ public class PlayerController : MonoBehaviour {
 	void Awake () {
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
-		walking = grabbing = false;
+		walking = grabbing = dying = false;
+		dieSpeed = 10;
 
 		anim = GetComponent<Animator> ();
 		playerPush = GetComponent<PushController> ();
@@ -58,16 +61,18 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update (){
-		if (!menu._isPaused && !walking) {
+		if (!menu._isPaused && !walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping) {
 			if (Input.GetButtonDown ("Fire1")) {
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
 				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask)) {
-					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2) {
+					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2
+					    || hit.collider.GetComponent<ObjectController> ().isTempWalkable || hit.collider.GetComponent<ObjectController> ().isTempWalkable2) {
 						point = grid.ToPoint (hit.point);
 						if (grabbing) {
-							if (point != transform.position + grabPoint) {
-								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint && grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
+							if (point != grid.ToPoint (transform.position + grabPoint) && point != grid.ToPoint (transform.position)) {
+								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint
+								    && grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
 									path.Clear ();
 									path = grid.FindGrabPath (point - grabPoint, transform.position + (grabPoint * 2), grabPoint);
 									path.Push (grid.ToPointY (transform.position, playerPush.GetOnFloor ()) + grabPoint);
@@ -101,7 +106,7 @@ public class PlayerController : MonoBehaviour {
 						} else {
 							path.Clear ();
 							path = grid.FindPath (transform.position, point, playerPush.GetOnFloor ());
-							
+
 							if (path.Count > 0) {
 								StartToWalk (point, Vector3.zero);
 								movement = grid.Set0Y (pathDestination - transform.position);
@@ -154,6 +159,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping && grid.GetGrid (transform.position) == grid.unwalkable) {
+			YouDied ();
+		}
+
 		if (playerPush.moving) {
 			walking = false;
 			Destroy (desPlane);
@@ -173,7 +182,6 @@ public class PlayerController : MonoBehaviour {
 						grid.SetGrid (grabPush.transform.position, grabType);
 					}
 				} else {
-					print (transform.position);
 					if (!playerPush.falling && playerPush.CheckFall ()) {
 						movement = Vector3.zero;
 						walking = false;
@@ -181,7 +189,7 @@ public class PlayerController : MonoBehaviour {
 					}
 				}
 			}
-			print (transform.position + ""+pathDestination + destination);
+
 			if (transform.position == pathDestination) {
 				if (grabbing && !grabPush.moving) {
 					if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {
@@ -251,13 +259,17 @@ public class PlayerController : MonoBehaviour {
 						pulling = true;
 					}
 				}
-
 			}
-
-		
 		}
 			
 		transform.rotation = Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed);
+
+		if (dying) {
+			transform.position = transform.position + Vector3.down * dieSpeed * Time.deltaTime;
+			dieSpeed++;
+			if (transform.position.y < -8)
+				Application.LoadLevel (Application.loadedLevel);
+		}
 
 		anim.SetBool ("IsWalking", walking);
 		anim.SetBool ("IsGrabbing", grabbing);
@@ -265,18 +277,22 @@ public class PlayerController : MonoBehaviour {
 		anim.SetBool ("IsPulling", pulling);
 	}
 
+	void YouDied(){
+		dying = true;
+	}
+
 	void StartToWalk (Vector3 des, Vector3 grabPoi) {
 		Destroy (desPlane);
 		destination = des - grabPoi;
 
-		if (grid.GetGrid (des - grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.block)
+		if (grid.GetGrid (des - grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable || (grabbing && grid.GetGrid (des - grabPoi) == grid.block))
 			destination.y = 0f;
 		else
 			destination.y = 1f;
 		
 		pathDestination = path.Peek ();
 		path.Pop ();
-		if (grid.GetGrid (destination + grabPoi) == grid.walkable)
+		if (grid.GetGrid (destination + grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable)
 			desPlane = Instantiate (desPic, grid.Set0Y (destination + grabPoi), Quaternion.LookRotation (Vector3.forward));
 		else
 			desPlane = Instantiate (desPic, grid.Set1Y (destination + grabPoi), Quaternion.LookRotation (Vector3.forward));
@@ -314,6 +330,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void Stop () {
 		walking = false;
+		path.Clear ();
 		Destroy (desPlane);
 	}
 }

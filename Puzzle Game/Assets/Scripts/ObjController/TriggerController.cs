@@ -75,6 +75,7 @@ public class TriggerController : MonoBehaviour {
 		for (int i = 0; i < 4; i++) {
 			if (GetComponent<WhiteLight> ().LightTriggerDirection [i])
 				GetComponent<WhiteLight> ().lightOn [i] = true;
+			else GetComponent<WhiteLight> ().lightOn [i] = false;
 		}
 	}
 
@@ -89,6 +90,7 @@ public class TriggerController : MonoBehaviour {
 		for (int i = 0; i < 4; i++) {
 			if (GetComponent<BlueLight> ().LightTriggerDirection [i])
 				GetComponent<BlueLight> ().lightOn [i] = true;
+			else GetComponent<BlueLight> ().lightOn [i] = false;
 		}
 	}
 
@@ -103,6 +105,7 @@ public class TriggerController : MonoBehaviour {
 		for (int i = 0; i < 4; i++) {
 			if (GetComponent<RedLight> ().LightTriggerDirection [i])
 				GetComponent<RedLight> ().lightOn [i] = true;
+			else GetComponent<RedLight> ().lightOn [i] = false;
 		}
 	}
 
@@ -117,6 +120,8 @@ public class TriggerController : MonoBehaviour {
 		for (int i = 0; i < 4; i++) {
 			if (GetComponent<YellowLight> ().LightTriggerDirection [i])
 				GetComponent<YellowLight> ().lightOn [i] = true;
+			else
+				GetComponent<YellowLight> ().lightOn [i] = false;
 		}
 	}
 

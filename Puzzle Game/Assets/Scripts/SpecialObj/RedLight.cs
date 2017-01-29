@@ -11,8 +11,11 @@ public class RedLight : MonoBehaviour {
 	private GridOverlay grid;
 	private PlayerController player;
 
-	private readonly Vector3[] wayP = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left }; 
-	private float[] longL = { 0, 0, 0, 0 };
+	private float distance;
+	private List<Vector3> positions = new List<Vector3> ();
+	private Vector3 old;
+	private Vector3 reflect;
+	private readonly Vector3[] wayP = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left };
 	private RaycastHit[] hit = new RaycastHit[4];
 	private GameObject[] onPic = new GameObject[4];
 
@@ -33,25 +36,75 @@ public class RedLight : MonoBehaviour {
 					onPic [i] = Instantiate (pic, grid.Set0Y (transform.position) + wayP [i] * 0.3f, Quaternion.LookRotation (wayP [i]), transform);
 
 				if (Physics.Raycast (transform.position, wayP [i], out hit [i], rayDistance)) {
-					if (i % 2 == 0)
-						longL [i] = Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z);
-					else
-						longL [i] = Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x);
+					distance = rayDistance;
+					positions.Clear ();
+					positions.Add (Vector3.zero);
+					old = transform.position;
 
-					if (hit [i].collider.GetComponent<ObjectController> ().isWall)
-						longL [i] -= 1f;
-					
-					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * longL [i]);
+					if (i % 2 == 0) {
+						if (hit [i].collider.GetComponent<ObjectController> ().isWall)
+							positions.Add (wayP [i] * (Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z) - 1f));
+						else
+							positions.Add (wayP [i] * Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z));
+					} else {
+						if (hit [i].collider.GetComponent<ObjectController> ().isWall)
+							positions.Add (wayP [i] * (Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x) - 1f));
+						else
+							positions.Add (wayP [i] * Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x));
+					}
 
-					if (hit [i].collider.GetComponent<ObjectController> ().isDestroyable
-					    && (i % 2 == 0 && (hit [i].collider.transform.position.x < transform.position.x + 0.1f
-					    && hit [i].collider.transform.position.x > transform.position.x - 0.1f)
-					    || i % 2 == 1 && (hit [i].collider.transform.position.z < transform.position.z + 0.1f
-					    && hit [i].collider.transform.position.z > transform.position.z - 0.1f))) {
+					while (hit [i].collider.GetComponent<ObjectController> ().isMirror) {
+						reflect = hit [i].collider.GetComponent<Mirror> ().Reflect ((hit [i].transform.position - old).normalized);
+
+						if (reflect != Vector3.zero) {
+							old = hit [i].transform.position;
+
+							if (reflect.z != 0) {
+								distance = distance - Mathf.Abs (positions [positions.Count - 1].x - positions [positions.Count - 2].x);
+								if (Physics.Raycast (hit [i].collider.transform.position, reflect, out hit [i], distance)) {
+									if (hit [i].collider.GetComponent<ObjectController> ().isWall)
+										positions.Add (reflect * (Mathf.Abs (hit [i].collider.transform.position.z - old.z) - 1f) + positions [positions.Count - 1]);
+									else
+										positions.Add (reflect * Mathf.Abs (hit [i].collider.transform.position.z - old.z) + positions [positions.Count - 1]);
+								} else {
+									positions.Add (reflect * distance + positions [positions.Count - 1]);
+									break;
+								}
+							} else {
+								distance = distance - Mathf.Abs (positions [positions.Count - 1].z - positions [positions.Count - 2].z);
+								if (Physics.Raycast (hit [i].collider.transform.position, reflect, out hit [i], distance)) {
+									if (hit [i].collider.GetComponent<ObjectController> ().isWall)
+										positions.Add (reflect * (Mathf.Abs (hit [i].collider.transform.position.x - old.x) - 1f) + positions [positions.Count - 1]);
+									else
+										positions.Add (reflect * Mathf.Abs (hit [i].collider.transform.position.x - old.x) + positions [positions.Count - 1]);
+								} else {
+									positions.Add (reflect * distance + positions [positions.Count - 1]);
+									break;
+								}
+							}
+						} else
+							break;
+					}
+
+					line [i].numPositions = positions.Count;
+					Vector3[] positionsFinal = new Vector3[positions.Count];
+
+					for (int j = 0; j < positions.Count; j++) {
+						positionsFinal [j] = positions [j];
+					}
+
+					line [i].SetPositions (positionsFinal);
+
+					if (hit [i].collider != null && hit [i].collider.GetComponent<ObjectController> ().isDestroyable
+					    && (((reflect.z != 0) && (hit [i].collider.transform.position.x < old.x + 0.1f
+					    && hit [i].collider.transform.position.x > old.x - 0.1f))
+					    || ((reflect.x != 0) && (hit [i].collider.transform.position.z < old.z + 0.1f
+					    && hit [i].collider.transform.position.z > old.z - 0.1f)))) {
 						if (hit [i].collider.GetComponent<PushController> () == player.GetGrabPush ()) {
 							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
 						} else if (hit [i].collider.gameObject == player.gameObject)
 							player.GrabRelease ();
+						
 						Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
 						//create particle
 					} else {
@@ -63,6 +116,7 @@ public class RedLight : MonoBehaviour {
 			} else {
 				if (onPic [i] != null)
 					Destroy (onPic [i]);
+				
 				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
 			}
 		}
