@@ -142,13 +142,13 @@ public class BlueLight : MonoBehaviour {
 									player.GrabRelease ();
 								}
 							}
-							print ("2 " + rayDistance [i]);
+
 							obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
 						}
 					}
 				} else {
 					rayDistance [i] = rayDistanceDefault;
-					line [i].SetPosition (line [i].numPositions - 1, wayP [pushDirection [i]] * (rayDistance [i] - 1));
+					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * (rayDistance [i] - 1));
 				}
 			} else {
 				if (onPic [i] != null)
