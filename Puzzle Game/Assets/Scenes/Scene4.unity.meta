@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 15ec85999f6e5594798baa0e6c09399a
 timeCreated: 1485710241
+=======
+guid: 55b5255983a9a8247b013243ac3f0fb7
+timeCreated: 1485710679
+>>>>>>> origin/tpc
 licenseType: Free
 DefaultImporter:
   userData: 

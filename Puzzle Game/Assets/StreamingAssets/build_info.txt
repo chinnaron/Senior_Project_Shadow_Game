@@ -1,5 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 Build from DESKTOP-KCG36KO at 1/30/2017 4:51:47 AM
 =======
 Build from TON-PC at 1/30/2017 2:18:07 AM
 >>>>>>> origin/UI2
+=======
+<<<<<<< Updated upstream
+Build from LNVY500 at 1/29/2017 7:30:02 PM
+=======
+Build from LNVY500 at 1/30/2017 2:44:10 AM
+>>>>>>> Stashed changes
+>>>>>>> origin/tpc

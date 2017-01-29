@@ -82,8 +82,18 @@
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
+<<<<<<< HEAD
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+=======
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
+<<<<<<< Updated upstream
+ <Reference Include="UnityEngine.Purchasing">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
+>>>>>>> origin/tpc
+ </Reference>
+=======
+>>>>>>> Stashed changes
  <Reference Include="UnityEngine.VR">
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
