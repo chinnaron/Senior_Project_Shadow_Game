@@ -7,6 +7,8 @@ public class BlueLight : MonoBehaviour {
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
+	public GameObject bluerender;
+	public Material[] blue_states;
 	private PlayerController player;
 	private GridOverlay grid;
 	private GameObject pic;
@@ -38,6 +40,19 @@ public class BlueLight : MonoBehaviour {
 	}
 
 	void Update ()	{
+		if (GetComponent<ObjectController> ().isMoveable) {
+			if (IsLightOn()) {
+				bluerender.GetComponent<Renderer> ().material = blue_states[3];
+			} else {
+				bluerender.GetComponent<Renderer> ().material = blue_states[2];
+			}
+		} else {
+			if (IsLightOn()) {
+				bluerender.GetComponent<Renderer> ().material = blue_states[1];
+			} else {
+				bluerender.GetComponent<Renderer> ().material = blue_states[0];
+			}
+		}
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i]) {
 				if (onPic [i] == null)
@@ -158,5 +173,12 @@ public class BlueLight : MonoBehaviour {
 				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
 			}
 		}
+	}
+	bool IsLightOn() {
+		for (int i = 0; i < 4; i++) {
+			if (lightOn [i])
+				return true;
+		}
+		return false;
 	}
 }
