@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-Build from DESKTOP-KCG36KO at 1/30/2017 3:40:11 AM
-=======
-Build from DESKTOP-STPD53T at 1/30/2017 3:37:33 AM
->>>>>>> origin/feature/block_texture
+Build from DESKTOP-KCG36KO at 1/30/2017 4:02:48 AM
