@@ -185,6 +185,11 @@ public class GridOverlay : MonoBehaviour {
 		return v;
 	}
 
+	public Vector3 SetYFrom(Vector3 v, Vector3 v2){
+		v.y = v2.y;
+		return v;
+	}
+
 	public Vector3 Set1Y(Vector3 v){
 		v.y = 1f;
 		return v;

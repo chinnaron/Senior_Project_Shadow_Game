@@ -54,14 +54,14 @@ public class YellowLight : MonoBehaviour {
 					}
 
 					while (hit [i].collider.GetComponent<ObjectController> ().isMirror) {
-						reflect = hit [i].collider.GetComponent<Mirror> ().Reflect ((hit [i].transform.position - old).normalized);
+						reflect = hit [i].collider.GetComponent<Mirror> ().Reflect ((hit [i].collider.transform.position - old).normalized);
 
 						if (reflect != Vector3.zero) {
-							old = hit [i].transform.position;
+							old = hit [i].collider.transform.position;
 
 							if (reflect.z != 0) {
 								distance = distance - Mathf.Abs (positions [positions.Count - 1].x - positions [positions.Count - 2].x);
-								if (Physics.Raycast (hit [i].collider.transform.position, reflect, out hit [i], distance)) {
+								if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit [i], distance)) {
 									if (hit [i].collider.GetComponent<ObjectController> ().isWall)
 										positions.Add (reflect * (Mathf.Abs (hit [i].collider.transform.position.z - old.z) - 1f) + positions [positions.Count - 1]);
 									else
@@ -72,7 +72,7 @@ public class YellowLight : MonoBehaviour {
 								}
 							} else {
 								distance = distance - Mathf.Abs (positions [positions.Count - 1].z - positions [positions.Count - 2].z);
-								if (Physics.Raycast (hit [i].collider.transform.position, reflect, out hit [i], distance)) {
+								if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit [i], distance)) {
 									if (hit [i].collider.GetComponent<ObjectController> ().isWall)
 										positions.Add (reflect * (Mathf.Abs (hit [i].collider.transform.position.x - old.x) - 1f) + positions [positions.Count - 1]);
 									else

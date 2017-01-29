@@ -44,46 +44,56 @@ public class BlueLight : MonoBehaviour {
 
 				if (Physics.Raycast (transform.position, wayP [i], out hit [i], rayDistanceDefault - 1f)) {
 					rayDistance [i] = rayDistanceDefault;
-					distance = rayDistanceDefault - 1f;
+					distance = rayDistanceDefault;
 					positions.Clear ();
 					positions.Add (Vector3.zero);
 					old = transform.position;
 					reflect = wayP [i];
 
 					if (i % 2 == 0) {
-						positions.Add (wayP [i] * (Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z)));
+						positions.Add (wayP [i] * (Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z) - 1f));
+
+						if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit2 [i], distance - Mathf.Abs (hit [i].collider.transform.position.z - old.z)))
+							rayDistance [i] = Mathf.Abs (hit2 [i].collider.transform.position.z - old.z) - 1f;
+						else
+							rayDistance [i] = distance;
 					} else {
-						positions.Add (wayP [i] * (Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x)));
+						positions.Add (wayP [i] * (Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x) - 1f));
+
+						if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit2 [i], distance - Mathf.Abs (hit [i].collider.transform.position.x - old.x))) {
+							rayDistance [i] = Mathf.Abs (hit2 [i].collider.transform.position.x - old.x) - 1f;
+						} else
+							rayDistance [i] = distance;
 					}
 
 					while (hit [i].collider.GetComponent<ObjectController> ().isMirror) {
-						reflect = hit [i].collider.GetComponent<Mirror> ().Reflect ((hit [i].transform.position - old).normalized);
+						reflect = hit [i].collider.GetComponent<Mirror> ().Reflect ((hit [i].collider.transform.position - old).normalized);
 
 						if (reflect != Vector3.zero) {
-							old = hit [i].transform.position;
+							old = hit [i].collider.transform.position;
 
 							if (reflect.z != 0) {
 								distance = distance - Mathf.Abs (positions [positions.Count - 1].x - positions [positions.Count - 2].x);
-								if (Physics.Raycast (hit [i].collider.transform.position, reflect, out hit [i], distance)) {
+								if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit [i], distance)) {
 									positions.Add (reflect * (Mathf.Abs (hit [i].collider.transform.position.z - old.z) - 1f) + positions [positions.Count - 1]);
 
-									if (Physics.Raycast (hit [i].transform.position, reflect, out hit2 [i], distance))
-										rayDistance [i] = distance - Mathf.Abs (hit2 [i].collider.transform.position.z - old.z);
+									if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit2 [i], distance - Mathf.Abs (hit [i].collider.transform.position.z - old.z)))
+										rayDistance [i] = Mathf.Abs (hit2 [i].collider.transform.position.z - old.z) - 1f;
 									else
-										rayDistance [i] = distance + 1f;
+										rayDistance [i] = distance;
 								} else {
 									positions.Add (reflect * distance + positions [positions.Count - 1]);
 									break;
 								}
 							} else {
 								distance = distance - Mathf.Abs (positions [positions.Count - 1].z - positions [positions.Count - 2].z);
-								if (Physics.Raycast (hit [i].collider.transform.position, reflect, out hit [i], distance)) {
+								if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit [i], distance)) {
 									positions.Add (reflect * (Mathf.Abs (hit [i].collider.transform.position.x - old.x) - 1f) + positions [positions.Count - 1]);
 
-									if (Physics.Raycast (hit [i].transform.position, reflect, out hit2 [i], distance))
-										rayDistance [i] = distance - Mathf.Abs (hit2 [i].collider.transform.position.x - old.x);
+									if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit2 [i], distance - Mathf.Abs (hit [i].collider.transform.position.x - old.x)))
+										rayDistance [i] = Mathf.Abs (hit2 [i].collider.transform.position.x - old.x) - 1f;
 									else
-										rayDistance [i] = distance + 1f;
+										rayDistance [i] = distance;
 								} else {
 									positions.Add (reflect * distance + positions [positions.Count - 1]);
 									break;
@@ -95,11 +105,11 @@ public class BlueLight : MonoBehaviour {
 
 					if (reflect == Vector3.forward)
 						pushDirection [i] = 0;
-					else if(reflect == Vector3.right)
+					else if (reflect == Vector3.right)
 						pushDirection [i] = 1;
-					else if(reflect == Vector3.back)
+					else if (reflect == Vector3.back)
 						pushDirection [i] = 2;
-					else if(reflect == Vector3.left)
+					else if (reflect == Vector3.left)
 						pushDirection [i] = 3;
 
 					line [i].numPositions = positions.Count;
@@ -112,11 +122,11 @@ public class BlueLight : MonoBehaviour {
 					line [i].SetPositions (positionsFinal);
 
 					if (hit [i].collider != null && hit [i].collider.GetComponent<ObjectController> ().isPushable
-						&& (((reflect.z != 0) && hit [i].collider.transform.position.x < old.x + 0.1f
-							&& hit [i].collider.transform.position.x > old.x - 0.1f
-							&& Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).z - grid.ToPoint0Y (old).z) < rayDistance [i])
-							|| ((reflect.x != 0) && hit [i].collider.transform.position.z < old.z + 0.1f
-								&& hit [i].collider.transform.position.z > old.z - 0.1f
+					    && (((reflect.z != 0) && hit [i].collider.transform.position.x < old.x + 0.1f
+					    && hit [i].collider.transform.position.x > old.x - 0.1f
+					    && Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).z - grid.ToPoint0Y (old).z) < rayDistance [i])
+					    || ((reflect.x != 0) && hit [i].collider.transform.position.z < old.z + 0.1f
+					    && hit [i].collider.transform.position.z > old.z - 0.1f
 					    && Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).x - grid.ToPoint0Y (old).x) < rayDistance [i]))) {
 						obj [i] = hit [i].collider.GetComponent<PushController> ();
 
@@ -124,21 +134,21 @@ public class BlueLight : MonoBehaviour {
 							if (obj [i].gameObject == player.gameObject)
 								player.Stop ();
 							else if (obj [i] == player.GetGrabPush ()) {
-								if ((i % 2 == 0 && grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (transform.position).x)
-									|| (i % 2 == 1 && grid.ToPoint0Y (player.transform.position).z == grid.ToPoint0Y (transform.position).z)) {
+								if (((reflect.z != 0) && grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (transform.position).x)
+								    || ((reflect.x != 0) && grid.ToPoint0Y (player.transform.position).z == grid.ToPoint0Y (transform.position).z)) {
 									player.Stop ();
-									player.SetPushController (old + wayP[pushDirection[i]] * (rayDistance [i] + 1), wayP [pushDirection[i]]);
+									player.SetPushController (old + wayP [pushDirection [i]] * (rayDistance [i] + 1), wayP [pushDirection [i]]);
 								} else {
 									player.GrabRelease ();
 								}
 							}
-							
-							obj [i].SetMoveTo (old + wayP [pushDirection[i]] * (rayDistance [i]), wayP [pushDirection[i]]);
+							print ("2 " + rayDistance [i]);
+							obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
 						}
 					}
 				} else {
 					rayDistance [i] = rayDistanceDefault;
-					line [i].SetPosition (line [i].numPositions - 1, wayP [pushDirection[i]] * (rayDistance [i] - 1));
+					line [i].SetPosition (line [i].numPositions - 1, wayP [pushDirection [i]] * (rayDistance [i] - 1));
 				}
 			} else {
 				if (onPic [i] != null)
