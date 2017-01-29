@@ -1,12 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-- path: Assets/Scenes/Scene4.unity
-=======
-<<<<<<< Updated upstream
-- path: Assets/Scenes/Scene.unity
-=======
-- path: Assets/Scenes/Scene7.unity
->>>>>>> Stashed changes
->>>>>>> origin/tpc
+- path: Assets/Scenes/Startpage.unity
   isLoaded: 1
   isActive: 1
