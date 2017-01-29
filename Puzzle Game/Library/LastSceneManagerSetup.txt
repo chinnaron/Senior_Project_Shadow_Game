@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< Updated upstream
 - path: Assets/Scenes/Scene.unity
+=======
+- path: Assets/Scenes/Scene7.unity
+>>>>>>> Stashed changes
   isLoaded: 1
   isActive: 1
