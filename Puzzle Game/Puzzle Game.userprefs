@@ -1,50 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\StageTransition\GoToStage2.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GoalController.cs">
     <Files>
-      <File FileName="Assets\Scripts\SpecialObj\WhiteLight.cs" Line="125" Column="71" />
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="253" Column="43" />
-      <File FileName="Assets\Scripts\SpecialObj\RedLight.cs" Line="43" Column="25" />
-      <File FileName="Assets\Scripts\SpecialObj\YellowLight.cs" Line="42" Column="25" />
-      <File FileName="Assets\Scripts\SpecialObj\BlueLight.cs" Line="51" Column="25" />
-      <File FileName="Assets\Scripts\GoalController.cs" Line="9" Column="28" />
-      <File FileName="Assets\Scripts\StageTransition\GoToStage2.cs" Line="11" Column="8" />
-=======
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LeverController.cs">
-    <Files>
-      <File FileName="Assets\Scripts\SpecialObj\WhiteLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GoalController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\TriggerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LeverController.cs" Line="84" Column="4" />
-      <File FileName="Assets\Scripts\SpecialObj\YellowLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="1" Column="1" />
-=======
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SpecialObj\BlueLight.cs">
-    <Files>
-      <File FileName="Assets\Scripts\SpecialObj\WhiteLight.cs" Line="100" Column="7" />
-      <File FileName="Assets\Scripts\SpecialObj\BlueLight.cs" Line="72" Column="42" />
-      <File FileName="Assets\Scripts\SpecialObj\Mirror.cs" Line="27" Column="3" />
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="258" Column="2" />
-=======
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\StageSelection\GoToStage1.cs">
-    <Files>
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpecialObj\JumpPad.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="1" Column="1" />
-      <File FileName="Assets\VolumetricLines\Scripts\VolumetricLineBehavior.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GoalController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\StageSelection\StageSelectionGoToStage2.cs" Line="7" Column="1" />
-      <File FileName="Assets\Scripts\StageSelection\GoToStage1.cs" Line="1" Column="1" />
->>>>>>> origin/Stage
->>>>>>> b7b73503c8cf32aed0d0bc99b8511c2526d30402
->>>>>>> origin/master
+      <File FileName="Assets\Scripts\GoalController.cs" Line="11" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

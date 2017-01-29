@@ -1,15 +1,9 @@
-Base path: C:/Program Files/Unity/Editor/Data
+Base path: D:/Programs/Unity/Editor/Data
 Cmd: getPlatforms
-<<<<<<< HEAD
-=======
 Cmd: preprocess
   insize=3019 outsize=1254 ok=1
 Cmd: preprocess
   insize=4398 outsize=1085 ok=1
-Cmd: compileSnippet
-  api=4 type=0 insize=3622 outsize=1118 kw=WATER_REFRACTIVE pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA ok=1
-Cmd: compileSnippet
-  api=4 type=1 insize=3622 outsize=1418 kw=WATER_REFRACTIVE pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA ok=1
 Cmd: preprocess
   insize=4481 outsize=1363 ok=1
 Cmd: preprocess
@@ -38,4 +32,3 @@ Cmd: preprocess
   insize=4834 outsize=1084 ok=1
 Cmd: preprocess
   insize=938 outsize=281 ok=1
->>>>>>> origin/master
