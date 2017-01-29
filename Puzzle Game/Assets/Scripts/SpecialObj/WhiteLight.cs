@@ -9,6 +9,8 @@ public class WhiteLight : MonoBehaviour {
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
+	public GameObject whiterender;
+	public Material[] white_states;
 	private GridOverlay grid;
 	private PlayerController player;
 
@@ -31,6 +33,22 @@ public class WhiteLight : MonoBehaviour {
 	}
 
 	void Update () {
+
+		if (GetComponent<ObjectController> ().isMoveable) {
+			if (IsLightOn()) {
+				whiterender.GetComponent<Renderer> ().material = white_states[3];
+			} else {
+				whiterender.GetComponent<Renderer> ().material = white_states[2];
+			}
+		} else {
+			if (IsLightOn()) {
+				whiterender.GetComponent<Renderer> ().material = white_states[1];
+			} else {
+				whiterender.GetComponent<Renderer> ().material = white_states[0];
+			}
+		}
+
+
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i]) {
 				if (onPic [i] == null)
@@ -93,6 +111,9 @@ public class WhiteLight : MonoBehaviour {
 						longL [i] = 0f;
 					}
 				}
+			
+			
+			
 			} else {
 				if (onPic [i] != null)
 					Destroy (onPic [i]);
@@ -110,4 +131,14 @@ public class WhiteLight : MonoBehaviour {
 			}
 		}
 	}
+
+	bool IsLightOn() {
+		for (int i = 0; i < 4; i++) {
+			if (lightOn [i])
+				return true;
+		}
+		return false;
+	}
+
+
 }

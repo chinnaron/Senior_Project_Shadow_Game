@@ -8,6 +8,8 @@ public class YellowLight : MonoBehaviour {
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
+	public GameObject yellowrender;
+	public Material[] yellow_states;
 	private GridOverlay grid;
 
 	private readonly Vector3[] wayP = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left }; 
@@ -26,6 +28,19 @@ public class YellowLight : MonoBehaviour {
 	}
 
 	void Update ()	{
+		if (GetComponent<ObjectController> ().isMoveable) {
+			if (IsLightOn()) {
+				yellowrender.GetComponent<Renderer> ().material = yellow_states[3];
+			} else {
+				yellowrender.GetComponent<Renderer> ().material = yellow_states[2];
+			}
+		} else {
+			if (IsLightOn()) {
+				yellowrender.GetComponent<Renderer> ().material = yellow_states[1];
+			} else {
+				yellowrender.GetComponent<Renderer> ().material = yellow_states[0];
+			}
+		}
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i]) {
 				if (onPic [i] == null)
@@ -95,4 +110,12 @@ public class YellowLight : MonoBehaviour {
 			}
 		}
 	}
+	bool IsLightOn() {
+		for (int i = 0; i < 4; i++) {
+			if (lightOn [i])
+				return true;
+		}
+		return false;
+	}
+
 }

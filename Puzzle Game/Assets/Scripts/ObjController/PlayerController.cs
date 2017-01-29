@@ -238,7 +238,6 @@ public class PlayerController : MonoBehaviour {
 		transform.rotation = Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed);
 
 		anim.SetBool ("IsWalking", walking);
-		anim.SetBool ("IsGrabbing", grabbing);
 		anim.SetBool ("IsPushing" , pushing);
 		anim.SetBool ("IsPulling", pulling);
 	}
