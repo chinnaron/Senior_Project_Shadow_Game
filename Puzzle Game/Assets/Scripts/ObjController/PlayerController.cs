@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-	public GameObject desPic;
-	public GameObject grabPic;
+	public MenuScript menu;
 	public GameObject grabPlane;
 	public GameObject desPlane;
-	public MenuScript menu;
+	private GameObject desPic;
+	private GameObject grabPic;
 
 	private Vector3 movement;
 	private Vector3 pathDestination;
@@ -21,11 +21,13 @@ public class PlayerController : MonoBehaviour {
 	private PushController playerPush;
 	private GridOverlay grid;
 
+	private bool dying;
 	private bool walking;
 	private bool grabbing;
 	private bool pulling;
 	private bool pushing;
 
+	private int dieSpeed;
 	private int playerMask;
 	private int grabType;
 
@@ -40,17 +42,24 @@ public class PlayerController : MonoBehaviour {
 	private RaycastHit hit;
 	private RaycastHit grabHit;
 
+	private GameObject grabLever;
+	private Vector3 grabPointLever;
+	private LeverController leverController;
+
 	public Stack<Vector3> path = new Stack<Vector3> ();
 
 	void Awake () {
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
-		walking = grabbing = false;
+		walking = grabbing = dying = false;
+		dieSpeed = 10;
 
 		anim = GetComponent<Animator> ();
 		playerPush = GetComponent<PushController> ();
 		playerMask = LayerMask.GetMask ("Player");
 		grid = FindObjectOfType<GridOverlay> ();
+		desPic = Resources.Load ("DesPic", typeof(GameObject)) as GameObject;
+		grabPic = Resources.Load ("GrabPic", typeof(GameObject)) as GameObject;
 	}
 
 	void Update (){
@@ -59,10 +68,11 @@ public class PlayerController : MonoBehaviour {
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
 				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask)) {
-					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2) {
+					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2
+						|| hit.collider.GetComponent<ObjectController> ().isTempWalkable || hit.collider.GetComponent<ObjectController> ().isTempWalkable2) {
 						point = grid.ToPoint (hit.point);
 						if (grabbing) {
-							if (point != grid.ToPoint(transform.position + grabPoint) && point != grid.ToPoint(transform.position)) {
+							if (point != grid.ToPoint (transform.position + grabPoint) && point != grid.ToPoint (transform.position)) {
 								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint
 									&& grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
 									path.Clear ();
@@ -83,7 +93,7 @@ public class PlayerController : MonoBehaviour {
 										path.Push (point);
 									else
 										path = grid.FindGrabPath (point, transform.position - grabPoint, -grabPoint);
-									
+
 									StartToWalk (point, Vector3.zero);
 									lookAt = Quaternion.LookRotation (grabPoint);
 
@@ -120,19 +130,41 @@ public class PlayerController : MonoBehaviour {
 								grabType = grid.block;
 							else
 								grabType = grid.block2;
-							
+
 							grabPlane = Instantiate (grabPic, grabPoint + transform.position, Quaternion.LookRotation (Vector3.forward), grabPush.transform);
 						} else {
 							GrabRelease ();
 							grid.SetGrid (grabPush.transform.position, grabType);
 						}
 					}
+
+					//When grabbing lever
+					if (Physics.Raycast (ray, out grabHit, camRayLength,~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isLever) {
+						grabLever = grabHit.collider.gameObject;
+						//grabPush = grabObj.GetComponent<PushController> ();
+						grabPointLever = grid.ToPoint0Y (grabLever.transform.position) - grid.ToPoint0Y (transform.position);
+						leverController = grabLever.GetComponent<LeverController>();
+						if (!grabbing && grabPointLever.magnitude == 1f) {
+							lookAt = Quaternion.LookRotation (grabPointLever);
+							//grabPlane = Instantiate (grabPic, grabPointLever + transform.position, Quaternion.LookRotation (Vector3.forward));
+							Debug.Log ("Lever Grabbed");
+							leverController.changeState ();
+							//grabLever.changeState ();
+						} else {
+							//Nothing?
+						}
+					}
+					//======================
 				}
 			}
 		}
 	}
 
 	void FixedUpdate () {
+		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping && grid.GetGrid (transform.position) == grid.unwalkable) {
+			YouDied ();
+		}
+
 		if (playerPush.moving) {
 			walking = false;
 			Destroy (desPlane);
@@ -155,7 +187,7 @@ public class PlayerController : MonoBehaviour {
 					if (!playerPush.falling && playerPush.CheckFall ()) {
 						movement = Vector3.zero;
 						walking = false;
- 							playerPush.SetFall ();
+						playerPush.SetFall ();
 					}
 				}
 			}
@@ -191,7 +223,7 @@ public class PlayerController : MonoBehaviour {
 			if (Vector3.Dot (grid.Set0Y (transform.position + movement - pathDestination).normalized
 				, grid.Set0Y (transform.position - pathDestination).normalized) == -1f)
 				movement = grid.Set0Y (pathDestination - transform.position);
-			
+
 			transform.position = transform.position + movement;
 
 			if (grabbing) {
@@ -229,17 +261,27 @@ public class PlayerController : MonoBehaviour {
 						pulling = true;
 					}
 				}
-
 			}
-
-		
 		}
-			
+
 		transform.rotation = Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed);
 
+		if (dying) {
+			transform.position = transform.position + Vector3.down * dieSpeed * Time.deltaTime;
+			dieSpeed++;
+
+			if (transform.position.y < -8)
+				Application.LoadLevel (Application.loadedLevel);
+		}
+
 		anim.SetBool ("IsWalking", walking);
+		//		anim.SetBool ("IsGrabbing", grabbing);
 		anim.SetBool ("IsPushing" , pushing);
 		anim.SetBool ("IsPulling", pulling);
+	}
+
+	void YouDied(){
+		dying = true;
 	}
 
 	void StartToWalk (Vector3 des, Vector3 grabPoi) {
@@ -250,7 +292,7 @@ public class PlayerController : MonoBehaviour {
 			destination.y = 0f;
 		else
 			destination.y = 1f;
-		
+
 		pathDestination = path.Peek ();
 		path.Pop ();
 		if (grid.GetGrid (destination + grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable)
