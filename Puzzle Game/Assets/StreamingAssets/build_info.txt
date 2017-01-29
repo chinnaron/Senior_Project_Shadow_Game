@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-Build from DESKTOP-KCG36KO at 1/30/2017 12:01:50 AM
-=======
-Build from TON-PC at 1/30/2017 12:11:18 AM
->>>>>>> origin/4
+Build from DESKTOP-KCG36KO at 1/30/2017 12:23:37 AM
