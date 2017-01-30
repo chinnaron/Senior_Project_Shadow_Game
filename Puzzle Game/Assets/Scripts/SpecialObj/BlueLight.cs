@@ -119,6 +119,8 @@ public class BlueLight : MonoBehaviour {
 							break;
 					}
 
+					rayDistance [i] = Mathf.Floor (rayDistance [i]);
+
 					if (reflect == Vector3.forward)
 						pushDirection [i] = 0;
 					else if (reflect == Vector3.right)
@@ -145,21 +147,32 @@ public class BlueLight : MonoBehaviour {
 					    && hit [i].collider.transform.position.z > old.z - 0.1f
 					    && Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).x - grid.ToPoint0Y (old).x) < rayDistance [i]))) {
 						obj [i] = hit [i].collider.GetComponent<PushController> ();
-
+						print (rayDistance [i]);
 						if (!obj [i].moving && !obj [i].jumping && !obj [i].falling) {
-							if (obj [i].gameObject == player.gameObject)
-								player.Stop ();
-							else if (obj [i] == player.GetGrabPush ()) {
-								if (((reflect.z != 0) && grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (transform.position).x)
-								    || ((reflect.x != 0) && grid.ToPoint0Y (player.transform.position).z == grid.ToPoint0Y (transform.position).z)) {
-									player.Stop ();
-									player.SetPushController (old + wayP [pushDirection [i]] * (rayDistance [i] + 1), wayP [pushDirection [i]]);
+							if (player.IsGrabbing () && (obj [i].gameObject == player.gameObject || obj [i] == player.GetGrabPush ())) {
+								if (obj [i].gameObject == player.gameObject) {
+									if (((reflect.z != 0) && grid.ToPoint0Y (player.transform.position).z == grid.ToPoint0Y (player.GetGrabPush ().transform.position).z)
+										|| ((reflect.x != 0) && grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (player.GetGrabPush ().transform.position).x)) {
+										grid.SetGridHere (player.transform.position + player.GetGrabPoint ());
+										player.GrabRelease ();
+										obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
+									}
 								} else {
-									player.GrabRelease ();
-								}
-							}
+									if (((reflect.z != 0) && grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (player.GetGrabPush ().transform.position).x)
+									    || ((reflect.x != 0) && grid.ToPoint0Y (player.transform.position).z == grid.ToPoint0Y (player.GetGrabPush ().transform.position).z)) {
+										player.Stop ();
+										player.SetPushController (old + wayP [pushDirection [i]] * (rayDistance [i] + 1), wayP [pushDirection [i]]);
+									} else
+										player.GrabRelease ();
 
-							obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
+									obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
+								}
+							} else {
+								if (obj [i].gameObject == player.gameObject)
+									player.Stop ();
+								
+								obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
+							}
 						}
 					}
 				} else {

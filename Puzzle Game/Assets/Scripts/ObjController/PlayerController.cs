@@ -125,6 +125,16 @@ public class PlayerController : MonoBehaviour {
 						grabObj = grabHit.collider.gameObject;
 						grabPush = grabObj.GetComponent<PushController> ();
 						grabPoint = grid.ToPoint0Y (grabPush.transform.position) - grid.ToPoint0Y (transform.position);
+//						path = grid.FindNearestPath (transform.position, grabPush.transform.position, playerPush.GetOnFloor (), grabPush.GetOnFloor ());
+//
+//						if (!grabbing) {
+//							
+//						}
+//						if (path.Count > 0) {
+//							
+//						} else if (grabPoint.magnitude == 1f) {
+//						
+//						}
 
 						if (!grabbing && grabPoint.magnitude == 1f && grabPush.GetOnFloor () == playerPush.GetOnFloor ()) {
 							grabbing = true;
@@ -194,6 +204,8 @@ public class PlayerController : MonoBehaviour {
 						grid.SetGridHere (transform.position + grabPoint);
 						GrabRelease ();
 					}
+
+					grid.SetGridHere (transform.position + grabPoint);
 				} else {
 					if (!playerPush.falling && playerPush.CheckFall ()) {
 						movement = Vector3.zero;
@@ -204,16 +216,18 @@ public class PlayerController : MonoBehaviour {
 			}
 
 			if (transform.position == pathDestination) {
-				if (grabbing && !grabPush.moving) {
-					if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {
-						playerPush.SetFall ();
-						grabPush.SetFall ();
-						grid.SetGridHere (transform.position + grabPoint);
-						GrabRelease ();
-					}
-				}
-
 				if (pathDestination == destination) {
+					if (grabbing && !grabPush.moving) {
+						if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {
+							playerPush.SetFall ();
+							grabPush.SetFall ();
+							grid.SetGridHere (transform.position + grabPoint);
+							GrabRelease ();
+						}
+
+						grid.SetGridHere (transform.position + grabPoint);
+					}
+
 					Destroy (desPlane);
 					path.Clear ();
 					movement = Vector3.zero;
@@ -342,6 +356,14 @@ public class PlayerController : MonoBehaviour {
 		walking = false;
 		grabPush = null;
 		grabObj = null;
+	}
+
+	public bool IsGrabbing(){
+		return grabbing;
+	}
+
+	public Vector3 GetGrabPoint(){
+		return grabPoint;
 	}
 
 	public void Stop () {

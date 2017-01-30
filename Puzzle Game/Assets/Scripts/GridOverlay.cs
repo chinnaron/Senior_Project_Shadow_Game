@@ -142,6 +142,7 @@ public class GridOverlay : MonoBehaviour {
 
 	public void SetGridHere (Vector3 v){
 		if (Physics.Raycast (ToPoint0Y (v) + Vector3.up * 5, Vector3.down, out hit, 10f)) {
+			objCon = hit.collider.GetComponent<ObjectController> ();
 			if (objCon.isBlock2)
 				grid [ToGridX (v), ToGridZ (v)] = block2;
 			else if (objCon.isTempWalkable2)
@@ -366,6 +367,24 @@ public class GridOverlay : MonoBehaviour {
 				}
 				ans.Push (current);
 				b++;
+			}
+		}
+
+		return ans;
+	}
+
+	public Stack<Vector3> FindNearestPath(Vector3 start, Vector3 goal, bool startFloor, bool goalFloor){
+		List<Vector3> l = NeighborOf (goal, goalFloor);
+		Stack<Vector3> s = new Stack<Vector3> ();
+		Stack<Vector3> ans = new Stack<Vector3> ();
+		if (l.Count > 0) {
+			ans = FindPath (start, l [0], startFloor);
+
+			foreach (Vector3 v in l) {
+				s = FindPath (start, v, startFloor);
+				if (s.Count < ans.Count) {
+					ans = s;
+				}
 			}
 		}
 

@@ -126,8 +126,8 @@ public class PushController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-
 		if (moving) {
+			print (transform.position + "" + destination);
 			if (nearest > Vector3.Distance (transform.position, destination)) {
 				nearest = Vector3.Distance (transform.position, destination);
 			} else if (nearest < Vector3.Distance (transform.position, destination)) {

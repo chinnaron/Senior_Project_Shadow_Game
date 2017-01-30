@@ -118,6 +118,8 @@ public class WhiteLight : MonoBehaviour {
 							break;
 					}
 
+					shadowLong = Mathf.Floor (shadowLong);
+
 					if (reflect == Vector3.forward)
 						shadowDirection [i] = 0;
 					else if(reflect == Vector3.right)
