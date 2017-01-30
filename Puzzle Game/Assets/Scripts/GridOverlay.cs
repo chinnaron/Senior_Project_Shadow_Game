@@ -46,11 +46,15 @@ public class GridOverlay : MonoBehaviour {
 						objCon = hit.collider.GetComponent<ObjectController> ();
 						if (objCon.isBlock2)
 							grid [x, z] = block2;
-						else if (objCon.isWalkable2 && grid [x, z] != block2)
+						else if (objCon.isTempWalkable2 && grid [x, z] != block2)
+							grid [x, z] = tempWalkable2;
+						else if (objCon.isWalkable2 && grid [x, z] != block2 && grid [x, z] != tempWalkable2)
 							grid [x, z] = walkable2;
-						else if (objCon.isBlock && grid [x, z] != block2 && grid [x, z] != walkable2)
+						else if (objCon.isBlock && grid [x, z] != block2 && grid [x, z] != walkable2 && grid [x, z] != tempWalkable2)
 							grid [x, z] = block;
-						else if (objCon.isUnwalkable)
+						else if (objCon.isTempWalkable && grid [x, z] != block && grid [x, z] != block2 && grid [x, z] != walkable2 && grid [x, z] != tempWalkable2)
+							grid [x, z] = tempWalkable;
+						else if (objCon.isUnwalkable && grid [x, z] != block && grid [x, z] != block2 && grid [x, z] != walkable2 && grid [x, z] != tempWalkable && grid [x, z] != tempWalkable2)
 							grid [x, z] = unwalkable;
 					}
 				}
@@ -134,6 +138,25 @@ public class GridOverlay : MonoBehaviour {
 	//public methods
 	public void SetGrid (Vector3 v, int i){
 		grid [ToGridX (v), ToGridZ (v)] = i;
+	}
+
+	public void SetGridHere (Vector3 v){
+		if (Physics.Raycast (ToPoint0Y (v) + Vector3.up * 5, Vector3.down, out hit, 10f)) {
+			if (objCon.isBlock2)
+				grid [ToGridX (v), ToGridZ (v)] = block2;
+			else if (objCon.isTempWalkable2)
+				grid [ToGridX (v), ToGridZ (v)] = tempWalkable2;
+			else if (objCon.isWalkable2)
+				grid [ToGridX (v), ToGridZ (v)] = walkable2;
+			else if (objCon.isBlock)
+				grid [ToGridX (v), ToGridZ (v)] = block;
+			else if (objCon.isUnwalkable)
+				grid [ToGridX (v), ToGridZ (v)] = unwalkable;
+			else if (objCon.isTempWalkable)
+				grid [ToGridX (v), ToGridZ (v)] = tempWalkable;
+			else
+				grid [ToGridX (v), ToGridZ (v)] = walkable;
+		}
 	}
 
 	public void SwapGrid (Vector3 v1, Vector3 v2){

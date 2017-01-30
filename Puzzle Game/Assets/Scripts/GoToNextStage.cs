@@ -11,7 +11,7 @@ public class GoToNextStage : MonoBehaviour {
 
 	void Awake(){
 		name = Application.loadedLevelName;
-		can = int.TryParse (name.Substring (5, 1), out nextStage);
+		can = int.TryParse (name.Substring (name.Length - 1, 1), out nextStage);
 		nextStage += 1;
 
 		if(!can)

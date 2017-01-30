@@ -12,6 +12,7 @@ public class PushController : MonoBehaviour {
 	private float moveSpeed;
 	private float jumpSpeed;
 	private float height;
+	private float nearest;
 
 	private Vector3 movement;
 	private Vector3 moveY;
@@ -59,6 +60,7 @@ public class PushController : MonoBehaviour {
 		destination = grid.ToPointY (des, onFloor) + Vector3.up * height;
 		destination.y = (onFloor ? 0f : 1f) + height;
 		moving = true;
+		nearest = Vector3.Distance (transform.position, destination);
 		movement = dir;
 
 		if (objController.isBlock)
@@ -78,6 +80,7 @@ public class PushController : MonoBehaviour {
 			objController.isBlock = true;
 		}
 
+		nearest = Vector3.Distance (transform.position, destination);
 		movement = Vector3.down;
 	}
 
@@ -92,6 +95,7 @@ public class PushController : MonoBehaviour {
 			objController.isBlock2 = true;
 		}
 
+		nearest = Vector3.Distance (transform.position, destination);
 		movement = dir;
 
 		if (num == 1) {
@@ -122,7 +126,15 @@ public class PushController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+
 		if (moving) {
+			if (nearest > Vector3.Distance (transform.position, destination)) {
+				nearest = Vector3.Distance (transform.position, destination);
+			} else if (nearest < Vector3.Distance (transform.position, destination)) {
+				nearest = 0;
+				transform.position = destination;
+			}
+
 			if (transform.position == destination) {
 				movement = Vector3.zero;
 				moving = false;
@@ -131,7 +143,7 @@ public class PushController : MonoBehaviour {
 					SetFall ();
 				
 				if (!objController.isPlayer)
-					grid.SetGrid (destination, objController.GetType ());
+					grid.SetGridHere (destination);
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
@@ -145,6 +157,13 @@ public class PushController : MonoBehaviour {
 		}
 
 		if (falling) {
+			if (nearest > Vector3.Distance (transform.position, destination)) {
+				nearest = Vector3.Distance (transform.position, destination);
+			} else if (nearest < Vector3.Distance (transform.position, destination)) {
+				nearest = 0;
+				transform.position = destination;
+			}
+
 			if (transform.position == destination) {
 				movement = Vector3.zero;
 				falling = false;
@@ -154,7 +173,7 @@ public class PushController : MonoBehaviour {
 				}
 
 				if (!objController.isPlayer)
-					grid.SetGrid (destination, objController.GetType ());
+					grid.SetGridHere (destination);
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
@@ -168,13 +187,20 @@ public class PushController : MonoBehaviour {
 		}
 
 		if (jumping) {
+			if (nearest > Vector3.Distance (transform.position, destination)) {
+				nearest = Vector3.Distance (transform.position, destination);
+			} else if (nearest < Vector3.Distance (transform.position, destination)) {
+				nearest = 0;
+				transform.position = destination;
+			}
+
 			if (grid.Set0Y (transform.position) == grid.Set0Y (destination)) {
 				movement = Vector3.zero;
 				moveY = Vector3.zero;
 				jumping = false;
 
 				if (!objController.isPlayer)
-					grid.SetGrid (destination, objController.GetType ());
+					grid.SetGridHere (destination);
 
 				if (onFloor && transform.position.y != 0f) {
 					SetFallTo (grid.ToPoint0Y (transform.position));

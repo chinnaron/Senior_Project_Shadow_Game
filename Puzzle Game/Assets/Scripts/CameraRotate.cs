@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CameraRotate : MonoBehaviour {
+	public bool right;
+	public GameObject bg;
+	public GameObject camera;
 
 	// Use this for initialization
 	void Start () {
-
 		Button btn = GetComponent<Button>();
 		btn.onClick.AddListener(TaskOnClick);
 	}
@@ -16,7 +18,12 @@ public class CameraRotate : MonoBehaviour {
 	void TaskOnClick(){
 		//Debug.Log ("You have clicked the button!");
 
-
-		Camera.main.transform.Rotate (new Vector3 (90, 0, 0));
+		if (right) {
+			camera.transform.Rotate (new Vector3 (0, -90, 0));
+			bg.transform.Rotate (new Vector3 (0, -90, 0));
+		} else {
+			camera.transform.Rotate (new Vector3 (0, 90, 0));
+			bg.transform.Rotate (new Vector3 (0, 90, 0));
+		}
 	}
 }

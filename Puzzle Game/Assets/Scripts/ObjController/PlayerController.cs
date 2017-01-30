@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour {
 	private int playerMask;
 	private int grabType;
 
+	private float nearest = 0f;
 	private readonly float speed = 5f;
 	private readonly float turnSpeed = 10f;
 	private readonly float camRayLength = 100f;
@@ -86,6 +87,7 @@ public class PlayerController : MonoBehaviour {
 									else
 										grid.SetGrid (transform.position + grabPoint, grid.walkable2);
 
+									nearest = Vector3.Distance (transform.position, destination);
 									movement = grid.Set0Y (pathDestination - transform.position);
 								} else if (grid.Set0Y (point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint, playerPush.GetOnFloor ())) {
 									path.Clear ();
@@ -102,6 +104,7 @@ public class PlayerController : MonoBehaviour {
 									else
 										grid.SetGrid (transform.position + grabPoint, grid.walkable2);
 
+									nearest = Vector3.Distance (transform.position, destination);
 									movement = grid.Set0Y (pathDestination - transform.position);
 								}
 							}
@@ -111,6 +114,7 @@ public class PlayerController : MonoBehaviour {
 
 							if (path.Count > 0) {
 								StartToWalk (point, Vector3.zero);
+								nearest = Vector3.Distance (transform.position, destination);
 								movement = grid.Set0Y (pathDestination - transform.position);
 								lookAt = Quaternion.LookRotation (movement);
 							}
@@ -133,8 +137,8 @@ public class PlayerController : MonoBehaviour {
 
 							grabPlane = Instantiate (grabPic, grabPoint + transform.position, Quaternion.LookRotation (Vector3.forward), grabPush.transform);
 						} else {
+							grid.SetGridHere (transform.position + grabPoint);
 							GrabRelease ();
-							grid.SetGrid (grabPush.transform.position, grabType);
 						}
 					}
 
@@ -175,13 +179,20 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (walking) {
+			if (nearest >= Vector3.Distance (transform.position, destination) && path.Count > 0) {
+				nearest = Vector3.Distance (transform.position, destination);
+			} else if (nearest < Vector3.Distance (transform.position, destination) && path.Count == 0) {
+				nearest = 0;
+				transform.position = pathDestination;
+			}
+
 			if (transform.position == pathDestination + Vector3.up) {
 				if (grabbing && !grabPush.moving) {
 					if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {
 						playerPush.SetFall ();
 						grabPush.SetFall ();
+						grid.SetGridHere (transform.position + grabPoint);
 						GrabRelease ();
-						grid.SetGrid (grabPush.transform.position, grabType);
 					}
 				} else {
 					if (!playerPush.falling && playerPush.CheckFall ()) {
@@ -197,8 +208,8 @@ public class PlayerController : MonoBehaviour {
 					if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {
 						playerPush.SetFall ();
 						grabPush.SetFall ();
+						grid.SetGridHere (transform.position + grabPoint);
 						GrabRelease ();
-						grid.SetGrid (grabPush.transform.position, grabType);
 					}
 				}
 
@@ -329,6 +340,8 @@ public class PlayerController : MonoBehaviour {
 		path.Clear ();
 		movement = Vector3.zero;
 		walking = false;
+		grabPush = null;
+		grabObj = null;
 	}
 
 	public void Stop () {
