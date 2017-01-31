@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/Scene6.unity
+=======
+- path: Assets/Scenes/Scene5.unity
+>>>>>>> origin/redlightfix
   isLoaded: 1
   isActive: 1
