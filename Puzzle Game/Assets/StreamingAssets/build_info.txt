@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Build from DESKTOP-KCG36KO at 1/31/2017 4:13:41 PM
+=======
+Build from TON-LAPTOP at 1/31/2017 3:56:23 PM
+>>>>>>> origin/TON_ui
