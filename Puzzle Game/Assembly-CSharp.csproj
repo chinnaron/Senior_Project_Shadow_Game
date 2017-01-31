@@ -108,7 +108,7 @@
      <Compile Include="Assets\Scripts\StageSelection\Quitbtn.cs" />
      <Compile Include="Assets\Scripts\StageSelection\StageSelectionGoToStage.cs" />
      <Compile Include="Assets\Scripts\StartGameScript.cs" />
-     <Compile Include="Assets\SwipeToRotate.cs" />
+     <Compile Include="Assets\Scripts\SwipeToRotate.cs" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderOld.shader" />
      <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />
@@ -130,9 +130,6 @@
      <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineShaderAlphaBlendedFast.shader" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
      <None Include="Assets\LoadedAssets\ParticleLight\Shader\AdditiveMask.shader" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -147,9 +144,6 @@
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
