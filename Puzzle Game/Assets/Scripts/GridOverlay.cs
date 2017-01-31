@@ -227,6 +227,70 @@ public class GridOverlay : MonoBehaviour {
 		return true;
 	}
 
+	public bool BallCanMove(Vector3 start, Vector3 goal){
+		start = ToPoint0Y (start);
+		goal = ToPoint0Y (goal);
+		Vector3 direction = (goal - start).normalized;
+		RaycastHit[] hit;
+		bool temp = false;
+		bool temp2 = false;
+		bool temp_2 = false;
+		bool temp2_2 = false;
+		int i = 0;
+
+		if (start == goal) {
+			hit = Physics.RaycastAll (start + Vector3.up * 5, Vector3.down, 10f);
+
+			foreach (RaycastHit hit2 in hit) {
+				if (hit2.collider.GetComponent<ObjectController> ().isTempWalkable) {
+					if (temp)
+						temp_2 = true;
+
+					temp = true;
+				}
+
+				if (hit2.collider.GetComponent<ObjectController> ().isTempWalkable2) {
+					if (temp2)
+						temp2_2 = true;
+
+					temp2 = true;
+				}
+
+				if (hit2.collider.GetComponent<ObjectController> ().isUnwalkable && !temp_2 && !temp2_2)
+					return false;
+			}
+		}
+
+		while (start != goal || i > 100) {
+			hit = Physics.RaycastAll (start + Vector3.up * 5, Vector3.down, 10f);
+
+			foreach (RaycastHit hit2 in hit) {
+				if (hit2.collider.GetComponent<ObjectController> ().isTempWalkable) {
+					if (temp)
+						temp_2 = true;
+					
+					temp = true;
+				}
+
+				if (hit2.collider.GetComponent<ObjectController> ().isTempWalkable2) {
+					if (temp2)
+						temp2_2 = true;
+					
+					temp2 = true;
+				}
+
+				if (hit2.collider.GetComponent<ObjectController> ().isUnwalkable && !temp_2 && !temp2_2)
+					return false;
+			}
+
+			temp = temp2 = temp_2 = temp2_2 = false;
+			start = start + direction;
+			i++;
+		}
+
+		return true;
+	}
+
 	public bool IsWalkable(Vector3 v1, Vector3 v2, bool onFloor){
 		int v1X = ToGridX (v1);
 		int v1Z = ToGridZ (v1);

@@ -47,8 +47,8 @@ public class PressureSwitchController : MonoBehaviour {
 	public void changeState(){
 		state = !state;
 		reverseTrigger = !reverseTrigger;
-		Debug.Log ("Pressure Switch state changed from "+!state+" to "+state);
-		Debug.Log ("Light Box state changed from "+!reverseTrigger+" to "+reverseTrigger);
+//		Debug.Log ("Pressure Switch state changed from "+!state+" to "+state);
+//		Debug.Log ("Light Box state changed from "+!reverseTrigger+" to "+reverseTrigger);
 		setPressureSwitch ();
 		setLight ();
 	}
@@ -56,36 +56,36 @@ public class PressureSwitchController : MonoBehaviour {
 	public void setLight(){
 		string type = getType ();
 		if (type == "WhiteLight") {
-			Debug.Log ("White light on = " + state);
+//			Debug.Log ("White light on = " + state);
 			for (int i = 0; i < 4; i++) {
 				if (lightBox.GetComponent<WhiteLight> ().LightTriggerDirection [i])
 					lightBox.GetComponent<WhiteLight> ().lightOn [i] = reverseTrigger;
 			}
 		} else if (type == "RedLight") {
-			Debug.Log ("Red light on = " + state);
+//			Debug.Log ("Red light on = " + state);
 			for (int i = 0; i < 4; i++) {
 				if (lightBox.GetComponent<RedLight> ().LightTriggerDirection [i])
 					lightBox.GetComponent<RedLight> ().lightOn [i] = reverseTrigger;
 			}
 		} else if (type == "BlueLight") {
-			Debug.Log ("Blue light on = " + state);
+//			Debug.Log ("Blue light on = " + state);
 			for (int i = 0; i < 4; i++) {
 				if (lightBox.GetComponent<BlueLight> ().LightTriggerDirection [i])
 					lightBox.GetComponent<BlueLight> ().lightOn [i] = reverseTrigger;
 			}
 		} else if (type == "YellowLight") {
-			Debug.Log ("Yellow light on = " + state);
+//			Debug.Log ("Yellow light on = " + state);
 			for (int i = 0; i < 4; i++) {
 				if (lightBox.GetComponent<YellowLight> ().LightTriggerDirection [i])
 					lightBox.GetComponent<YellowLight> ().lightOn [i] = reverseTrigger;
 			}
 		} else {
-			Debug.Log ("No light script!");
+//			Debug.Log ("No light script!");
 		}
 	}
 
 	public void setPressureSwitch(){
-		Debug.Log ("Set Pressure Switch");
+//		Debug.Log ("Set Pressure Switch");
 		if (!state) {
 			transform.position = originalPosition;
 		} else {

@@ -39,7 +39,7 @@ public class LeverController : MonoBehaviour {
 
 	public void changeState(){
 		state = !state;
-		Debug.Log ("Lever state changed from "+!state+" to "+state);
+//		Debug.Log ("Lever state changed from "+!state+" to "+state);
 		setLeverhand ();
 		setLight ();
 	}
@@ -47,36 +47,36 @@ public class LeverController : MonoBehaviour {
 	public void setLight(){
 		string type = getType ();
 		if (type == "WhiteLight") {
-			Debug.Log ("White light on = " + state);
+//			Debug.Log ("White light on = " + state);
 			for (int i = 0; i < 4; i++) {
 				if (lightBox.GetComponent<WhiteLight> ().LightTriggerDirection [i])
 					lightBox.GetComponent<WhiteLight> ().lightOn [i] = state;
 			}
 		} else if (type == "RedLight") {
-			Debug.Log ("Red light on = " + state);
+//			Debug.Log ("Red light on = " + state);
 			for (int i = 0; i < 4; i++) {
 				if (lightBox.GetComponent<RedLight> ().LightTriggerDirection [i])
 					lightBox.GetComponent<RedLight> ().lightOn [i] = state;
 			}
 		} else if (type == "BlueLight") {
-			Debug.Log ("Blue light on = " + state);
+//			Debug.Log ("Blue light on = " + state);
 			for (int i = 0; i < 4; i++) {
 				if (lightBox.GetComponent<BlueLight> ().LightTriggerDirection [i])
 					lightBox.GetComponent<BlueLight> ().lightOn [i] = state;
 			}
 		} else if (type == "YellowLight") {
-			Debug.Log ("Yellow light on = " + state);
+//			Debug.Log ("Yellow light on = " + state);
 			for (int i = 0; i < 4; i++) {
 				if (lightBox.GetComponent<YellowLight> ().LightTriggerDirection [i])
 					lightBox.GetComponent<YellowLight> ().lightOn [i] = state;
 			}
 		} else {
-			Debug.Log ("No light script!");
+//			Debug.Log ("No light script!");
 		}
 	}
 
 	public void setLeverhand(){
-		Debug.Log ("Set Lever Hand");
+//		Debug.Log ("Set Lever Hand");
 		if (!state) {
 			leverHand.transform.RotateAround(transform.position, Vector3.forward, tiltAngle*2);
 		} else {
@@ -85,7 +85,7 @@ public class LeverController : MonoBehaviour {
 	}
 
 	public void setInitialLeverHand(){
-		Debug.Log ("Set Initial Lever Hand");
+//		Debug.Log ("Set Initial Lever Hand");
 		if (!state) {
 			leverHand.transform.RotateAround(transform.position, Vector3.forward, tiltAngle);
 		} else {

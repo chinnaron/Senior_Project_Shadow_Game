@@ -92,7 +92,9 @@ public class PlayerController : MonoBehaviour {
 
 									nearest = Vector3.Distance (transform.position, destination);
 									movement = grid.Set0Y (pathDestination - transform.position);
-								} else if (grid.Set0Y (point - transform.position).normalized == -grabPoint && grid.IsWalkable (point, transform.position - grabPoint, playerPush.GetOnFloor ())) {
+								} else if (grid.Set0Y (point - transform.position).normalized == -grabPoint
+								           && grid.IsWalkable (point, transform.position - grabPoint, playerPush.GetOnFloor ())
+								           && grid.BallCanMove (transform.position, point + grabPoint)) {
 									path.Clear ();
 									if (grid.ToPoint0Y (point) == grid.ToPoint0Y (transform.position - grabPoint))
 										path.Push (point);
