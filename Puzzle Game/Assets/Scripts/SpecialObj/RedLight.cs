@@ -113,10 +113,10 @@ public class RedLight : MonoBehaviour {
 					line [i].SetPositions (positionsFinal);
 
 					if (hit [i].collider != null && hit [i].collider.GetComponent<ObjectController> ().isDestroyable
-						&& (((reflect.z != 0) && (hit [i].collider.transform.position.x < old.x + 0.1f
-							&& hit [i].collider.transform.position.x > old.x - 0.1f))
-							|| ((reflect.x != 0) && (hit [i].collider.transform.position.z < old.z + 0.1f
-								&& hit [i].collider.transform.position.z > old.z - 0.1f)))) {
+						&& (((reflect.z != 0) && (hit [i].collider.transform.position.x < old.x + 0.2f
+							&& hit [i].collider.transform.position.x > old.x - 0.2f))
+							|| ((reflect.x != 0) && (hit [i].collider.transform.position.z < old.z + 0.2f
+								&& hit [i].collider.transform.position.z > old.z - 0.2f)))) {
 						if (hit [i].collider.gameObject == player.gameObject) {
 							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
 							Application.LoadLevel (Application.loadedLevel);
