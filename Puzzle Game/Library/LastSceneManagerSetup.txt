@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
 - path: Assets/Scenes/Scene6.unity
-=======
-- path: Assets/Scenes/Scene5.unity
->>>>>>> origin/TON_ui
   isLoaded: 1
   isActive: 1

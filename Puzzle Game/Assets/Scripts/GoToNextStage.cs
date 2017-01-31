@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GoToNextStage : MonoBehaviour {
 	private string name;
@@ -19,6 +20,9 @@ public class GoToNextStage : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
-		SceneManager.LoadScene("Scene" + nextStage);
+		if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage))
+			SceneManager.LoadScene ("Scene" + nextStage);
+		else
+			SceneManager.LoadScene ("StageSelection");
 	}
 }
