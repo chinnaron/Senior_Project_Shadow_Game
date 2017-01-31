@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour {
 	private PushController playerPush;
 	private GridOverlay grid;
 
+	private bool goToLever;
+	private bool goToGrab;
 	private bool dying;
 	private bool walking;
 	private bool grabbing;
@@ -52,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 	void Awake () {
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
-		walking = grabbing = dying = false;
+		walking = grabbing = dying = goToGrab = goToLever = false;
 		dieSpeed = 10;
 
 		anim = GetComponent<Animator> ();
@@ -72,10 +74,11 @@ public class PlayerController : MonoBehaviour {
 					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2
 						|| hit.collider.GetComponent<ObjectController> ().isTempWalkable || hit.collider.GetComponent<ObjectController> ().isTempWalkable2) {
 						point = grid.ToPoint (hit.point);
+
 						if (grabbing) {
 							if (point != grid.ToPoint (transform.position + grabPoint) && point != grid.ToPoint (transform.position)) {
 								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint
-									&& grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
+								    && grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
 									path.Clear ();
 									path = grid.FindGrabPath (point - grabPoint, transform.position + (grabPoint * 2), grabPoint);
 									path.Push (grid.ToPointY (transform.position, playerPush.GetOnFloor ()) + grabPoint);
@@ -106,6 +109,19 @@ public class PlayerController : MonoBehaviour {
 
 									nearest = Vector3.Distance (transform.position, destination);
 									movement = grid.Set0Y (pathDestination - transform.position);
+								} else {
+									grid.SetGridHere (transform.position + grabPoint);
+									GrabRelease ();
+
+									path.Clear ();
+									path = grid.FindPath (transform.position, point, playerPush.GetOnFloor ());
+
+									if (path.Count > 0) {
+										StartToWalk (point, Vector3.zero);
+										nearest = Vector3.Distance (transform.position, destination);
+										movement = grid.Set0Y (pathDestination - transform.position);
+										lookAt = Quaternion.LookRotation (movement);
+									}
 								}
 							}
 						} else {
@@ -121,31 +137,33 @@ public class PlayerController : MonoBehaviour {
 						}
 					}
 
-					if (Physics.Raycast (ray, out grabHit, camRayLength,~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
-						grabObj = grabHit.collider.gameObject;
-						grabPush = grabObj.GetComponent<PushController> ();
-						grabPoint = grid.ToPoint0Y (grabPush.transform.position) - grid.ToPoint0Y (transform.position);
-//						path = grid.FindNearestPath (transform.position, grabPush.transform.position, playerPush.GetOnFloor (), grabPush.GetOnFloor ());
-//
-//						if (!grabbing) {
-//							
-//						}
-//						if (path.Count > 0) {
-//							
-//						} else if (grabPoint.magnitude == 1f) {
-//						
-//						}
+					if (Physics.Raycast (ray, out grabHit, camRayLength, ~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
+						if (!grabbing) {
+							grabObj = grabHit.collider.gameObject;
+							grabPush = grabObj.GetComponent<PushController> ();
+							grabPoint = grid.ToPoint0Y (grabPush.transform.position) - grid.ToPoint0Y (transform.position);
+							path = grid.FindNearestPath (transform.position, grabPush.transform.position, playerPush.GetOnFloor (), grabPush.GetOnFloor ());
 
-						if (!grabbing && grabPoint.magnitude == 1f && grabPush.GetOnFloor () == playerPush.GetOnFloor ()) {
-							grabbing = true;
-							lookAt = Quaternion.LookRotation (grabPoint);
+//							print (path.Count);
+							if (path.Count > 1) {
+								point = path.Peek ();
+								path.Pop ();
+								StartToWalk (point, Vector3.zero);
+								nearest = Vector3.Distance (transform.position, destination);
+								movement = grid.Set0Y (pathDestination - transform.position);
+								lookAt = Quaternion.LookRotation (movement);
+								goToGrab = true;
+							} else if (grabPoint.magnitude == 1f && grabPush.GetOnFloor () == playerPush.GetOnFloor ()) {
+								grabbing = true;
+								lookAt = Quaternion.LookRotation (grabPoint);
 
-							if (grabPush.GetComponent<ObjectController> ().isBlock)
-								grabType = grid.block;
-							else
-								grabType = grid.block2;
+								if (grabPush.GetComponent<ObjectController> ().isBlock)
+									grabType = grid.block;
+								else
+									grabType = grid.block2;
 
-							grabPlane = Instantiate (grabPic, grabPoint + transform.position, Quaternion.LookRotation (Vector3.forward), grabPush.transform);
+								grabPlane = Instantiate (grabPic, grabPoint + transform.position, Quaternion.LookRotation (Vector3.forward), grabPush.transform);
+							}
 						} else {
 							grid.SetGridHere (transform.position + grabPoint);
 							GrabRelease ();
@@ -153,19 +171,32 @@ public class PlayerController : MonoBehaviour {
 					}
 
 					//When grabbing lever
-					if (Physics.Raycast (ray, out grabHit, camRayLength,~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isLever) {
+					if (Physics.Raycast (ray, out grabHit, camRayLength, ~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isLever) {
+						if (grabbing) {
+							grid.SetGridHere (transform.position + grabPoint);
+							GrabRelease ();
+						}
+
 						grabLever = grabHit.collider.gameObject;
 						//grabPush = grabObj.GetComponent<PushController> ();
 						grabPointLever = grid.ToPoint0Y (grabLever.transform.position) - grid.ToPoint0Y (transform.position);
-						leverController = grabLever.GetComponent<LeverController>();
-						if (!grabbing && grabPointLever.magnitude == 1f) {
+						leverController = grabLever.GetComponent<LeverController> ();
+						path = grid.FindNearestPath (transform.position, grabLever.transform.position, playerPush.GetOnFloor (), grabLever.transform.position.y < 0 ? true : false);
+
+						if (path.Count > 1) {
+							point = path.Peek ();
+							path.Pop ();
+							StartToWalk (point, Vector3.zero);
+							nearest = Vector3.Distance (transform.position, destination);
+							movement = grid.Set0Y (pathDestination - transform.position);
+							lookAt = Quaternion.LookRotation (movement);
+							goToLever = true;
+						} else if (grabPointLever.magnitude == 1f) {
 							lookAt = Quaternion.LookRotation (grabPointLever);
 							//grabPlane = Instantiate (grabPic, grabPointLever + transform.position, Quaternion.LookRotation (Vector3.forward));
-							Debug.Log ("Lever Grabbed");
+//							Debug.Log ("Lever Grabbed");
 							leverController.changeState ();
 							//grabLever.changeState ();
-						} else {
-							//Nothing?
 						}
 					}
 					//======================
@@ -226,6 +257,27 @@ public class PlayerController : MonoBehaviour {
 						}
 
 						grid.SetGridHere (transform.position + grabPoint);
+					}
+
+					if (goToGrab) {
+						goToGrab = false;
+						grabbing = true;
+						grabPoint = grid.ToPoint0Y (grabPush.transform.position) - grid.ToPoint0Y (destination);
+						lookAt = Quaternion.LookRotation (grabPoint);
+
+						if (grabPush.GetComponent<ObjectController> ().isBlock)
+							grabType = grid.block;
+						else
+							grabType = grid.block2;
+
+						grabPlane = Instantiate (grabPic, grabPoint + transform.position, Quaternion.LookRotation (Vector3.forward), grabPush.transform);
+					}
+
+					if (goToLever) {
+						goToLever = false;
+						grabPointLever = grid.ToPoint0Y (grabLever.transform.position) - grid.ToPoint0Y (transform.position);
+						lookAt = Quaternion.LookRotation (grabPointLever);
+						leverController.changeState ();
 					}
 
 					Destroy (desPlane);
@@ -356,6 +408,7 @@ public class PlayerController : MonoBehaviour {
 		walking = false;
 		grabPush = null;
 		grabObj = null;
+		goToGrab = false;
 	}
 
 	public bool IsGrabbing(){
@@ -370,5 +423,6 @@ public class PlayerController : MonoBehaviour {
 		walking = false;
 		path.Clear ();
 		Destroy (desPlane);
+		goToGrab = false;
 	}
 }
