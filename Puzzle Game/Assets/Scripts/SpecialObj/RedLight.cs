@@ -7,6 +7,8 @@ public class RedLight : MonoBehaviour {
 	public LineRenderer[] line = new LineRenderer[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
+	public GameObject redrender;
+	public Material[] red_states;
 	private PlayerController player;
 	private GridOverlay grid;
 	private GameObject pic;
@@ -31,6 +33,19 @@ public class RedLight : MonoBehaviour {
 	}
 
 	void Update ()	{
+		if (GetComponent<ObjectController> ().isMoveable) {
+			if (IsLightOn()) {
+				redrender.GetComponent<Renderer> ().material = red_states[3];
+			} else {
+				redrender.GetComponent<Renderer> ().material = red_states[2];
+			}
+		} else {
+			if (IsLightOn()) {
+				redrender.GetComponent<Renderer> ().material = red_states[1];
+			} else {
+				redrender.GetComponent<Renderer> ().material = red_states[0];
+			}
+		}
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i]) {
 				if (onPic [i] == null)
@@ -131,5 +146,12 @@ public class RedLight : MonoBehaviour {
 				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
 			}
 		}
+	}
+	bool IsLightOn() {
+		for (int i = 0; i < 4; i++) {
+			if (lightOn [i])
+				return true;
+		}
+		return false;
 	}
 }
