@@ -108,7 +108,7 @@
      <Compile Include="Assets\Scripts\StageSelection\Quitbtn.cs" />
      <Compile Include="Assets\Scripts\StageSelection\StageSelectionGoToStage.cs" />
      <Compile Include="Assets\Scripts\StartGameScript.cs" />
-     <Compile Include="Assets\SwipeToRotate.cs" />
+     <Compile Include="Assets\Scripts\SwipeToRotate.cs" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderOld.shader" />
      <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />
@@ -143,7 +143,11 @@
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
+<<<<<<< HEAD
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+=======
+ <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+>>>>>>> origin/TON_ui
  </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
