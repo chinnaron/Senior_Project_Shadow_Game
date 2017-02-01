@@ -83,7 +83,6 @@
      <Compile Include="Assets\Scripts\Background.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CameraRotate.cs" />
-     <Compile Include="Assets\Scripts\GoToNextStage.cs" />
      <Compile Include="Assets\Scripts\GoalController.cs" />
      <Compile Include="Assets\Scripts\GridOverlay.cs" />
      <Compile Include="Assets\Scripts\LeverController.cs" />
@@ -103,10 +102,11 @@
      <Compile Include="Assets\Scripts\SpecialObj\RedLight.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\WhiteLight.cs" />
      <Compile Include="Assets\Scripts\SpecialObj\YellowLight.cs" />
-     <Compile Include="Assets\Scripts\StageSelection\QuitPopupButtonNo.cs" />
-     <Compile Include="Assets\Scripts\StageSelection\QuitPopupButtonYes.cs" />
-     <Compile Include="Assets\Scripts\StageSelection\Quitbtn.cs" />
-     <Compile Include="Assets\Scripts\StageSelection\StageSelectionGoToStage.cs" />
+     <Compile Include="Assets\Scripts\Stage\GoToNextStage.cs" />
+     <Compile Include="Assets\Scripts\Stage\QuitPopupButtonNo.cs" />
+     <Compile Include="Assets\Scripts\Stage\QuitPopupButtonYes.cs" />
+     <Compile Include="Assets\Scripts\Stage\Quitbtn.cs" />
+     <Compile Include="Assets\Scripts\Stage\StageSelectionGoToStage.cs" />
      <Compile Include="Assets\Scripts\StartGameScript.cs" />
      <Compile Include="Assets\Scripts\SwipeToRotate.cs" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderOld.shader" />
