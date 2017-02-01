@@ -9,6 +9,7 @@ public class StageSelectionGoToStage : MonoBehaviour {
 	private string name;
 	private int stage;
 	private bool can;
+	private Text text;
 
 	void Start () {
 		Button btn = GetComponent<Button> ();
@@ -16,6 +17,8 @@ public class StageSelectionGoToStage : MonoBehaviour {
 
 		name = gameObject.name;
 		can = int.TryParse (name.Substring (name.Length - 1, 1), out stage);
+		text = GetComponentInChildren<Text> ();
+		text.text = name;
 
 		if(!can)
 			print ("Error");

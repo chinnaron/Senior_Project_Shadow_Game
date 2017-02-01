@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 	public MenuScript menu;
-	public GameObject grabPlane;
-	public GameObject desPlane;
+	private GameObject grabPlane;
+	private GameObject desNotPlane;
+	private GameObject desPlane;
+	private GameObject desNotPic;
 	private GameObject desPic;
 	private GameObject grabPic;
 
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour {
 	private bool grabbing;
 	private bool pulling;
 	private bool pushing;
+	private bool click;
 
 	private int dieSpeed;
 	private int playerMask;
@@ -51,10 +54,14 @@ public class PlayerController : MonoBehaviour {
 
 	public Stack<Vector3> path = new Stack<Vector3> ();
 
+	public void Click(){
+		click = true;
+	}
+
 	void Awake () {
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
-		walking = grabbing = dying = goToGrab = goToLever = false;
+		walking = grabbing = dying = goToGrab = goToLever = click = false;
 		dieSpeed = 10;
 
 		anim = GetComponent<Animator> ();
@@ -62,12 +69,18 @@ public class PlayerController : MonoBehaviour {
 		playerMask = LayerMask.GetMask ("Player");
 		grid = FindObjectOfType<GridOverlay> ();
 		desPic = Resources.Load ("DesPic", typeof(GameObject)) as GameObject;
+		desNotPic = Resources.Load ("DesNotPic", typeof(GameObject)) as GameObject;
 		grabPic = Resources.Load ("GrabPic", typeof(GameObject)) as GameObject;
 	}
 
 	void Update (){
 		if (!menu._isPaused && !walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping) {
+			#if UNITY_EDITOR
 			if (Input.GetButtonDown ("Fire1")) {
+			#elif UNITY_ANDROID
+			if (click) {
+				click = false;
+			#endif
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
 				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask)) {
@@ -123,7 +136,8 @@ public class PlayerController : MonoBehaviour {
 										nearest = Vector3.Distance (transform.position, destination);
 										movement = grid.Set0Y (pathDestination - transform.position);
 										lookAt = Quaternion.LookRotation (movement);
-									}
+									} else
+										CannotWalk (point);
 								}
 							}
 						} else {
@@ -135,11 +149,10 @@ public class PlayerController : MonoBehaviour {
 								nearest = Vector3.Distance (transform.position, destination);
 								movement = grid.Set0Y (pathDestination - transform.position);
 								lookAt = Quaternion.LookRotation (movement);
-							}
+							} else
+								CannotWalk (point);
 						}
-					}
-
-					if (Physics.Raycast (ray, out grabHit, camRayLength, ~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
+					}else if (Physics.Raycast (ray, out grabHit, camRayLength, ~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
 						if (!grabbing) {
 							grabObj = grabHit.collider.gameObject;
 							grabPush = grabObj.GetComponent<PushController> ();
@@ -170,10 +183,7 @@ public class PlayerController : MonoBehaviour {
 							grid.SetGridHere (transform.position + grabPoint);
 							GrabRelease ();
 						}
-					}
-
-					//When grabbing lever
-					if (Physics.Raycast (ray, out grabHit, camRayLength, ~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isLever) {
+					}else if (Physics.Raycast (ray, out grabHit, camRayLength, ~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isLever) {
 						if (grabbing) {
 							grid.SetGridHere (transform.position + grabPoint);
 							GrabRelease ();
@@ -365,6 +375,7 @@ public class PlayerController : MonoBehaviour {
 
 	void StartToWalk (Vector3 des, Vector3 grabPoi) {
 		Destroy (desPlane);
+		Destroy (desNotPlane);
 		destination = des - grabPoi;
 
 		if (grid.GetGrid (des - grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable || (grabbing && grid.GetGrid (des - grabPoi) == grid.block))
@@ -374,10 +385,12 @@ public class PlayerController : MonoBehaviour {
 
 		pathDestination = path.Peek ();
 		path.Pop ();
+
 		if (grid.GetGrid (destination + grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable)
 			desPlane = Instantiate (desPic, grid.Set0Y (destination + grabPoi), Quaternion.LookRotation (Vector3.forward));
 		else
 			desPlane = Instantiate (desPic, grid.Set1Y (destination + grabPoi), Quaternion.LookRotation (Vector3.forward));
+		
 		walking = true;
 	}
 
@@ -426,5 +439,16 @@ public class PlayerController : MonoBehaviour {
 		path.Clear ();
 		Destroy (desPlane);
 		goToGrab = false;
+	}
+
+	void CannotWalk(Vector3 v){
+		Destroy (desNotPlane);
+
+		if (grid.GetGrid (v) == grid.walkable || grid.GetGrid (v) == grid.tempWalkable)
+			desNotPlane = Instantiate (desNotPic, grid.Set0Y (v), Quaternion.LookRotation (Vector3.forward));
+		else
+			desNotPlane = Instantiate (desNotPic, grid.Set1Y (v), Quaternion.LookRotation (Vector3.forward));
+		
+		Destroy (desNotPlane, 1f);
 	}
 }

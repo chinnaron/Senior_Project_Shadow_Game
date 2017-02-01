@@ -4,26 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CameraRotate : MonoBehaviour {
-	public bool right;
 	public GameObject bg;
 	public GameObject camera;
+	private readonly float turnSpeed = 10f;
+	private Quaternion lookAt;
 
 	// Use this for initialization
 	void Start () {
 		Button btn = GetComponent<Button>();
 		btn.onClick.AddListener(TaskOnClick);
+
+		lookAt = Quaternion.LookRotation (Vector3.forward);
 	}
-
-
+	
 	void TaskOnClick(){
 		//Debug.Log ("You have clicked the button!");
+		lookAt = Quaternion.Euler(transform.rotation.eulerAngles + Vector3.up * 90);
+	}
 
-		if (right) {
-			camera.transform.Rotate (new Vector3 (0, -90, 0));
-			bg.transform.Rotate (new Vector3 (0, -90, 0));
-		} else {
-			camera.transform.Rotate (new Vector3 (0, 90, 0));
-			bg.transform.Rotate (new Vector3 (0, 90, 0));
-		}
+	void FixedUpdate(){
+		print(""+lookAt.eulerAngles+transform.rotation.eulerAngles+Quaternion.Slerp (camera.transform.rotation, lookAt, Time.deltaTime * turnSpeed));
+		camera.transform.rotation = Quaternion.Slerp (camera.transform.rotation, lookAt, Time.deltaTime * turnSpeed);
+		bg.transform.rotation = Quaternion.Slerp (bg.transform.rotation, lookAt, Time.deltaTime * turnSpeed);
 	}
 }
