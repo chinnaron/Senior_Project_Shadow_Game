@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 	public MenuScript menu;
 	private GameObject grabPlane;
-	private GameObject desNotPlane;
+//	private GameObject desNotPlane;
 	private GameObject desPlane;
-	private GameObject desNotPic;
+//	private GameObject desNotPic;
 	private GameObject desPic;
 	private GameObject grabPic;
+	public Image desNotPic;
 
 	private Vector3 movement;
 	private Vector3 pathDestination;
@@ -31,11 +33,13 @@ public class PlayerController : MonoBehaviour {
 	private bool pulling;
 	private bool pushing;
 	private bool click;
+	private bool cannotWalk;
 
 	private int dieSpeed;
 	private int playerMask;
 	private int grabType;
 
+	private float flashSpeed = 5f; 
 	private float nearest = 0f;
 	private readonly float speed = 5f;
 	private readonly float turnSpeed = 10f;
@@ -52,6 +56,7 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 grabPointLever;
 	private LeverController leverController;
 
+	public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
 	public Stack<Vector3> path = new Stack<Vector3> ();
 
 	public void Click(){
@@ -69,7 +74,7 @@ public class PlayerController : MonoBehaviour {
 		playerMask = LayerMask.GetMask ("Player");
 		grid = FindObjectOfType<GridOverlay> ();
 		desPic = Resources.Load ("DesPic", typeof(GameObject)) as GameObject;
-		desNotPic = Resources.Load ("DesNotPic", typeof(GameObject)) as GameObject;
+//		desNotPic = Resources.Load ("DesNotPic", typeof(GameObject)) as GameObject;
 		grabPic = Resources.Load ("GrabPic", typeof(GameObject)) as GameObject;
 	}
 
@@ -137,7 +142,7 @@ public class PlayerController : MonoBehaviour {
 										movement = grid.Set0Y (pathDestination - transform.position);
 										lookAt = Quaternion.LookRotation (movement);
 									} else
-										CannotWalk (point);
+										cannotWalk = true;
 								}
 							}
 						} else {
@@ -150,7 +155,7 @@ public class PlayerController : MonoBehaviour {
 								movement = grid.Set0Y (pathDestination - transform.position);
 								lookAt = Quaternion.LookRotation (movement);
 							} else
-								CannotWalk (point);
+								cannotWalk = true;
 						}
 					}else if (Physics.Raycast (ray, out grabHit, camRayLength, ~playerMask) && grabHit.collider.GetComponent<ObjectController> ().isMoveable) {
 						if (!grabbing) {
@@ -230,6 +235,21 @@ public class PlayerController : MonoBehaviour {
 		if (playerPush.falling) {
 			walking = false;
 		}
+
+		if(cannotWalk)
+		{
+			// ... set the colour of the damageImage to the flash colour.
+			desNotPic.color = flashColour;
+		}
+		// Otherwise...
+		else
+		{
+			// ... transition the colour back to clear.
+			desNotPic.color = Color.Lerp (desNotPic.color, Color.clear, flashSpeed * Time.deltaTime);
+		}
+
+		// Reset the damaged flag.
+		cannotWalk = false;
 
 		if (walking) {
 			if (nearest >= Vector3.Distance (transform.position, destination) && path.Count > 0) {
@@ -375,7 +395,7 @@ public class PlayerController : MonoBehaviour {
 
 	void StartToWalk (Vector3 des, Vector3 grabPoi) {
 		Destroy (desPlane);
-		Destroy (desNotPlane);
+//		Destroy (desNotPlane);
 		destination = des - grabPoi;
 
 		if (grid.GetGrid (des - grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable || (grabbing && grid.GetGrid (des - grabPoi) == grid.block))
@@ -441,14 +461,15 @@ public class PlayerController : MonoBehaviour {
 		goToGrab = false;
 	}
 
-	void CannotWalk(Vector3 v){
-		Destroy (desNotPlane);
-
-		if (grid.GetGrid (v) == grid.walkable || grid.GetGrid (v) == grid.tempWalkable)
-			desNotPlane = Instantiate (desNotPic, grid.Set0Y (v), Quaternion.LookRotation (Vector3.forward));
-		else
-			desNotPlane = Instantiate (desNotPic, grid.Set1Y (v), Quaternion.LookRotation (Vector3.forward));
-		
-		Destroy (desNotPlane, 1f);
-	}
+//	void CannotWalk(Vector3 v){
+//		
+////		Destroy (desNotPlane);
+////
+////		if (grid.GetGrid (v) == grid.walkable || grid.GetGrid (v) == grid.tempWalkable)
+////			desNotPlane = Instantiate (desNotPic, grid.Set0Y (v), Quaternion.LookRotation (Vector3.forward));
+////		else
+////			desNotPlane = Instantiate (desNotPic, grid.Set1Y (v), Quaternion.LookRotation (Vector3.forward));
+////		
+////		Destroy (desNotPlane, 1f);
+//	}
 }

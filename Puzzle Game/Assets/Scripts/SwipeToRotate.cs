@@ -16,8 +16,7 @@ public class SwipeToRotate : MonoBehaviour {
 	private readonly float minSwipeLength = 200f;
 
 	private static Swipe swipeDirection;
-	 
-	public GameObject bg;
+
 	public GameObject camera;
 	
 	private enum Swipe { None, Up, Down, Left, Right };
@@ -36,10 +35,9 @@ public class SwipeToRotate : MonoBehaviour {
 	void FixedUpdate () {
 		DetectSwipe();
 		camera.transform.rotation = Quaternion.Lerp (camera.transform.rotation, lookAt, Time.deltaTime * turnSpeed);
-		bg.transform.rotation = Quaternion.Lerp (camera.transform.rotation, lookAt, Time.deltaTime * turnSpeed);
 
-		print (camera.transform.rotation + "" + lookAt);
-		print (camera.transform.rotation.eulerAngles + "" + lookAt.eulerAngles);
+//		print (camera.transform.rotation + "" + lookAt);
+//		print (camera.transform.rotation.eulerAngles + "" + lookAt.eulerAngles);
 //		if (camera.transform.rotation.eulerAngles - lookAt.eulerAngles)
 //			moving = false;
 	}

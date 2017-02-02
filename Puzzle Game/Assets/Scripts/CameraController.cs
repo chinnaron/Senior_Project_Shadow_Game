@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
-	public GameObject player;
+	public GameObject camera;
+	public Transform floor;
+	public Vector3 v;
 
 	private Vector3 playerTransform;
 
 	void Awake () {
-		playerTransform = transform.position - player.transform.position;
+		transform.position = v;
+		camera.transform.LookAt (transform.position);
 	}
 
 	void FixedUpdate () {
-		transform.position = player.transform.position + playerTransform;
+		
 	}
 }
