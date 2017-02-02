@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-- path: Assets/Scenes/Scene1.unity
-=======
 - path: Assets/Scenes/Scene6.unity
->>>>>>> origin/tonstage6
   isLoaded: 1
   isActive: 1
