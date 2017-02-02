@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class YellowLight : MonoBehaviour {
 	public float rayDistance = 5f;
 	public LineRenderer[] line = new LineRenderer[4];
+	public GameObject[] onPic = new GameObject[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
 	public GameObject yellowrender;
 	public Material[] yellow_states;
 	private GridOverlay grid;
-	private GameObject pic;
+	private Color cOn = new Color(0f, 0.8f, 0f, 1f);
+	private Color cOff = new Color(0.8f, 0f, 0f, 1f);
 
 	private float distance;
 	private List<Vector3> positions = new List<Vector3> ();
@@ -19,15 +22,25 @@ public class YellowLight : MonoBehaviour {
 	private readonly Vector3[] wayP = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left };
 	private RaycastHit[] hit = new RaycastHit[4];
 	private TriggerController[] obj = new TriggerController[4];
-	private GameObject[] onPic = new GameObject[4];
 
 	void Awake () {
 		grid = FindObjectOfType<GridOverlay> ();
-		pic = Resources.Load ("DirPic", typeof(GameObject)) as GameObject;
+		bool tr = false;
 
 		for (int i = 0; i < 4; i++) {
-			if (lightOn [i])
+			if (LightTriggerDirection [i]) {
+				onPic [i].SetActive (true);
+				tr = true;
+			}
+		}
+
+		for (int i = 0; i < 4; i++) {
+			if (lightOn [i]){
+				if(!tr)
+					onPic [i].SetActive (true);
+				
 				line [i].SetPosition (line [i].numPositions - 1, wayP [i] * rayDistance);
+			}
 		}
 	}
 
@@ -47,8 +60,7 @@ public class YellowLight : MonoBehaviour {
 		}
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i]) {
-				if (onPic [i] == null)
-					onPic [i] = Instantiate (pic, grid.Set0Y (transform.position) + wayP [i] * 0.3f, Quaternion.LookRotation (wayP [i]), transform);
+				onPic [i].GetComponentInChildren<RawImage> ().color = cOn;
 
 				if (Physics.Raycast (transform.position, wayP [i], out hit [i], rayDistance)) {
 					distance = rayDistance;
@@ -150,8 +162,8 @@ public class YellowLight : MonoBehaviour {
 					}
 				}
 			} else {
-				if (onPic [i] != null)
-					Destroy (onPic [i]);
+				if (onPic [i].activeSelf)
+					onPic [i].GetComponentInChildren<RawImage> ().color = cOff;
 				
 				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
 
