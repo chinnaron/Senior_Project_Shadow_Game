@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-- path: Assets/Scenes/Scene9.unity
-=======
-- path: Assets/Scenes/Scene1.unity
->>>>>>> origin/ui3
+- path: Assets/Scenes/Scene7.unity
   isLoaded: 1
   isActive: 1
