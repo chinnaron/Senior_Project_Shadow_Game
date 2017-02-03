@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TriggerController : MonoBehaviour {
 	//public GameObject showPic;
+	public AudioClip[] sound;
 
 	private bool isOn;
 
@@ -48,6 +49,7 @@ public class TriggerController : MonoBehaviour {
 	public void LightOn(){
 		string type = getType ();
 	//print(type);
+		PlaySound(0);
 		if (type == "WhiteLight")
 			WhiteLightOn ();
 		else if (type == "RedLight")
@@ -60,6 +62,7 @@ public class TriggerController : MonoBehaviour {
 
 	public void LightOff(){
 		string type = getType ();
+		PlaySound(1);
 		if (type == "WhiteLight")
 			WhiteLightOff();
 		else if (type == "RedLight")
@@ -132,6 +135,34 @@ public class TriggerController : MonoBehaviour {
 		}
 	}
 
+	public bool IsLit(){
+		string type = getType ();
+		if (type == "BlueLight")
+		if (GetComponent<BlueLight> ().IsLightOn ()) {
+			return true;
+		} else return false;
+
+		else if (type == "RedLight")
+			if (GetComponent<RedLight> ().IsLightOn ()) {
+				return true;
+		} else return false;
+		else if (type == "WhiteLight")
+			if (GetComponent<WhiteLight> ().IsLightOn ()) {
+				return true;
+		}else return false;
+		else if (type == "YellowLight")
+			if (GetComponent<YellowLight> ().IsLightOn ()) {
+				return true;
+		}else return false;
+
+		return false;
+
+	}
+
+	public void PlaySound(int s){
+		GetComponents<AudioSource>()[0].clip = sound [s];
+		GetComponents<AudioSource>()[0].Play ();
+	}
 
 
 }

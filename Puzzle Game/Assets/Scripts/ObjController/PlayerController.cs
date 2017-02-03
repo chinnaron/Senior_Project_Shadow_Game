@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	private GameObject grabPic;
 	public Image desNotPic;
 	public AudioClip[] sound;
+	public AudioSource[] sounds;
 
 	private Vector3 movement;
 	private Vector3 pathDestination;
@@ -66,6 +67,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Awake () {
 		InvokeRepeating("WalkingSound", 0f, 0.2f);
+		InvokeRepeating("PushingSound", 0f, 0.2f);
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
 		walking = grabbing = dying = goToGrab = goToLever = click = false;
@@ -231,6 +233,10 @@ public class PlayerController : MonoBehaviour {
 			YouDied ();
 		}
 
+		if (!walking) {
+			pushing = false;
+			pulling = false;
+		}
 
 		if (playerPush.moving) {
 			walking = false;
@@ -376,6 +382,7 @@ public class PlayerController : MonoBehaviour {
 					}
 				}
 			}
+				
 		}
 
 		transform.rotation = Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed);
@@ -467,13 +474,22 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void PlaySound (int s) {
-		GetComponent<AudioSource>().clip = sound [s];
-		GetComponent<AudioSource> ().Play ();
+		
 	}
 
 	public void WalkingSound () {
 		if (walking) {
-			PlaySound (0);
+			sounds = GetComponents<AudioSource>();
+			sounds[0].clip = sound [0];
+			sounds[0].Play ();
+		}
+	}
+
+	public void PushingSound () {
+		if (pushing||pulling) {
+			sounds = GetComponents<AudioSource>();
+			sounds[1].clip = sound [1];
+			sounds[1].Play ();
 		}
 	}
 

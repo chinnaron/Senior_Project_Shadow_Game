@@ -9,6 +9,8 @@ public class BlueLight : MonoBehaviour {
 	public GameObject[] onPic = new GameObject[4];
 	public bool[] lightOn = new bool[]{ false, false, false, false };
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
+	public AudioClip[] sound;
+	public AudioSource[] sounds;
 	public GameObject bluerender;
 	public Material[] blue_states;
 	private PlayerController player;
@@ -167,6 +169,7 @@ public class BlueLight : MonoBehaviour {
 										|| ((reflect.x != 0) && grid.ToPoint0Y (player.transform.position).x == grid.ToPoint0Y (player.GetGrabPush ().transform.position).x)) {
 										grid.SetGridHere (player.transform.position + player.GetGrabPoint ());
 										player.GrabRelease ();
+										PlaySound (0);
 										obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
 									}
 								} else {
@@ -176,13 +179,13 @@ public class BlueLight : MonoBehaviour {
 										player.SetPushController (old + wayP [pushDirection [i]] * (rayDistance [i] + 1), wayP [pushDirection [i]]);
 									} else
 										player.GrabRelease ();
-
+									PlaySound (0);
 									obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
 								}
 							} else {
 								if (obj [i].gameObject == player.gameObject)
 									player.Stop ();
-								
+								PlaySound (0);
 								obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
 							}
 						}
@@ -200,11 +203,17 @@ public class BlueLight : MonoBehaviour {
 			}
 		}
 	}
-	bool IsLightOn() {
+	public bool IsLightOn() {
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i])
 				return true;
 		}
 		return false;
+	}
+
+	public void PlaySound(int s){
+		sounds = GetComponents<AudioSource> ();
+		sounds[1].clip = sound [s];
+		sounds[1].Play ();
 	}
 }

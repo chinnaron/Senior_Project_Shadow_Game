@@ -136,7 +136,10 @@ public class YellowLight : MonoBehaviour {
 						//	obj[i].WhiteLightOn();
 						//obj[i].BlueLightOn();
 						//obj [i].RedLightOn ();
-						obj [i].LightOn ();
+
+						if (!obj [i].IsLit ()) {
+							obj [i].LightOn ();
+						}
 
 
 					} else if (obj [i] != null) {
@@ -147,7 +150,9 @@ public class YellowLight : MonoBehaviour {
 						//	obj[i].WhiteLightOff();
 						//obj[i].BlueLightOff();
 						//obj [i].RedLightOff ();
-						obj [i].LightOff ();
+						if (obj [i].IsLit ()) {
+							obj [i].LightOff ();
+						}
 						obj [i] = null;
 
 					}
@@ -176,7 +181,7 @@ public class YellowLight : MonoBehaviour {
 			}
 		}
 	}
-	bool IsLightOn() {
+	public bool IsLightOn() {
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i])
 				return true;

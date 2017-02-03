@@ -5,7 +5,8 @@ using UnityEngine;
 public class JumpPad : MonoBehaviour {
 	private PlayerController player;
 	private GridOverlay grid;
-
+	public AudioClip[] sound;
+	public AudioSource sounds;
 	private bool onFloor;
 	public bool[] way = { false, false, false, false };
 	private readonly Vector3[] wayP = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left };
@@ -44,6 +45,7 @@ public class JumpPad : MonoBehaviour {
 					    && grid.GetGrid (transform.position + direction * 2) != grid.block && grid.GetGrid (transform.position + direction * 2) != grid.block2
 					    && grid.GetGrid (transform.position + direction * 2) != grid.walkable2 && grid.GetGrid (transform.position + direction * 2) != grid.tempWalkable2)
 					    || (!onFloor && (grid.GetGrid (transform.position + direction) != grid.block2) && grid.GetGrid (transform.position + direction * 2) != grid.block2)) {
+						PlaySound (0);
 						obj.SetJumpTo ((transform.position + direction * 2), onFloor, direction, 2);
 
 						if (obj.gameObject == player.gameObject)
@@ -57,6 +59,7 @@ public class JumpPad : MonoBehaviour {
 					           || grid.GetGrid (transform.position + direction * 2) == grid.walkable2 || grid.GetGrid (transform.position + direction * 2) == grid.tempWalkable2))
 					           || (!onFloor && grid.GetGrid (transform.position + direction) != grid.block2
 					           && grid.GetGrid (transform.position + direction * 2) == grid.block2)) {
+						PlaySound (0);
 						obj.SetJumpTo (transform.position + direction, onFloor, direction, 3);
 
 						if (obj.gameObject == player.gameObject)
@@ -65,6 +68,7 @@ public class JumpPad : MonoBehaviour {
 							player.GrabRelease ();
 						}
 					} else if (onFloor && (grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)) {
+						PlaySound (0);
 						obj.SetJumpTo (transform.position + direction, !onFloor, direction, 1);
 
 						if (obj.gameObject == player.gameObject)
@@ -76,5 +80,10 @@ public class JumpPad : MonoBehaviour {
 				}
 			}
 		}
+	}
+	public void PlaySound(int s){
+		sounds = GetComponent<AudioSource> ();
+		sounds.clip = sound [s];
+		sounds.Play ();
 	}
 }
