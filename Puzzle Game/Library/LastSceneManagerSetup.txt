@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/Scene4.unity
+=======
+- path: Assets/Scenes/Scene6.unity
+>>>>>>> origin/feature/tpc2
   isLoaded: 1
   isActive: 1
