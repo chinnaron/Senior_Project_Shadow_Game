@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-Build from DESKTOP-KCG36KO at 2/3/2017 1:45:26 PM
-=======
-Build from LNVY500 at 2/3/2017 1:20:02 PM
->>>>>>> origin/feature/tpc2
+Build from LNVY500 at 2/3/2017 4:23:09 PM

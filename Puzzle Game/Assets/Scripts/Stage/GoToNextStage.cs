@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System;
 
 public class GoToNextStage : MonoBehaviour {
+	public bool isOpen;
 	private string name;
 	private int nextStage;
 	private bool can;
@@ -20,9 +21,20 @@ public class GoToNextStage : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
-		if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage))
-			SceneManager.LoadScene ("Scene" + nextStage);
-		else
-			SceneManager.LoadScene ("StageSelection");
+		//check if it's player
+		if (other.gameObject.GetComponent<ObjectController> ().isPlayer) {
+			//check if goal is open and player is sill alive (in case player get hit by red light while entering goal)
+			if (isOpen && other.gameObject.active) {
+				if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage)) {
+					SceneManager.LoadScene ("Scene" + nextStage);
+				} else {
+					SceneManager.LoadScene ("StageSelection");
+				}
+			}
+		}
+	}
+
+	public void setOpen(bool status){
+		isOpen = status;
 	}
 }
