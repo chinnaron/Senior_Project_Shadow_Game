@@ -32,12 +32,22 @@ public class MusicController extends MonoBehaviour
   	}
  
  	 private function OnSceneLoaded(scene : Scene, mode : LoadSceneMode) {
-   		 if ( SceneManager.GetActiveScene().name == "StageSelection" )
+   		 if ( SceneManager.GetActiveScene().name == "Startpage")
          {
-         	 prevSceneName = "StageSelection";
+         	 prevSceneName = "Start";
              GetComponent.<AudioSource>().Stop();
              GetComponent.<AudioSource>().clip = musicMainMenu;
              GetComponent.<AudioSource>().Play();
+         }
+          else if ( prevSceneName == "Stage" && SceneManager.GetActiveScene().name == "StageSelection" ){
+          	 prevSceneName = "StageSelection";
+         	 GetComponent.<AudioSource>().Stop();
+             GetComponent.<AudioSource>().clip = musicMainMenu;
+             GetComponent.<AudioSource>().Play();
+         }
+          else if (SceneManager.GetActiveScene().name == "StageSelection")
+         {
+         	prevSceneName = "StageSelection";
          }
          else if (prevSceneName == "StageSelection")
          {
@@ -49,10 +59,11 @@ public class MusicController extends MonoBehaviour
          else if ( prevSceneName == "Stage" && SceneManager.GetActiveScene().name != "StageSelection" ){
 
          }
+        
          else {
          	 prevSceneName = "Stage";
          	 GetComponent.<AudioSource>().Stop();
-             GetComponent.<AudioSource>().clip = musicLevel;
+             GetComponent.<AudioSource>().clip = musicMainMenu;
              GetComponent.<AudioSource>().Play();
          }
   	}

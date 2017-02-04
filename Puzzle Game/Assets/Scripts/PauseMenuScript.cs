@@ -15,6 +15,7 @@ public class PauseMenuScript : MonoBehaviour {
 	}
 
 	void TaskOnClick(){
+		print ("sth");
 		MenuScript a = menubutton.GetComponent<MenuScript> ();
 		pausebtn.SetActive (false);
 		menupopup.SetActive (false);
