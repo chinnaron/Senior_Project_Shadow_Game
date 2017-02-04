@@ -1,9 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjController\PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CameraRotate.cs">
     <Files>
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="474" Column="15" />
-      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="176" Column="5" />
+      <File FileName="Assets\Scripts\SwipeToRotate.cs" Line="51" Column="2" />
+      <File FileName="Assets\Scripts\CameraRotate.cs" Line="29" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
