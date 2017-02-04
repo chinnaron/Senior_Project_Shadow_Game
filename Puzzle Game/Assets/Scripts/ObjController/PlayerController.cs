@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour {
 										grid.SetGrid (transform.position + grabPoint, grid.walkable);
 									else
 										grid.SetGrid (transform.position + grabPoint, grid.walkable2);
-
+									
 									nearest = Vector3.Distance (transform.position, destination);
 									movement = grid.Set0Y (pathDestination - transform.position);
 								} else if (grid.Set0Y (point - transform.position).normalized == -grabPoint
@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-
+//		print(grid.GetGrid(transform.position));
 
 		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping && grid.GetGrid (transform.position) == grid.unwalkable) {
 			YouDied ();
@@ -277,9 +277,8 @@ public class PlayerController : MonoBehaviour {
 						grabPush.SetFall ();
 						grid.SetGridHere (transform.position + grabPoint);
 						GrabRelease ();
-					}
-
-					grid.SetGridHere (transform.position + grabPoint);
+					} else
+						grid.SetGridHere (transform.position + grabPoint);
 				} else {
 					if (!playerPush.falling && playerPush.CheckFall ()) {
 						movement = Vector3.zero;
@@ -297,9 +296,8 @@ public class PlayerController : MonoBehaviour {
 							grabPush.SetFall ();
 							grid.SetGridHere (transform.position + grabPoint);
 							GrabRelease ();
-						}
-
-						grid.SetGridHere (transform.position + grabPoint);
+						} else
+							grid.SetGridHere (transform.position + grabPoint);
 					}
 
 					if (goToGrab) {
@@ -336,6 +334,7 @@ public class PlayerController : MonoBehaviour {
 					if (!grabbing)
 						lookAt = Quaternion.LookRotation (movement);
 				}
+				print(grid.GetGrid(transform.position));
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
@@ -456,6 +455,7 @@ public class PlayerController : MonoBehaviour {
 		grabPush = null;
 		grabObj = null;
 		goToGrab = false;
+		nearest = 0;
 	}
 
 	public bool IsGrabbing(){
@@ -471,6 +471,7 @@ public class PlayerController : MonoBehaviour {
 		path.Clear ();
 		Destroy (desPlane);
 		goToGrab = false;
+		nearest = 0;
 	}
 
 	public void PlaySound (int s) {

@@ -121,8 +121,10 @@ public class PushController : MonoBehaviour {
 	}
 
 	public void SetFall () {
-		if (!onFloor && (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable))
+		if (!onFloor && (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable)) {
+			print ("in");
 			SetFallTo (grid.ToPoint0Y (transform.position));
+		}
 	}
 
 	void FixedUpdate () {

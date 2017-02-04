@@ -1,26 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SpecialObj\JumpPad.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjController\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Stage\GoToNextStage.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpecialObj\RedLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpecialObj\JumpPad.cs" Line="47" Column="83" />
-      <File FileName="Assets\Scripts\CameraRotate.cs" Line="1" Column="1" />
-=======
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjController\MusicController.js">
-    <Files>
-      <File FileName="Assets\Scripts\SpecialObj\JumpPad.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpecialObj\BlueLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\MusicController.js" Line="49" Column="84" />
->>>>>>> origin/feature/Sound
+      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="474" Column="15" />
+      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="176" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\buffb\Senior_Project_Shadow_Game\Puzzle Game\Assets\Scripts\Stage\GoToNextStage.cs" line="13" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
