@@ -331,10 +331,17 @@ public class PlayerController : MonoBehaviour {
 					movement = grid.Set0Y (pathDestination - transform.position);
 					walking = true;
 
-					if (!grabbing)
+					if (grabbing && !grabPush.moving) {
+						if (!playerPush.falling && !grabPush.falling && (playerPush.CheckFall () || grabPush.CheckFall ())) {
+							playerPush.SetFall ();
+							grabPush.SetFall ();
+							grid.SetGridHere (transform.position + grabPoint);
+							GrabRelease ();
+						} else
+							grid.SetGridHere (transform.position + grabPoint);
+					} else if (!grabbing)
 						lookAt = Quaternion.LookRotation (movement);
 				}
-				print(grid.GetGrid(transform.position));
 			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
