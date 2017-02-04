@@ -1,9 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CameraRotate.cs">
     <Files>
       <File FileName="Assets\Scripts\SwipeToRotate.cs" Line="51" Column="2" />
       <File FileName="Assets\Scripts\CameraRotate.cs" Line="29" Column="3" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SpecialObj\BlueLight.cs">
+    <Files>
+      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjController\MusicController.js" Line="43" Column="13" />
+      <File FileName="Assets\Scripts\BlinkingImage.cs" Line="30" Column="38" />
+      <File FileName="Assets\Scripts\SpecialObj\BlueLight.cs" Line="31" Column="1" />
+>>>>>>> origin/feature/gebtok
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
