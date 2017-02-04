@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 using System;
 
 public class GoToNextStage : MonoBehaviour {
-	public bool isOpen;
 	private string name;
 	private int nextStage;
 	private bool can;
+	public AudioClip[] sound;
 
 	void Awake(){
 		name = Application.loadedLevelName;
@@ -20,21 +20,16 @@ public class GoToNextStage : MonoBehaviour {
 			print ("Error");
 	}
 
-	void OnTriggerEnter(Collider other){
-		//check if it's player
-		if (other.gameObject.GetComponent<ObjectController> ().isPlayer) {
-			//check if goal is open and player is sill alive (in case player get hit by red light while entering goal)
-			if (isOpen && other.gameObject.active) {
-				if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage)) {
-					SceneManager.LoadScene ("Scene" + nextStage);
-				} else {
-					SceneManager.LoadScene ("StageSelection");
-				}
-			}
-		}
+	IEnumerator OnTriggerEnter(Collider other){
+		PlaySound (0);
+		yield return new WaitForSeconds (0.8f);
+		if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage))
+			SceneManager.LoadScene ("Scene" + nextStage);
+		else
+			SceneManager.LoadScene ("StageSelection");
 	}
-
-	public void setOpen(bool status){
-		isOpen = status;
+	public void PlaySound(int s){
+		GetComponent<AudioSource>().clip = sound [s];
+		GetComponent<AudioSource>().Play ();
 	}
 }

@@ -11,6 +11,8 @@ public class RedLight : MonoBehaviour {
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
 	public GameObject redrender;
 	public Material[] red_states;
+	public AudioClip[] sound;
+	public AudioSource[] sounds;
 	private PlayerController player;
 	private GridOverlay grid;
 	private Color cOn = new Color(0f, 0.8f, 0f, 1f);
@@ -145,6 +147,7 @@ public class RedLight : MonoBehaviour {
 							}
 						}
 						//create particle
+						PlaySound(0);
 					} else {
 						//create particle
 					}
@@ -159,11 +162,16 @@ public class RedLight : MonoBehaviour {
 			}
 		}
 	}
-	bool IsLightOn() {
+	public bool IsLightOn() {
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i])
 				return true;
 		}
 		return false;
+	}
+	public void PlaySound(int s){
+		sounds = GetComponents<AudioSource> ();
+		sounds[1].clip = sound [s];
+		sounds[1].Play ();
 	}
 }

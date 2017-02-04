@@ -11,6 +11,8 @@ public class WhiteLight : MonoBehaviour {
 	public bool[] LightTriggerDirection = new bool[]{false,false,false,false};
 	public GameObject whiterender;
 	public Material[] white_states;
+	public AudioClip[] sound;
+	public AudioSource[] sounds;
 	private GridOverlay grid;
 	private PlayerController player;
 	private Color cOn = new Color(0f, 0.8f, 0f, 1f);
@@ -189,7 +191,7 @@ public class WhiteLight : MonoBehaviour {
 		}
 	}
 
-	bool IsLightOn() {
+	public bool IsLightOn() {
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i])
 				return true;
