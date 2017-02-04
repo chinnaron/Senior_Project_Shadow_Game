@@ -12,7 +12,7 @@ public class Mirror : MonoBehaviour {
 		for (int i = 0; i < 4; i++) {
 			if (dir [i]) {
 				direction = wayP [i];
-				reflectDirection = wayP [i + 1 % 4];
+				reflectDirection = wayP [(i+1) % 4];
 				transform.Rotate (0, 225 + i * 90, 0);
 			}
 		}

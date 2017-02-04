@@ -62,6 +62,10 @@
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShader.shader" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddEffect.shader" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
+<<<<<<< HEAD
+=======
+     <None Include="Assets\LoadedAssets\ParticleLight\Shader\AdditiveMask.shader" />
+>>>>>>> origin/feature/tpc2
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -75,7 +79,11 @@
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
+<<<<<<< HEAD
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+=======
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+>>>>>>> origin/feature/tpc2
  </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
