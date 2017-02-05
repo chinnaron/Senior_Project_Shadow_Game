@@ -439,7 +439,7 @@ public class GridOverlay : MonoBehaviour {
 
 	public Stack<Vector3> FindNearestPath(Vector3 start, Vector3 goal, bool startFloor, bool goalFloor){
 		start = ToPointY (start, startFloor);
-		goal = ToPointY (goal,goalFloor);
+		goal = ToPointY (goal, goalFloor);
 		List<Vector3> l = NeighborOf (goal, goalFloor);
 		Stack<Vector3> s = new Stack<Vector3> ();
 		Stack<Vector3> ans = new Stack<Vector3> ();
@@ -451,7 +451,7 @@ public class GridOverlay : MonoBehaviour {
 			foreach (Vector3 v in l) {
 				s = FindPath (start, v, startFloor);
 
-				if (s.Count < ans.Count) {
+				if (s.Count > 0 && s.Count < ans.Count) {
 					ans = s;
 					ans.Push (v);
 				}

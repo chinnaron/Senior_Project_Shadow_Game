@@ -152,16 +152,19 @@ public class RedLight : MonoBehaviour {
 						//create particle
 					}
 				} else {
-					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * rayDistance);
+					line [i].numPositions = 2;
+					line [i].SetPosition (0, Vector3.zero);
+					line [i].SetPosition (1, wayP [i] * rayDistance);
 				}
 			} else {
 				if (onPic [i].activeSelf)
 					onPic [i].GetComponentInChildren<RawImage> ().color = cOff;
 
-				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
+				line [i].numPositions = 0;
 			}
 		}
 	}
+
 	public bool IsLightOn() {
 		for (int i = 0; i < 4; i++) {
 			if (lightOn [i])
@@ -169,6 +172,7 @@ public class RedLight : MonoBehaviour {
 		}
 		return false;
 	}
+
 	public void PlaySound(int s){
 		sounds = GetComponents<AudioSource> ();
 		sounds[1].clip = sound [s];

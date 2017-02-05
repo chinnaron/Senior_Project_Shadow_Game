@@ -165,7 +165,9 @@ public class WhiteLight : MonoBehaviour {
 						shadowDirection [i] = i;
 					}
 				} else {
-					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * rayDistance);
+					line [i].numPositions = 2;
+					line [i].SetPosition (0, Vector3.zero);
+					line [i].SetPosition (1, wayP [i] * rayDistance);
 
 					if (shadow [i] != null) {
 						shadow [i].SetShadow (false, shadowLong, shadowDirection [i]);
@@ -180,7 +182,7 @@ public class WhiteLight : MonoBehaviour {
 				if (onPic [i].activeSelf)
 					onPic [i].GetComponentInChildren<RawImage> ().color = cOff;
 
-				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
+				line [i].numPositions = 0;
 
 				if (shadow [i] != null) {
 					shadow [i].SetShadow (false, shadowLong, shadowDirection [i]);

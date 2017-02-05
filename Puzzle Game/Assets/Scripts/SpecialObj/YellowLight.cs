@@ -157,7 +157,9 @@ public class YellowLight : MonoBehaviour {
 
 					}
 				} else {
-					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * rayDistance);
+					line [i].numPositions = 2;
+					line [i].SetPosition (0, Vector3.zero);
+					line [i].SetPosition (1, wayP [i] * rayDistance);
 
 					if (obj [i] != null) {
 						obj [i].SetOnFalse ();
@@ -169,8 +171,8 @@ public class YellowLight : MonoBehaviour {
 			} else {
 				if (onPic [i].activeSelf)
 					onPic [i].GetComponentInChildren<RawImage> ().color = cOff;
-				
-				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
+
+				line [i].numPositions = 0;
 
 				if (obj [i] != null) {
 					obj [i].SetOnFalse ();

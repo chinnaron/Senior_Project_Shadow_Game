@@ -192,14 +192,16 @@ public class BlueLight : MonoBehaviour {
 					}
 				} else {
 					rayDistance [i] = rayDistanceDefault;
-					line [i].SetPosition (line [i].numPositions - 1, wayP [i] * (rayDistance [i] - 1));
+					line [i].numPositions = 2;
+					line [i].SetPosition (0, Vector3.zero);
+					line [i].SetPosition (1, wayP [i] * (rayDistance [i] - 1));
 				}
 			} else {
 				if (onPic [i].activeSelf)
 					onPic [i].GetComponentInChildren<RawImage> ().color = cOff;
 				
 				rayDistance [i] = rayDistanceDefault;
-				line [i].SetPosition (line [i].numPositions - 1, Vector3.zero);
+				line [i].numPositions = 0;
 			}
 		}
 	}

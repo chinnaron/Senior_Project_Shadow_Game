@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-- path: Assets/Scenes/Scene1.unity
-=======
-- path: Assets/Scenes/Scene5.unity
->>>>>>> origin/feature/gebtok
+- path: Assets/Scenes/Scene9.unity
   isLoaded: 1
   isActive: 1

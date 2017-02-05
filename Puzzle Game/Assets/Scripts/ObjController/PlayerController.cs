@@ -337,8 +337,7 @@ public class PlayerController : MonoBehaviour {
 							grabPush.SetFall ();
 							grid.SetGridHere (transform.position + grabPoint);
 							GrabRelease ();
-						} else
-							grid.SetGridHere (transform.position + grabPoint);
+						}
 					} else if (!grabbing)
 						lookAt = Quaternion.LookRotation (movement);
 				}
