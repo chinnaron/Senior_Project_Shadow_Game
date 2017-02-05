@@ -8,24 +8,30 @@ public class SwipeToRotate : MonoBehaviour {
 	private Vector2 firstPressPos;
 	private Vector2 secondPressPos;
 	private Vector2 currentSwipe;
-
 	private Quaternion lookAt;
 //	private Quaternion start;
-
+	private Quaternion[] axises = new Quaternion[4];
 	private readonly float turnSpeed = 10f;
 	private readonly float minSwipeLength = 200f;
-
 	private static Swipe swipeDirection;
-
 	public GameObject camera;
-	
 	private enum Swipe { None, Up, Down, Left, Right };
-
+	private int current;
 	private bool moving;
 
 	void Start () {
+		#if UNITY_EDITOR
+		gameObject.SetActive (false);
+		#elif UNITY_ANDROID
+		gameObject.SetActive(true);
+		#endif
+
 		player = FindObjectOfType<PlayerController> ();
-		lookAt = camera.transform.rotation;
+		lookAt = axises [0] = camera.transform.rotation;
+		current = 0;
+
+		for (int i = 0; i < 3; i++)
+			axises [i + 1] = Quaternion.Euler (axises [i].eulerAngles + Vector3.up * 90);
 	}
 	
 	// Update is called once per frame
@@ -41,17 +47,16 @@ public class SwipeToRotate : MonoBehaviour {
 //		if (camera.transform.rotation.eulerAngles - lookAt.eulerAngles)
 //			moving = false;
 	}
-
-	Vector3 SetAxis(Quaternion q){
-		if (Mathf.Abs (q.eulerAngles.y - Mathf.Floor (q.eulerAngles.y)) > Mathf.Abs (q.eulerAngles.y - Mathf.Ceil (q.eulerAngles.y)))
-			return new Vector3 (q.eulerAngles.x, Mathf.Ceil (q.eulerAngles.y), q.eulerAngles.z);
-		else
-			return new Vector3 (q.eulerAngles.x, Mathf.Floor (q.eulerAngles.y), q.eulerAngles.z);
-	}
-
+//
+//	Vector3 SetAxis(Quaternion q){
+//		if (Mathf.Abs (q.eulerAngles.y - Mathf.Floor (q.eulerAngles.y)) > Mathf.Abs (q.eulerAngles.y - Mathf.Ceil (q.eulerAngles.y)))
+//			return new Vector3 (q.eulerAngles.x, Mathf.Ceil (q.eulerAngles.y), q.eulerAngles.z);
+//		else
+//			return new Vector3 (q.eulerAngles.x, Mathf.Floor (q.eulerAngles.y), q.eulerAngles.z);
+//	}
+//
 	void DetectSwipe(){
 		if (Input.touches.Length > 0) {
-			print (moving);
 			Touch t = Input.GetTouch (0);
  
 			if (t.phase == TouchPhase.Began) {
@@ -82,15 +87,17 @@ public class SwipeToRotate : MonoBehaviour {
 					swipeDirection = Swipe.Left;
 //						moving = true;
 //					start = camera.transform.rotation;
-					lookAt = Quaternion.Euler (SetAxis (camera.transform.rotation) + Vector3.up * -90);
+					current = (current + 3) % 4;
+					lookAt = axises [current];
 //					camera.transform.Rotate (new Vector3 (0, -90, 0));
 //					bg.transform.Rotate (new Vector3 (0, -90, 0));
 					// Swipe right
 				} else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 					swipeDirection = Swipe.Right;
 //						moving = true;
-//					start = camera.transform.rotation;
-					lookAt = Quaternion.Euler (SetAxis (camera.transform.rotation) + Vector3.up * 90);
+					//					start = camera.transform.rotation;
+					current = (current + 1) % 4;
+					lookAt = axises [current];
 //					camera.transform.Rotate (new Vector3 (0, 90, 0));
 //					bg.transform.Rotate (new Vector3 (0, 90, 0));
 				}
