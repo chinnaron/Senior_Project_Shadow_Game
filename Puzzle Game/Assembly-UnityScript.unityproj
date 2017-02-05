@@ -6,10 +6,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{013C56E7-262C-9789-FBEE-548453BE4D5D}</ProjectGuid>
+    <ProjectGuid>{6AB40670-D0D4-720B-C5BF-A418966EE063}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-UnityScript</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -46,61 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\DemoScript.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\MeshContainer.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\PlanarReflection.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\SpecularLighting.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\Water.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\WaterBase.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorCameraScript.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorReflectionScript.cs" />
-     <Compile Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorScript.cs" />
-     <Compile Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Script\CameraTarget.cs" />
-     <Compile Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Script\EffectController.cs" />
-     <Compile Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Script\EffectDemo.cs" />
-     <Compile Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Script\EffectShaderPropertyStr.cs" />
-     <Compile Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Script\RenderEffect.cs" />
-     <Compile Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Script\TransformExtension.cs" />
-     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\MultiKeyDictionary.cs" />
-     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\Reporter.cs" />
-     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\ReporterGUI.cs" />
-     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
-     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
-     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\Test\TestReporter.cs" />
-     <Compile Include="Assets\Scripts\BackToStageSelection.cs" />
-     <Compile Include="Assets\Scripts\Background.cs" />
-     <Compile Include="Assets\Scripts\BlinkingImage.cs" />
-     <Compile Include="Assets\Scripts\CameraController.cs" />
-     <Compile Include="Assets\Scripts\CameraRotate.cs" />
-     <Compile Include="Assets\Scripts\GoalController.cs" />
-     <Compile Include="Assets\Scripts\GridOverlay.cs" />
-     <Compile Include="Assets\Scripts\LeverController.cs" />
-     <Compile Include="Assets\Scripts\MenuScript.cs" />
-     <Compile Include="Assets\Scripts\ObjController\ObjectController.cs" />
-     <Compile Include="Assets\Scripts\ObjController\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\ObjController\PushController.cs" />
-     <Compile Include="Assets\Scripts\ObjController\ShadowController.cs" />
-     <Compile Include="Assets\Scripts\ObjController\TriggerController.cs" />
-     <Compile Include="Assets\Scripts\PauseMenuScript.cs" />
-     <Compile Include="Assets\Scripts\PressureSwitchController.cs" />
-     <Compile Include="Assets\Scripts\ReloadScript.cs" />
-     <Compile Include="Assets\Scripts\Rotation.cs" />
-     <Compile Include="Assets\Scripts\SpecialObj\BlueLight.cs" />
-     <Compile Include="Assets\Scripts\SpecialObj\JumpPad.cs" />
-     <Compile Include="Assets\Scripts\SpecialObj\Mirror.cs" />
-     <Compile Include="Assets\Scripts\SpecialObj\RedLight.cs" />
-     <Compile Include="Assets\Scripts\SpecialObj\WhiteLight.cs" />
-     <Compile Include="Assets\Scripts\SpecialObj\YellowLight.cs" />
-     <Compile Include="Assets\Scripts\Stage\GoToNextStage.cs" />
-     <Compile Include="Assets\Scripts\Stage\QuitPopupButtonNo.cs" />
-     <Compile Include="Assets\Scripts\Stage\QuitPopupButtonYes.cs" />
-     <Compile Include="Assets\Scripts\Stage\Quitbtn.cs" />
-     <Compile Include="Assets\Scripts\Stage\StageSelectionGoToStage.cs" />
-     <Compile Include="Assets\Scripts\StartGameScript.cs" />
-     <Compile Include="Assets\Scripts\SwipeToRotate.cs" />
+     <Compile Include="Assets\MusicManageer.js" />
+     <Compile Include="Assets\MusicManager.js" />
+     <Compile Include="Assets\Scripts\ObjController\MusicController.js" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderOld.shader" />
      <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />

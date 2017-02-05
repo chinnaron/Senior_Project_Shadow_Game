@@ -11,6 +11,8 @@ public class SwipeToRotate : MonoBehaviour {
 	private Quaternion lookAt;
 //	private Quaternion start;
 	private Quaternion[] axises = new Quaternion[4];
+	private Quaternion[] upperAngles = new Quaternion[4];
+	private bool isInUpperAngles;
 	private readonly float turnSpeed = 10f;
 	private readonly float minSwipeLength = 200f;
 	private static Swipe swipeDirection;
@@ -29,9 +31,12 @@ public class SwipeToRotate : MonoBehaviour {
 		player = FindObjectOfType<PlayerController> ();
 		lookAt = axises [0] = camera.transform.rotation;
 		current = 0;
-
-		for (int i = 0; i < 3; i++)
+		upperAngles [0] = Quaternion.Euler (40, 0, 20);
+		isInUpperAngles = false;
+		for (int i = 0; i < 3; i++) {
 			axises [i + 1] = Quaternion.Euler (axises [i].eulerAngles + Vector3.up * 90);
+			upperAngles [i + 1] = Quaternion.Euler (upperAngles [i].eulerAngles + Vector3.up * 90);
+		}
 	}
 	
 	// Update is called once per frame
@@ -79,16 +84,28 @@ public class SwipeToRotate : MonoBehaviour {
 				// Swipe up
 				if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					swipeDirection = Swipe.Up;
+					if (isInUpperAngles) {
+						isInUpperAngles = false;
+						lookAt = axises [current];
+					}
 					// Swipe down
 				} else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
 					swipeDirection = Swipe.Down;
+					if (!isInUpperAngles) {
+						isInUpperAngles = true;
+						lookAt = upperAngles [current];
+					}
 					// Swipe left
 				} else if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
 					swipeDirection = Swipe.Left;
 //						moving = true;
 //					start = camera.transform.rotation;
 					current = (current + 3) % 4;
-					lookAt = axises [current];
+					if (!isInUpperAngles) {
+						lookAt = axises [current];
+					} else {
+						lookAt = upperAngles [current];
+					}
 //					camera.transform.Rotate (new Vector3 (0, -90, 0));
 //					bg.transform.Rotate (new Vector3 (0, -90, 0));
 					// Swipe right
@@ -97,7 +114,11 @@ public class SwipeToRotate : MonoBehaviour {
 //						moving = true;
 					//					start = camera.transform.rotation;
 					current = (current + 1) % 4;
-					lookAt = axises [current];
+					if (!isInUpperAngles) {
+						lookAt = axises [current];
+					} else {
+						lookAt = upperAngles [current];
+					}
 //					camera.transform.Rotate (new Vector3 (0, 90, 0));
 //					bg.transform.Rotate (new Vector3 (0, 90, 0));
 				}

@@ -1,22 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GoalController.cs">
-    <Files>
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\MusicController.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\BlinkingImage.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SpecialObj\BlueLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PauseMenuScript.cs" Line="18" Column="17" />
-      <File FileName="Assets\Scripts\GoalController.cs" Line="14" Column="2" />
-=======
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SwipeToRotate.cs">
     <Files>
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="474" Column="3" />
-      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SwipeToRotate.cs" Line="12" Column="28" />
->>>>>>> origin/feature/tpc2
+      <File FileName="Assets\Scripts\SwipeToRotate.cs" Line="120" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
