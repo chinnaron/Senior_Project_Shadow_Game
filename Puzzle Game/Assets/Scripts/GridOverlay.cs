@@ -451,6 +451,11 @@ public class GridOverlay : MonoBehaviour {
 			foreach (Vector3 v in l) {
 				s = FindPath (start, v, startFloor);
 
+				if (start == v) {
+					ans.Clear ();
+					return ans;
+				}
+
 				if (s.Count > 0 && s.Count < ans.Count) {
 					ans = s;
 					ans.Push (v);
