@@ -45,7 +45,7 @@ public class SwipeToRotate : MonoBehaviour {
 
 	void FixedUpdate () {
 		DetectSwipe();
-		camera.transform.rotation = Quaternion.Lerp (camera.transform.rotation, lookAt, Time.deltaTime * turnSpeed);
+		rotateCamera ();
 
 //		print (camera.transform.rotation + "" + lookAt);
 //		print (camera.transform.rotation.eulerAngles + "" + lookAt.eulerAngles);
@@ -59,6 +59,10 @@ public class SwipeToRotate : MonoBehaviour {
 //		else
 //			return new Vector3 (q.eulerAngles.x, Mathf.Floor (q.eulerAngles.y), q.eulerAngles.z);
 //	}
+
+	void rotateCamera(){
+		camera.transform.rotation = Quaternion.Lerp (camera.transform.rotation, lookAt, Time.deltaTime * turnSpeed);
+	}
 //
 	void DetectSwipe(){
 		if (Input.touches.Length > 0) {
@@ -87,6 +91,7 @@ public class SwipeToRotate : MonoBehaviour {
 					if (isInUpperAngles) {
 						isInUpperAngles = false;
 						lookAt = axises [current];
+						//rotateCamera ();
 					}
 					// Swipe down
 				} else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
@@ -94,6 +99,7 @@ public class SwipeToRotate : MonoBehaviour {
 					if (!isInUpperAngles) {
 						isInUpperAngles = true;
 						lookAt = upperAngles [current];
+						//rotateCamera ();
 					}
 					// Swipe left
 				} else if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
@@ -106,6 +112,7 @@ public class SwipeToRotate : MonoBehaviour {
 					} else {
 						lookAt = upperAngles [current];
 					}
+					//rotateCamera ();
 //					camera.transform.Rotate (new Vector3 (0, -90, 0));
 //					bg.transform.Rotate (new Vector3 (0, -90, 0));
 					// Swipe right
@@ -119,6 +126,7 @@ public class SwipeToRotate : MonoBehaviour {
 					} else {
 						lookAt = upperAngles [current];
 					}
+					//rotateCamera ();
 //					camera.transform.Rotate (new Vector3 (0, 90, 0));
 //					bg.transform.Rotate (new Vector3 (0, 90, 0));
 				}

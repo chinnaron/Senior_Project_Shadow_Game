@@ -54,8 +54,8 @@ public class CameraRotate : MonoBehaviour {
 //	}
 
 	void FixedUpdate(){
-		print ("" + camera.transform.rotation.eulerAngles + lookAt.eulerAngles + current);
-		print ("" + camera.transform.rotation + lookAt + Time.deltaTime * turnSpeed);
+		//print ("" + camera.transform.rotation.eulerAngles + lookAt.eulerAngles + current);
+		//print ("" + camera.transform.rotation + lookAt + Time.deltaTime * turnSpeed);
 		camera.transform.rotation = Quaternion.Lerp (camera.transform.rotation, lookAt, Time.deltaTime * turnSpeed);
 	}
 }
