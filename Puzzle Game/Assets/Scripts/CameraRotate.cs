@@ -16,10 +16,10 @@ public class CameraRotate : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		#if UNITY_EDITOR
-		gameObject.SetActive (true);
-		#elif UNITY_ANDROID
+		#if UNITY_ANDROID
 		gameObject.SetActive(false);
+		#else
+		gameObject.SetActive (true);
 		#endif
 
 		bLeft.onClick.AddListener (TaskOnClickL);

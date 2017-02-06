@@ -22,10 +22,10 @@ public class SwipeToRotate : MonoBehaviour {
 	private bool moving;
 
 	void Start () {
-		#if UNITY_EDITOR
-		gameObject.SetActive (false);
-		#elif UNITY_ANDROID
+		#if UNITY_ANDROID
 		gameObject.SetActive(true);
+		#else
+		gameObject.SetActive (false);
 		#endif
 
 		player = FindObjectOfType<PlayerController> ();
