@@ -11,6 +11,7 @@ public class GridOverlay : MonoBehaviour {
 	public readonly int walkable2 = 2;
 	public readonly int tempWalkable = 3;
 	public readonly int tempWalkable2 = 4;
+	public readonly int enemy = 5;
 
 	public bool moving;
 
@@ -44,13 +45,13 @@ public class GridOverlay : MonoBehaviour {
 					grid [x, z] = walkable;
 					foreach (RaycastHit hit in hitList) {
 						objCon = hit.collider.GetComponent<ObjectController> ();
-						if (objCon.isBlock2)
+						if (objCon.isBlock2 || (objCon.isEnemy && !objCon.GetComponent<PushController> ().GetOnFloor ()))
 							grid [x, z] = block2;
 						else if (objCon.isTempWalkable2 && grid [x, z] != block2)
 							grid [x, z] = tempWalkable2;
 						else if (objCon.isWalkable2 && grid [x, z] != block2 && grid [x, z] != tempWalkable2)
 							grid [x, z] = walkable2;
-						else if (objCon.isBlock && grid [x, z] != block2 && grid [x, z] != walkable2 && grid [x, z] != tempWalkable2)
+						else if ((objCon.isBlock || (objCon.isEnemy && !objCon.GetComponent<PushController> ().GetOnFloor ())) && grid [x, z] != block2 && grid [x, z] != walkable2 && grid [x, z] != tempWalkable2)
 							grid [x, z] = block;
 						else if (objCon.isTempWalkable && grid [x, z] != block && grid [x, z] != block2 && grid [x, z] != walkable2 && grid [x, z] != tempWalkable2)
 							grid [x, z] = tempWalkable;

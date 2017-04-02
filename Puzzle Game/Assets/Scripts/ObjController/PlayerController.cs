@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour {
 	private int dieSpeed;
 	private int playerMask;
 	private int grabType;
+	private int igR;
 
 	private float flashSpeed = 5f; 
 	private float nearest = 0f;
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviour {
 		anim = GetComponent<Animator> ();
 		playerPush = GetComponent<PushController> ();
 		playerMask = LayerMask.GetMask ("Player");
+		igR = LayerMask.GetMask ("Ignore Raycast");
 		grid = FindObjectOfType<GridOverlay> ();
 		desPic = Resources.Load ("DesPic", typeof(GameObject)) as GameObject;
 //		desNotPic = Resources.Load ("DesNotPic", typeof(GameObject)) as GameObject;
@@ -92,7 +94,7 @@ public class PlayerController : MonoBehaviour {
 			#endif
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
-				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask)) {
+				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask & ~igR)) {
 					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2
 						|| hit.collider.GetComponent<ObjectController> ().isTempWalkable || hit.collider.GetComponent<ObjectController> ().isTempWalkable2) {
 						point = grid.ToPoint (hit.point);
