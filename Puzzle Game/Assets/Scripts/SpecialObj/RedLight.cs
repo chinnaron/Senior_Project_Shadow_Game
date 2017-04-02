@@ -42,7 +42,7 @@ public class RedLight : MonoBehaviour {
 				if(!tr)
 					onPic [i].SetActive (true);
 				
-				line [i].SetPosition (line [i].numPositions - 1, wayP [i] * rayDistance);
+				line [i].SetPosition (line [i].positionCount - 1, wayP [i] * rayDistance);
 			}
 		}
 	}
@@ -117,7 +117,7 @@ public class RedLight : MonoBehaviour {
 							break;
 					}
 
-					line [i].numPositions = positions.Count;
+					line [i].positionCount = positions.Count;
 					Vector3[] positionsFinal = new Vector3[positions.Count];
 
 					for (int j = 0; j < positions.Count; j++) {
@@ -152,7 +152,7 @@ public class RedLight : MonoBehaviour {
 						//create particle
 					}
 				} else {
-					line [i].numPositions = 2;
+					line [i].positionCount = 2;
 					line [i].SetPosition (0, Vector3.zero);
 					line [i].SetPosition (1, wayP [i] * rayDistance);
 				}
@@ -160,7 +160,7 @@ public class RedLight : MonoBehaviour {
 				if (onPic [i].activeSelf)
 					onPic [i].GetComponentInChildren<RawImage> ().color = cOff;
 
-				line [i].numPositions = 0;
+				line [i].positionCount = 0;
 			}
 		}
 	}

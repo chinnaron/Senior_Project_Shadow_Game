@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Build from DESKTOP-KCG36KO at 4/3/2017 12:08:28 AM
+=======
+Build from DESKTOP-STPD53T at 4/2/2017 5:00:06 PM
+>>>>>>> origin/new_tex

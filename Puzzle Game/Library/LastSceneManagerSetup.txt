@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/JCScene.unity
+=======
+- path: Assets/Scenes/Scene1.unity
+>>>>>>> origin/new_tex
   isLoaded: 1
   isActive: 1
