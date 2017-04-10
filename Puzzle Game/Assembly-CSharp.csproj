@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\EnemyCollider.cs" />
      <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\DemoScript.cs" />
      <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
      <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
@@ -79,6 +80,7 @@
      <Compile Include="Assets\Scripts\GridOverlay.cs" />
      <Compile Include="Assets\Scripts\LeverController.cs" />
      <Compile Include="Assets\Scripts\MenuScript.cs" />
+     <Compile Include="Assets\Scripts\ObjController\EnemyController.cs" />
      <Compile Include="Assets\Scripts\ObjController\ObjectController.cs" />
      <Compile Include="Assets\Scripts\ObjController\PlayerController.cs" />
      <Compile Include="Assets\Scripts\ObjController\PushController.cs" />
@@ -102,12 +104,12 @@
      <Compile Include="Assets\Scripts\StartGameScript.cs" />
      <Compile Include="Assets\Scripts\SwipeToRotate.cs" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderOld.shader" />
-     <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />
      <None Include="Assets\LoadedAssets\ColorfulButtons\Credits.txt" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\Readme.txt" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddSoftEffect.shader" />
+     <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\READ ME.txt" />
      <None Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />

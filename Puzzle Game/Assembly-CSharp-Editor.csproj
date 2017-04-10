@@ -53,12 +53,12 @@
      <Compile Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Editor\XUIUtils.cs" />
      <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\Editor\ReporterEditor.cs" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderOld.shader" />
-     <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />
      <None Include="Assets\LoadedAssets\ColorfulButtons\Credits.txt" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\Readme.txt" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddSoftEffect.shader" />
+     <None Include="Assets\StreamingAssets\build_info.txt" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\READ ME.txt" />
      <None Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
@@ -148,6 +148,8 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{013C56E7-262C-9789-FBEE-548453BE4D5D}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-UnityScript.unityproj">
       <Project>{6AB40670-D0D4-720B-C5BF-A418966EE063}</Project>      <Name>Assembly-UnityScript</Name>    </ProjectReference>
   </ItemGroup>
