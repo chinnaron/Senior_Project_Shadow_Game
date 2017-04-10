@@ -1,14 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\EnemyCollider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjController\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\ObjController\EnemyController.cs" Line="81" Column="30" />
-      <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="58" Column="5" />
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="48" Column="19" />
-      <File FileName="Assets\Scripts\GoalController.cs" Line="8" Column="38" />
-      <File FileName="Assets\Scripts\SpecialObj\BlueLight.cs" Line="187" Column="25" />
-      <File FileName="Assets\EnemyCollider.cs" Line="11" Column="3" />
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="97" Column="76" />
+      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="90" Column="9" />
+      <File FileName="Assets\Scripts\SwipeToRotate.cs" Line="27" Column="8" />
+      <File FileName="Assets\Scripts\CameraRotate.cs" Line="19" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

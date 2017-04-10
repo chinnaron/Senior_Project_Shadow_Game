@@ -77,7 +77,6 @@ public class SwipeToRotate : MonoBehaviour {
 				currentSwipe = new Vector2 (secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
            		
 				// Make sure it was a legit swipe, not a tap
-//				print(""+currentSwipe.magnitude+minSwipeLength);
 				if (currentSwipe.magnitude < minSwipeLength) {
 					swipeDirection = Swipe.None;
 					player.Click ();

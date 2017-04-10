@@ -46,7 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\EnemyCollider.cs" />
      <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\DemoScript.cs" />
      <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
      <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
@@ -80,7 +79,6 @@
      <Compile Include="Assets\Scripts\GridOverlay.cs" />
      <Compile Include="Assets\Scripts\LeverController.cs" />
      <Compile Include="Assets\Scripts\MenuScript.cs" />
-     <Compile Include="Assets\Scripts\ObjController\EnemyController.cs" />
      <Compile Include="Assets\Scripts\ObjController\ObjectController.cs" />
      <Compile Include="Assets\Scripts\ObjController\PlayerController.cs" />
      <Compile Include="Assets\Scripts\ObjController\PushController.cs" />
