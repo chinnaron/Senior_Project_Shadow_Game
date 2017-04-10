@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour {
 			#if UNITY_ANDROID
 			if (click) {
 				click = false;
+				
 			#else
 			if (Input.GetButtonDown ("Fire1")) {
 			#endif
