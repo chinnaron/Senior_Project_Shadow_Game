@@ -41,10 +41,10 @@ public class SwipeToRotate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		DetectSwipe();
 	}
 
 	void FixedUpdate () {
-		DetectSwipe();
 		rotateCamera ();
 
 //		print (camera.transform.rotation + "" + lookAt);
@@ -77,9 +77,13 @@ public class SwipeToRotate : MonoBehaviour {
 				currentSwipe = new Vector2 (secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
            		
 				// Make sure it was a legit swipe, not a tap
+				print(currentSwipe.magnitude);
 				if (currentSwipe.magnitude < minSwipeLength) {
 					swipeDirection = Swipe.None;
-					player.Click ();
+
+					if(currentSwipe.magnitude == 0)
+						player.Click ();
+					
 					return;
 				}
            
