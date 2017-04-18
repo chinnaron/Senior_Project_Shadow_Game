@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Background : MonoBehaviour {
 
-	private float speed = 1f;
+	private float speed = 3f;
 
 	void Update () {
 		transform.Rotate (new Vector3 (0f, 0f, speed) * Time.deltaTime);

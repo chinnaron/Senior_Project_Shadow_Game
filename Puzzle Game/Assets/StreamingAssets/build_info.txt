@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Build from TON-PC at 4/18/2017 8:32:51 PM
+=======
+Build from DESKTOP-STPD53T at 4/18/2017 10:38:03 PM
+>>>>>>> origin/feature/newtext
