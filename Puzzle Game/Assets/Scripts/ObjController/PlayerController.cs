@@ -86,12 +86,13 @@ public class PlayerController : MonoBehaviour {
 
 	void Update (){
 		if (!menu._isPaused && !walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping) {
-			#if UNITY_ANDROID
-			if (click) {
-				click = false;
+			#if UNITY_EDITOR
+			if (Input.GetButtonDown ("Fire1")) {
 				
 			#else
-			if (Input.GetButtonDown ("Fire1")) {
+			if (click) {
+				click = false;
+
 			#endif
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
