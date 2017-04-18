@@ -10,6 +10,7 @@ public class GoToNextStage : MonoBehaviour {
 	private int nextStage;
 	private bool can;
 	public AudioClip[] sound;
+	public DataScript datascript;
 
 	void Awake(){
 		name = Application.loadedLevelName;
@@ -23,13 +24,19 @@ public class GoToNextStage : MonoBehaviour {
 	IEnumerator OnTriggerEnter(Collider other){
 		PlaySound (0);
 		yield return new WaitForSeconds (0.8f);
+
 		if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage))
-			SceneManager.LoadScene ("Scene" + nextStage);
+		{
+			datascript.setClear(nextStage-1,true);
+			//show Stage Clear popup
+			
+			SceneManager.LoadScene ("Scene" + nextStage);	
+		}		
 		else
 			SceneManager.LoadScene ("StageSelection");
 	}
 	public void PlaySound(int s){
-		GetComponent<AudioSource>().clip = sound [s];
-		GetComponent<AudioSource>().Play ();
+		//GetComponent<AudioSource>().clip = sound [s];
+		//GetComponent<AudioSource>().Play ();
 	}
 }

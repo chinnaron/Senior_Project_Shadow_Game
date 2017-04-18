@@ -87,6 +87,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\EnemyCollider.cs" />
     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\DemoScript.cs" />
     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
     <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
@@ -111,24 +112,18 @@
     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\ReporterMessageReceiver.cs" />
     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\Test\Rotate.cs" />
     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\Test\TestReporter.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\ExampleScenes\ExampleScripts\CannonBehavior.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\ExampleScenes\ExampleScripts\CreateSinShapedLineStrip.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\ExampleScenes\ExampleScripts\ShotBehavior.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\Scripts\SetFovGlobalShaderVariable.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\Scripts\Utils\ExposePropertyAttribute.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\Scripts\Utils\TransformExtensionMethods.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\Scripts\VolumetricLineBehavior.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\Scripts\VolumetricLineStripBehavior.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\Scripts\VolumetricMultiLineBehavior.cs" />
     <Compile Include="Assets\Scripts\BackToStageSelection.cs" />
     <Compile Include="Assets\Scripts\Background.cs" />
+    <Compile Include="Assets\Scripts\BlinkingImage.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\CameraRotate.cs" />
-    <Compile Include="Assets\Scripts\GoToNextStage.cs" />
+    <Compile Include="Assets\Scripts\DataScript.cs" />
     <Compile Include="Assets\Scripts\GoalController.cs" />
     <Compile Include="Assets\Scripts\GridOverlay.cs" />
     <Compile Include="Assets\Scripts\LeverController.cs" />
     <Compile Include="Assets\Scripts\MenuScript.cs" />
+    <Compile Include="Assets\Scripts\ObjController\EnemyController.cs" />
+    <Compile Include="Assets\Scripts\ObjController\ObjectController.cs" />
     <Compile Include="Assets\Scripts\ObjController\PlayerController.cs" />
     <Compile Include="Assets\Scripts\ObjController\PushController.cs" />
     <Compile Include="Assets\Scripts\ObjController\ShadowController.cs" />
@@ -140,16 +135,17 @@
     <Compile Include="Assets\Scripts\SpecialObj\BlueLight.cs" />
     <Compile Include="Assets\Scripts\SpecialObj\JumpPad.cs" />
     <Compile Include="Assets\Scripts\SpecialObj\Mirror.cs" />
-    <Compile Include="Assets\Scripts\SpecialObj\ObjectController.cs" />
     <Compile Include="Assets\Scripts\SpecialObj\RedLight.cs" />
     <Compile Include="Assets\Scripts\SpecialObj\WhiteLight.cs" />
     <Compile Include="Assets\Scripts\SpecialObj\YellowLight.cs" />
-    <Compile Include="Assets\Scripts\StageSelection\QuitPopupButtonNo.cs" />
-    <Compile Include="Assets\Scripts\StageSelection\QuitPopupButtonYes.cs" />
-    <Compile Include="Assets\Scripts\StageSelection\Quitbtn.cs" />
-    <Compile Include="Assets\Scripts\StageSelection\StageSelectionGoToStage1.cs" />
-    <Compile Include="Assets\Scripts\StageSelection\StageSelectionGoToStage2.cs" />
+    <Compile Include="Assets\Scripts\Stage\GoToNextStage.cs" />
+    <Compile Include="Assets\Scripts\Stage\QuitPopupButtonNo.cs" />
+    <Compile Include="Assets\Scripts\Stage\QuitPopupButtonYes.cs" />
+    <Compile Include="Assets\Scripts\Stage\Quitbtn.cs" />
+    <Compile Include="Assets\Scripts\Stage\StageSelectionGoToStage.cs" />
+    <Compile Include="Assets\Scripts\StageSelectionScript.cs" />
     <Compile Include="Assets\Scripts\StartGameScript.cs" />
+    <Compile Include="Assets\Scripts\SwipeToRotate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\LoadedAssets\ColorfulButtons\Credits.txt" />
@@ -158,20 +154,13 @@
     <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />
     <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderOld.shader" />
     <None Include="Assets\LoadedAssets\MagicMirror\Prefab\Readme.txt" />
-    <None Include="Assets\LoadedAssets\ParticleLight\Read Me\Read Me.txt" />
-    <None Include="Assets\LoadedAssets\ParticleLight\Shader\AdditiveMask.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddEffect.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddSoftEffect.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\READ ME.txt" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineShaderAdditiveFast.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineShaderAlphaBlended.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineShaderAlphaBlendedFast.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineStripShaderAdditive.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineStripShaderAlphaBlended.shader" />
+    <None Include="Assets\Scripts\Outline.shader" />
     <None Include="Assets\StreamingAssets\build_info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

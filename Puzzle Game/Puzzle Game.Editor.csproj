@@ -147,9 +147,6 @@
     <Compile Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Editor\ShaderCustomEditor\ShaderMaterialsEditor.cs" />
     <Compile Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Editor\XUIUtils.cs" />
     <Compile Include="Assets\LoadedAssets\Unity-Logs-Viewer\Reporter\Editor\ReporterEditor.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\Scripts\Editor\ExposeProperties.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\Scripts\Editor\VolumetricLineBehaviorEditor.cs" />
-    <Compile Include="Assets\LoadedAssets\VolumetricLines\Scripts\Editor\VolumetricLineStripBehaviorEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\LoadedAssets\ColorfulButtons\Credits.txt" />
@@ -158,20 +155,13 @@
     <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />
     <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderOld.shader" />
     <None Include="Assets\LoadedAssets\MagicMirror\Prefab\Readme.txt" />
-    <None Include="Assets\LoadedAssets\ParticleLight\Read Me\Read Me.txt" />
-    <None Include="Assets\LoadedAssets\ParticleLight\Shader\AdditiveMask.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddEffect.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddSoftEffect.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
     <None Include="Assets\LoadedAssets\Particlecollection_Free samples\READ ME.txt" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineShaderAdditiveFast.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineShaderAlphaBlended.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineShaderAlphaBlendedFast.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineStripShaderAdditive.shader" />
-    <None Include="Assets\LoadedAssets\VolumetricLines\Shaders\VolumetricLineStripShaderAlphaBlended.shader" />
+    <None Include="Assets\Scripts\Outline.shader" />
     <None Include="Assets\StreamingAssets\build_info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
