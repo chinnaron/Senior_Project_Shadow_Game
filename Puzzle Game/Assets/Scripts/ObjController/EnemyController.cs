@@ -9,14 +9,11 @@ public class EnemyController : MonoBehaviour {
 	public AudioSource[] sounds;
 
 	private Vector3 movement;
-	private Vector3[] pathDestination;
+	public Vector3[] pathDestination;
 	private Vector3 destination;
 	private Vector3 point;
-	private Vector3 grabPoint;
 
 	private Animator anim;
-	private GameObject grabObj;
-	private PushController grabPush;
 	private PushController playerPush;
 	private GridOverlay grid;
 
@@ -24,9 +21,10 @@ public class EnemyController : MonoBehaviour {
 	private bool walking;
 	private bool click;
 	private bool cannotWalk;
+	private bool reverse;
 
+	private int now;
 	private int dieSpeed;
-	private int grabType;
 
 	private float flashSpeed = 5f; 
 	private float nearest = 0f;
@@ -36,21 +34,19 @@ public class EnemyController : MonoBehaviour {
 
 	private Quaternion lookAt;
 
-	private GameObject grabLever;
-	private Vector3 grabPointLever;
-	private LeverController leverController;
-
-	public void Click(){
-		click = true;
-	}
-
 	void Awake () {
 		InvokeRepeating("WalkingSound", 0f, 0.2f);
-		InvokeRepeating("PushingSound", 0f, 0.2f);
 		destination = transform.position;
-		movement = grabPoint = Vector3.zero;
+		movement = Vector3.zero;
 		dieSpeed = 10;
+		now = 0;
+		reverse = dying = false;
 
+		if (pathDestination.Length > 1) {
+			walking = true;
+			movement = pathDestination [1] - pathDestination [0];
+		}
+		
 		anim = GetComponent<Animator> ();
 		playerPush = GetComponent<PushController> ();
 		grid = FindObjectOfType<GridOverlay> ();
@@ -58,33 +54,47 @@ public class EnemyController : MonoBehaviour {
 
 	void FixedUpdate () {
 		if (walking) {
-			if (nearest >= Vector3.Distance (transform.position, destination)) {
-				nearest = Vector3.Distance (transform.position, destination);
-			} else if (nearest < Vector3.Distance (transform.position, destination)) {
-				nearest = 0;
-//				transform.position = pathDestination;
+//			if (nearest >= Vector3.Distance (transform.position, pathDestination[now])) {
+//				nearest = Vector3.Distance (transform.position, pathDestination[now]);
+//			} else if (nearest < Vector3.Distance (transform.position, pathDestination[now])) {
+//				nearest = 0;
+//				transform.position = pathDestination[now];
+//			}
+
+			if (transform.position == pathDestination[now] + Vector3.up) {
+				if (!playerPush.falling && playerPush.CheckFall ()) {
+					movement = Vector3.zero;
+					walking = false;
+					playerPush.SetFall ();
+				}
 			}
 
-//			if (transform.position == pathDestination + Vector3.up) {
-//				if (!playerPush.falling && playerPush.CheckFall ()) {
-//					movement = Vector3.zero;
-//					walking = false;
-//					playerPush.SetFall ();
-//				}
-//			}
-
-//			if (transform.position == pathDestination) {
-//				if (pathDestination == destination) {
-//					movement = Vector3.zero;
-//					walking = false;
-//				}
-//			}
+			if (transform.position == pathDestination[now]) {
+//				print (now +""+ (pathDestination.Length - 1));
+				if (now == pathDestination.Length - 1) {
+					reverse = true;
+					now--;
+					movement = pathDestination [now] - pathDestination [now + 1];
+				} else if (now == 0) {
+					reverse = false;
+					now++;
+					movement = pathDestination [now] - pathDestination [now - 1];
+				} else {
+					if (reverse) {
+						now--;
+						movement = pathDestination [now] - pathDestination [now + 1];
+					} else {
+						now++;
+						movement = pathDestination [now] - pathDestination [now - 1];
+					}
+				}
+			}
 
 			movement = movement.normalized * speed * Time.deltaTime;
 
-//			if (Vector3.Dot (grid.Set0Y (transform.position + movement - pathDestination).normalized
-//				, grid.Set0Y (transform.position - pathDestination).normalized) == -1f)
-//				movement = grid.Set0Y (pathDestination - transform.position);
+			if (Vector3.Dot (grid.Set0Y (transform.position + movement - pathDestination[now]).normalized
+				, grid.Set0Y (transform.position - pathDestination[now]).normalized) == -1f)
+				movement = grid.Set0Y (pathDestination[now] - transform.position);
 
 			transform.position = transform.position + movement;
 				
@@ -111,18 +121,8 @@ public class EnemyController : MonoBehaviour {
 		return movement;
 	}
 
-	public PushController GetGrabPush () {
-		return grabPush;
-	}
-
 	public void SetPushController (Vector3 des, Vector3 dir) {
 		playerPush.SetMoveTo (des, dir);
-	}
-
-
-	public void Stop () {
-		walking = false;
-		nearest = 0;
 	}
 
 	public void PlaySound (int s) {
