@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour {
 	public GameObject menu;
+	public GameObject blacksceen;
 	public GameObject pauseCloseButton;
 	public bool _isPaused;
 
 	void Start () {
 		menu.SetActive (false);
+		blacksceen.SetActive (false);
 		pauseCloseButton.SetActive (false);
 		_isPaused = false;
 		Button btn = GetComponent<Button> ();
@@ -17,10 +19,10 @@ public class MenuScript : MonoBehaviour {
 	}
 
 	void TaskOnClick(){
-		//if (!_isOpened) {
-		//Debug.Log ("You have clicked the button!");
+		
 		Time.timeScale = 0;
 		menu.SetActive (true);
+		blacksceen.SetActive (true);
 		pauseCloseButton.SetActive (true);
 		_isPaused = true;
 	}

@@ -39,13 +39,14 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>D:/Programs/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>D:/Programs/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ContinueNextStage.cs" />
      <Compile Include="Assets\EnemyCollider.cs" />
      <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\DemoScript.cs" />
      <Compile Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
@@ -76,6 +77,7 @@
      <Compile Include="Assets\Scripts\BlinkingImage.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CameraRotate.cs" />
+     <Compile Include="Assets\Scripts\DataScript.cs" />
      <Compile Include="Assets\Scripts\GoalController.cs" />
      <Compile Include="Assets\Scripts\GridOverlay.cs" />
      <Compile Include="Assets\Scripts\LeverController.cs" />
@@ -101,51 +103,95 @@
      <Compile Include="Assets\Scripts\Stage\QuitPopupButtonYes.cs" />
      <Compile Include="Assets\Scripts\Stage\Quitbtn.cs" />
      <Compile Include="Assets\Scripts\Stage\StageSelectionGoToStage.cs" />
+     <Compile Include="Assets\Scripts\StageSelectionScript.cs" />
      <Compile Include="Assets\Scripts\StartGameScript.cs" />
      <Compile Include="Assets\Scripts\SwipeToRotate.cs" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderOld.shader" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\proguard-project.txt" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\bin\R.txt" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_button_blue.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_tooltip_bubble.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values-xhdpi\dimens.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_friendpickerfragment.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values\attrs.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values-he\strings.xml" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values-hdpi\dimens.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values-mdpi\dimens.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_placepickerfragment.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_button_like.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\bin\AndroidManifest.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_search_bar_layout.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\bin\proguard.txt" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_button_like_selected.xml" />
      <None Include="Assets\LoadedAssets\ColorfulButtons\Credits.txt" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_top_background.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\HOTweenMicro\HOTween_License.txt" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_picker_checkbox.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_picker_search_box.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_picker_image.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values\colors.xml" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\Readme.txt" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddSoftEffect.shader" />
      <None Include="Assets\StreamingAssets\build_info.txt" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_picker_activity_circle_row.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\build.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values\strings.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values\styles.xml" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\READ ME.txt" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values-iw\strings.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_usersettingsfragment_background_gradient.xml" />
      <None Include="Assets\LoadedAssets\MagicMirror\Demo\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values-ldpi\dimens.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_placepickerfragment_list_row.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_picker_top_button.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_usersettingsfragment.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_picker_list_section_header.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_picker_list_selector_background_transition.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_picker_item_background.xml" />
      <None Include="Assets\LoadedAssets\MagicMirror\Prefab\MirrorShader.shader" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values-es\strings.xml" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddEffect.shader" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_picker_list_row.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\values\drawables.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\AndroidManifest.xml" />
      <None Include="Assets\Scripts\Outline.shader" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_picker_title_bar.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_top_button.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_button_check.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_login_activity_layout.xml" />
      <None Include="Assets\LoadedAssets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\layout\com_facebook_picker_title_bar_stub.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_loginbutton_silver.xml" />
+     <None Include="Assets\LoadedAssets\Ultimate GUI Kit\Plugins\Android\facebook\res\drawable\com_facebook_picker_list_selector.xml" />
  <Reference Include="UnityEngine.UI">
- <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.PlaymodeTestsRunner">
- <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Analytics">
- <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
- <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.VR">
- <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
- <Reference Include="Mono.Cecil">
- <HintPath>D:/Programs/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>D:/Programs/Unity/Editor/Data/PlaybackEngines/AppleTVSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ <Reference Include="HOTween">
+ <HintPath>C:/FinalSeniorproject/Puzzle Game/Assets/LoadedAssets/Ultimate GUI Kit/HOTweenMicro/HOTween.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>D:/Programs/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Common">
- <HintPath>D:/Programs/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
+ <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
