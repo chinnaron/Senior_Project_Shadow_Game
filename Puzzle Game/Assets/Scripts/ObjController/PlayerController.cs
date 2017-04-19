@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Update (){
 		if (!menu._isPaused && !walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping) {
-			#if UNITY_EDITOR
+			#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 			if (Input.GetButtonDown ("Fire1")) {
 				
 			#else

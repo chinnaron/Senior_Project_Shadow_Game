@@ -6,9 +6,11 @@ using UnityEngine.UI;
 public class CameraRotate : MonoBehaviour {
 	private PlayerController player;
 	public GameObject camera;
-	private readonly float turnSpeed = 10f;
 	private Quaternion lookAt;
 	private Quaternion[] axises = new Quaternion[4];
+	private Quaternion[] upperAngles = new Quaternion[4];
+	private bool isInUpperAngles;
+	private readonly float turnSpeed = 10f;
 	private int current;
 //	private int last;
 	public Button bLeft;
@@ -16,7 +18,7 @@ public class CameraRotate : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		#if UNITY_EDITOR
+		#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 		gameObject.SetActive(true);
 		#else
 		gameObject.SetActive (false);
@@ -26,10 +28,14 @@ public class CameraRotate : MonoBehaviour {
 		bRight.onClick.AddListener (TaskOnClickR);
 
 		player = FindObjectOfType<PlayerController> ();
+		lookAt = axises [0] = camera.transform.rotation;
 		current = 0;
-
-		for (int i = 0; i < 3; i++)
+		upperAngles [0] = Quaternion.Euler (40, 0, 20);
+		isInUpperAngles = false;
+		for (int i = 0; i < 3; i++) {
 			axises [i + 1] = Quaternion.Euler (axises [i].eulerAngles + Vector3.up * 90);
+			upperAngles [i + 1] = Quaternion.Euler (upperAngles [i].eulerAngles + Vector3.up * 90);
+		}
 	}
 	
 	void TaskOnClickL(){

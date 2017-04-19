@@ -22,7 +22,7 @@ public class SwipeToRotate : MonoBehaviour {
 	private bool moving;
 
 	void Start () {
-		#if UNITY_EDITOR
+		#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 		gameObject.SetActive (false);
 		#else
 		gameObject.SetActive(true);
@@ -45,7 +45,7 @@ public class SwipeToRotate : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		rotateCamera ();
+		camera.transform.rotation = Quaternion.Lerp (camera.transform.rotation, lookAt, Time.deltaTime * turnSpeed);
 
 //		print (camera.transform.rotation + "" + lookAt);
 //		print (camera.transform.rotation.eulerAngles + "" + lookAt.eulerAngles);
@@ -60,10 +60,6 @@ public class SwipeToRotate : MonoBehaviour {
 //			return new Vector3 (q.eulerAngles.x, Mathf.Floor (q.eulerAngles.y), q.eulerAngles.z);
 //	}
 
-	void rotateCamera(){
-		camera.transform.rotation = Quaternion.Lerp (camera.transform.rotation, lookAt, Time.deltaTime * turnSpeed);
-	}
-//
 	void DetectSwipe(){
 		if (Input.touches.Length > 0) {
 			Touch t = Input.GetTouch (0);
