@@ -30,7 +30,7 @@ public class PushController : MonoBehaviour {
 		grid = FindObjectOfType<GridOverlay> ();
 		player = FindObjectOfType<PlayerController> ();
 
-		if (objController.isPlayer)
+		if (objController.isPlayer || objController.isEnemy)
 			height = 0f;
 		else
 			height = 0.5f;

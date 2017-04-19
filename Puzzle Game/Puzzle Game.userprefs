@@ -1,13 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjController\EnemyController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SpecialObj\JumpPad.cs">
     <Files>
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="349" Column="7" />
-      <File FileName="Assets\Scripts\ObjController\EnemyController.cs" Line="109" Column="49" />
-      <File FileName="Assets\Scripts\SpecialObj\RedLight.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="21" Column="33" />
+      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjController\EnemyController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="175" Column="72" />
+      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="33" Column="54" />
+      <File FileName="Assets\Scripts\SpecialObj\BlueLight.cs" Line="189" Column="59" />
+      <File FileName="Assets\Scripts\SpecialObj\JumpPad.cs" Line="51" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

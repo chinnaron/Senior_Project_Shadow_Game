@@ -48,11 +48,7 @@ public class JumpPad : MonoBehaviour {
 						PlaySound (0);
 						obj.SetJumpTo ((transform.position + direction * 2), onFloor, direction, 2);
 
-						if (obj.gameObject == player.gameObject)
-							player.Stop ();
-						else if (obj == player.GetGrabPush ()) {
-							player.GrabRelease ();
-						}
+						CheckObj (obj);
 					} else if ((onFloor && grid.GetGrid (transform.position + direction) != grid.block && grid.GetGrid (transform.position + direction) != grid.block2
 					           && grid.GetGrid (transform.position + direction) != grid.walkable2 && grid.GetGrid (transform.position + direction) != grid.tempWalkable2
 					           && (grid.GetGrid (transform.position + direction * 2) == grid.block || grid.GetGrid (transform.position + direction * 2) == grid.block2
@@ -62,25 +58,28 @@ public class JumpPad : MonoBehaviour {
 						PlaySound (0);
 						obj.SetJumpTo (transform.position + direction, onFloor, direction, 3);
 
-						if (obj.gameObject == player.gameObject)
-							player.Stop ();
-						else if (obj == player.GetGrabPush ()) {
-							player.GrabRelease ();
-						}
+						CheckObj (obj);
 					} else if (onFloor && (grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)) {
 						PlaySound (0);
 						obj.SetJumpTo (transform.position + direction, !onFloor, direction, 1);
 
-						if (obj.gameObject == player.gameObject)
-							player.Stop ();
-						else if (obj == player.GetGrabPush ()) {
-							player.GrabRelease ();
-						}
+						CheckObj (obj);
 					}
 				}
 			}
 		}
 	}
+
+	void CheckObj(PushController obj){
+		if (obj.gameObject == player.gameObject)
+			player.Stop ();
+		else if (obj.GetComponent<ObjectController> ().isEnemy)
+			obj.GetComponent<EnemyController> ().Stop ();
+		else if (obj == player.GetGrabPush ()) {
+			player.GrabRelease ();
+		}
+	}
+
 	public void PlaySound(int s){
 		sounds = GetComponent<AudioSource> ();
 		sounds.clip = sound [s];

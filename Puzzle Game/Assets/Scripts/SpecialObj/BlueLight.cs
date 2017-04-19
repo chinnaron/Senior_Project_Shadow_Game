@@ -185,6 +185,8 @@ public class BlueLight : MonoBehaviour {
 							} else {
 								if (obj [i].gameObject == player.gameObject)
 									player.Stop ();
+								if (obj [i].GetComponent<ObjectController> ().isEnemy)
+									obj [i].GetComponent<EnemyController> ().Stop ();
 								PlaySound (0);
 								obj [i].SetMoveTo (old + wayP [pushDirection [i]] * (rayDistance [i]), wayP [pushDirection [i]]);
 							}
