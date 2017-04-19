@@ -8,8 +8,8 @@ public class EnemyController : MonoBehaviour {
 	public AudioClip[] sound;
 	public AudioSource[] sounds;
 
+	public Vector3[] pathDestination;
 	private Vector3 movement;
-	private Vector3[] pathDestination;
 	private Vector3 destination;
 	private Vector3 point;
 	private Vector3 grabPoint;

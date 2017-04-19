@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyCollider : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
-		print (other.name);
+//		print (other.name);
 		if(other.name == "Player2")
 			Application.LoadLevel (Application.loadedLevel);
 	}
