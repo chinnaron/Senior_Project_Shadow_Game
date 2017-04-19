@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour {
 	private bool goToLever;
 	private bool goToGrab;
 	private bool dying;
+	private bool falling;
 	private bool walking;
 	private bool grabbing;
 	private bool pulling;
@@ -37,11 +38,13 @@ public class PlayerController : MonoBehaviour {
 	private bool click;
 	private bool cannotWalk;
 
+	private int count = 0;
 	private int dieSpeed;
 	private int playerMask;
 	private int ignMask;
 	private int grabType;
 
+	private float sinkSpeed = 0.5f;
 	private float flashSpeed = 5f; 
 	private float nearest = 0f;
 	private readonly float speed = 5f;
@@ -71,7 +74,7 @@ public class PlayerController : MonoBehaviour {
 		InvokeRepeating("PushingSound", 0f, 0.2f);
 		destination = pathDestination = transform.position;
 		movement = grabPoint = Vector3.zero;
-		walking = grabbing = dying = goToGrab = goToLever = click = false;
+		walking = grabbing = falling = dying = goToGrab = goToLever = click = false;
 		dieSpeed = 10;
 
 		anim = GetComponent<Animator> ();
@@ -234,7 +237,7 @@ public class PlayerController : MonoBehaviour {
 //		print(grid.GetGrid(transform.position));
 
 		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping && grid.GetGrid (transform.position) == grid.unwalkable) {
-			YouDied ();
+			Fall ();
 		}
 
 		if (!walking) {
@@ -396,22 +399,36 @@ public class PlayerController : MonoBehaviour {
 
 		transform.rotation = Quaternion.Lerp (transform.rotation, lookAt, Time.deltaTime * turnSpeed);
 
-		if (dying) {
+		if (falling) {
 			transform.position = transform.position + Vector3.down * dieSpeed * Time.deltaTime;
 			dieSpeed++;
 
 			if (transform.position.y < -8)
+				//reset game
 				Application.LoadLevel (Application.loadedLevel);
 		}
 
+		if (dying) {
+			transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
+			count++;
+			if(count > 50)
+			Application.LoadLevel (Application.loadedLevel);
+		}
+
 		anim.SetBool ("IsWalking", walking);
-		//		anim.SetBool ("IsGrabbing", grabbing);
+		//anim.SetBool ("IsGrabbing", grabbing);
 		anim.SetBool ("IsPushing" , pushing);
 		anim.SetBool ("IsPulling", pulling);
 	}
 
-	void YouDied(){
+	public void YouDied(){
 		dying = true;
+		Stop ();
+		GetComponent<BoxCollider> ().enabled = false;
+	}
+
+	void Fall(){
+		falling = true;
 	}
 
 	void StartToWalk (Vector3 des, Vector3 grabPoi) {

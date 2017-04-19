@@ -132,19 +132,23 @@ public class RedLight : MonoBehaviour {
 							|| ((reflect.x != 0) && (hit [i].collider.transform.position.z < old.z + 0.2f
 								&& hit [i].collider.transform.position.z > old.z - 0.2f)))) {
 						if (hit [i].collider.gameObject == player.gameObject) {
-							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
-							Application.LoadLevel (Application.loadedLevel);
+							player.YouDied ();
+
+
+						} else if (hit [i].collider.GetComponent<ObjectController>().isEnemy){
+							hit [i].collider.GetComponent<EnemyController> ().YouDied ();
+
 						} else {
 							if (hit [i].collider.GetComponent<PushController> () == player.GetGrabPush ())
 								player.GrabRelease ();
-
-							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
 
 							if (hit [i].collider.GetComponent<ObjectController> ().isBlock) {
 								grid.SetGrid (hit [i].point, grid.walkable);
 							} else {
 								grid.SetGrid (hit [i].point, grid.walkable2);
 							}
+
+							Destroy (hit [i].collider.gameObject, Time.deltaTime * 2f);
 						}
 						//create particle
 						PlaySound(0);

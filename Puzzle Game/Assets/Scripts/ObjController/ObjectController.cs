@@ -35,6 +35,7 @@ public class ObjectController : MonoBehaviour {
 	public bool isTempWalkable;
 	public bool isTempWalkable2;
 	public bool isMirror;
+	public bool isEnemy;
 
 	public bool isBlueLight;
 	public bool isRedLight;

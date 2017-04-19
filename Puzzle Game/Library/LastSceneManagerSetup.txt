@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-- path: Assets/Scenes/Scene2.unity
-=======
-- path: Assets/Scenes/Scene8.unity
->>>>>>> origin/feature/newtext
+- path: Assets/Scenes/Scene3.unity
   isLoaded: 1
   isActive: 1

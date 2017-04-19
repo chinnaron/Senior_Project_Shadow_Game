@@ -1,22 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjController\EnemyController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjController\PlayerController.cs">
     <Files>
-<<<<<<< HEAD
-      <File FileName="Assets\Scripts\ObjController\EnemyController.cs" Line="85" Column="6" />
-      <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="1" Column="1" />
-      <File FileName="Assets\EnemyCollider.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="1" Column="1" />
-=======
-      <File FileName="Assets\Scripts\ObjController\EnemyController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="46" Column="2" />
-      <File FileName="Assets\Scripts\GridOverlay.cs" Line="48" Column="19" />
-      <File FileName="Assets\EnemyCollider.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="95" Column="5" />
->>>>>>> origin/feature/newtext
-      <File FileName="Assets\Scripts\SwipeToRotate.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjController\PushController.cs" Line="58" Column="52" />
+      <File FileName="Assets\Scripts\ObjController\PlayerController.cs" Line="47" Column="29" />
+      <File FileName="Assets\Scripts\SpecialObj\RedLight.cs" Line="136" Column="8" />
+      <File FileName="Assets\Scripts\ObjController\EnemyController.cs" Line="113" Column="11" />
+      <File FileName="Assets\Scripts\ObjController\ObjectController.cs" Line="38" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -28,6 +28,7 @@ public class EnemyController : MonoBehaviour {
 	private int dieSpeed;
 	private int grabType;
 
+	private float sinkSpeed = 2.5f;
 	private float flashSpeed = 5f; 
 	private float nearest = 0f;
 	private readonly float speed = 5f;
@@ -100,11 +101,17 @@ public class EnemyController : MonoBehaviour {
 				Application.LoadLevel (Application.loadedLevel);
 		}
 
+		if (dying) {
+			transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
+		}
+
 		anim.SetBool ("IsWalking", walking);
 	}
 
-	void YouDied(){
+	public void YouDied(){
 		dying = true;
+		Stop ();
+		Destroy (gameObject, 2f);
 	}
 
 	public Vector3 GetMovement(){
