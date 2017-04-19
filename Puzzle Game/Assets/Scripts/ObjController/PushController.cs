@@ -171,6 +171,8 @@ public class PushController : MonoBehaviour {
 
 				if (objController.GetType () == objController.player) {
 					player.ContinueWalking ();
+				} else if (objController.GetType () == objController.enemy) {
+					objController.GetComponent<EnemyController> ().ContinueWalking ();
 				}
 
 				if (!objController.isPlayer)

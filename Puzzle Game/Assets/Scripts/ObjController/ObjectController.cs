@@ -19,6 +19,7 @@ public class ObjectController : MonoBehaviour {
 	public readonly int tempWalkable2 = 12;
 	public readonly int mirror = 13;
 	public readonly int lever = 14;
+	public readonly int enemy = 15;
 
 	public bool isBlock2;
 	public bool isBlock;
@@ -54,8 +55,6 @@ public class ObjectController : MonoBehaviour {
 			if (isBlock || isBlock2) {
 				if (show == null)
 					show = Instantiate (pic, transform.position + Vector3.up * 0.5001f, Quaternion.LookRotation (Vector3.forward), transform);
-			} else if (isMirror) {
-				
 			} else {
 				
 			}
@@ -65,6 +64,8 @@ public class ObjectController : MonoBehaviour {
 	public int GetType (){
 		if (isPlayer)
 			return player;
+		if (isEnemy)
+			return enemy;
 		if (isMirror)
 			return mirror;
 		if (isLever)
