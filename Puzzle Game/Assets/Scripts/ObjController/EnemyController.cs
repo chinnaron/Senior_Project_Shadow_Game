@@ -8,7 +8,8 @@ public class EnemyController : MonoBehaviour {
 	public AudioClip[] sound;
 	public AudioSource[] sounds;
 
-	public Vector3[] pathDestination;
+	public Vector3[] inputPath;
+	private List<Vector3> pathDestination = new List<Vector3> ();
 	private Vector3 movement;
 	private Vector3 destination;
 	private Vector3 point;
@@ -55,7 +56,29 @@ public class EnemyController : MonoBehaviour {
 		dieSpeed = 10;
 		reverse = false;
 		now = 0;
-		if (pathDestination.Length > 1) {
+
+		if (inputPath.Length > 0) {
+			int i = 0;
+			int b = 0;
+
+			Vector3 v = inputPath [0];
+			Vector3 dirV = Vector3.zero;
+
+			while(i < inputPath.Length - 1 && b < 100){
+				dirV = (inputPath [i + 1] - inputPath [i]).normalized;
+
+				while(v != inputPath[i + 1] && b < 100){
+					print (v);
+					pathDestination.Add (v);
+					v += dirV;
+					b++;
+				}
+
+				i++;
+				b++;
+			}
+			pathDestination.Add (v);
+
 			walking = true;
 			movement = pathDestination [1] - pathDestination [0];
 		} else
@@ -70,6 +93,9 @@ public class EnemyController : MonoBehaviour {
 		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping && grid.GetGrid (transform.position) == grid.unwalkable) {
 			Fall ();
 		}
+
+		if (!grid.IsWalkable (pathDestination [now], playerPush.GetOnFloor ()))
+			walking = false;
 
 		if (walking) {
 			//			if (nearest >= Vector3.Distance (transform.position, pathDestination[now])) {
@@ -88,8 +114,8 @@ public class EnemyController : MonoBehaviour {
 			}
 
 			if (transform.position == pathDestination[now]) {
-				//				print (now +""+ (pathDestination.Length - 1));
-				if (now == pathDestination.Length - 1) {
+				
+				if (now == pathDestination.Count - 1) {
 					reverse = true;
 					now--;
 					movement = pathDestination [now] - pathDestination [now + 1];
@@ -106,6 +132,7 @@ public class EnemyController : MonoBehaviour {
 						movement = pathDestination [now] - pathDestination [now - 1];
 					}
 				}
+
 				lookAt = Quaternion.LookRotation (movement);
 			}
 
