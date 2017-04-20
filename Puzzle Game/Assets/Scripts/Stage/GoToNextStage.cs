@@ -11,6 +11,8 @@ public class GoToNextStage : MonoBehaviour {
 	private bool can;
 	public AudioClip[] sound;
 	public DataScript datascript;
+	public GameObject Stageclear;
+	public GameObject blackscreen;
 
 	void Awake(){
 		name = Application.loadedLevelName;
@@ -25,15 +27,18 @@ public class GoToNextStage : MonoBehaviour {
 		PlaySound (0);
 		yield return new WaitForSeconds (0.8f);
 
-		if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage))
-		{
-			datascript.setClear(nextStage-1,true);
-			//show Stage Clear popup
+
+			datascript.setClear (nextStage - 1, true);
 			
-			SceneManager.LoadScene ("Scene" + nextStage);	
-		}		
-		else
-			SceneManager.LoadScene ("StageSelection");
+			blackscreen.SetActive (true);
+			Stageclear.SetActive(true);
+
+//		if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage)) {
+//			//SceneManager.LoadScene ("Scene" + nextStage);	
+//		} else {
+//			
+//			//SceneManager.LoadScene ("StageSelection");
+//		}
 	}
 	public void PlaySound(int s){
 		//GetComponent<AudioSource>().clip = sound [s];

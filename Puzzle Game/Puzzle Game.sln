@@ -5,8 +5,6 @@ Project("{575B69C9-AADD-8FD1-7F03-C430C5D66FF1}") = "Puzzle Game", "Assembly-CSh
 EndProject
 Project("{575B69C9-AADD-8FD1-7F03-C430C5D66FF1}") = "Puzzle Game", "Assembly-CSharp-Editor.csproj", "{FA465D2B-AF44-DA0A-2C81-69CC25106FCE}"
 EndProject
-Project("{575B69C9-AADD-8FD1-7F03-C430C5D66FF1}") = "Puzzle Game", "Assembly-UnityScript.unityproj", "{6AB40670-D0D4-720B-C5BF-A418966EE063}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,10 +19,6 @@ Global
 		{FA465D2B-AF44-DA0A-2C81-69CC25106FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA465D2B-AF44-DA0A-2C81-69CC25106FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA465D2B-AF44-DA0A-2C81-69CC25106FCE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AB40670-D0D4-720B-C5BF-A418966EE063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AB40670-D0D4-720B-C5BF-A418966EE063}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AB40670-D0D4-720B-C5BF-A418966EE063}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AB40670-D0D4-720B-C5BF-A418966EE063}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
