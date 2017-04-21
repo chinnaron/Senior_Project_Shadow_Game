@@ -155,11 +155,7 @@ public class EnemyController : MonoBehaviour {
 			if (transform.position.y < -8)
 				Application.LoadLevel (Application.loadedLevel);
 		}
-
-		if (dying) {
-			transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
-		}
-
+			
 		anim.SetBool ("IsWalking", walking);
 	}
 
@@ -169,8 +165,9 @@ public class EnemyController : MonoBehaviour {
 
 	public void YouDied(){
 		dying = true;
+		anim.SetBool ("IsDead",dying);
 		Stop ();
-		Destroy (gameObject, 2f);
+		Destroy (gameObject);
 	}
 
 	public void ContinueWalking () {
