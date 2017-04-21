@@ -409,7 +409,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (dying) {
-			transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
+			anim.SetBool ("IsDead", true);
 			count++;
 			if(count > 50)
 			Application.LoadLevel (Application.loadedLevel);

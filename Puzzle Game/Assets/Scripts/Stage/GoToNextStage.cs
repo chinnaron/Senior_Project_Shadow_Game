@@ -41,7 +41,7 @@ public class GoToNextStage : MonoBehaviour {
 //		}
 	}
 	public void PlaySound(int s){
-		//GetComponent<AudioSource>().clip = sound [s];
-		//GetComponent<AudioSource>().Play ();
+		GetComponent<AudioSource>().clip = sound [s];
+		GetComponent<AudioSource>().Play ();
 	}
 }
