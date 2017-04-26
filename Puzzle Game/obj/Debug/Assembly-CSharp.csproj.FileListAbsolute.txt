@@ -29,34 +29,3 @@ D:\ProjectShadoe\Puzzle Game\Temp\bin\Debug\UnityEngine.VR.xml
 D:\ProjectShadoe\Puzzle Game\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 D:\ProjectShadoe\Puzzle Game\obj\Debug\Assembly-CSharp.dll
 D:\ProjectShadoe\Puzzle Game\obj\Debug\Assembly-CSharp.pdb
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\Assembly-CSharp.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\Assembly-CSharp.pdb
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\Mono.Cecil.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEditor.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEditor.iOS.Extensions.Common.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.Analytics.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.HoloLens.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.Networking.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.UI.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.VR.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\Unity.SerializationLogic.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\Unity.DataContract.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\ICSharpCode.NRefactory.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\Unity.UNetWeaver.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\Unity.CecilTools.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\Mono.Cecil.Pdb.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\Mono.Cecil.Mdb.dll
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.xml
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEditor.xml
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.UI.xml
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.Networking.xml
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.xml
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.Analytics.xml
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.HoloLens.xml
-D:\Unity projects\Senior\Puzzle Game\Temp\bin\Debug\UnityEngine.VR.xml
-D:\Unity projects\Senior\Puzzle Game\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
-D:\Unity projects\Senior\Puzzle Game\obj\Debug\Assembly-CSharp.dll
-D:\Unity projects\Senior\Puzzle Game\obj\Debug\Assembly-CSharp.pdb

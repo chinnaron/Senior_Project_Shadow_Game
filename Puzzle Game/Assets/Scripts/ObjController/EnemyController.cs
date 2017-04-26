@@ -68,7 +68,7 @@ public class EnemyController : MonoBehaviour {
 				dirV = (inputPath [i + 1] - inputPath [i]).normalized;
 
 				while(v != inputPath[i + 1] && b < 100){
-					print (v);
+//					print (v);
 					pathDestination.Add (v);
 					v += dirV;
 					b++;
@@ -83,6 +83,7 @@ public class EnemyController : MonoBehaviour {
 			movement = pathDestination [1] - pathDestination [0];
 		} else
 			walking = false;
+//		print (now);
 
 		anim = GetComponent<Animator> ();
 		playerPush = GetComponent<PushController> ();
