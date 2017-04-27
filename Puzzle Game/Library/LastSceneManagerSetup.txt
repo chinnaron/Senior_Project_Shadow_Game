@@ -1,8 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-- path: Assets/Scenes/Scene1.unity
-=======
-- path: Assets/Scenes/Scene14.unity
->>>>>>> origin/feature/tpcpc
+- path: Assets/Scenes/Scene7.unity
   isLoaded: 1
   isActive: 1
