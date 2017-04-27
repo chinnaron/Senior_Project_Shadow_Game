@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyCollider : MonoBehaviour {
 	private PlayerController player;
 	private Animator enemyAnimator;
+	private bool die = false;
+
 	void Awake(){
 		player = FindObjectOfType<PlayerController> ();
 		enemyAnimator = gameObject.GetComponentInParent<Animator> ();
@@ -18,5 +20,4 @@ public class EnemyCollider : MonoBehaviour {
 			player.YouDied ();
 		}
 	}
-
 }
