@@ -1,6 +1,7 @@
 sceneSetups:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 - path: Assets/Scenes/Scene1.unity
 =======
 - path: Assets/Scenes/Scene11.unity
@@ -8,5 +9,8 @@ sceneSetups:
 =======
 - path: Assets/Scenes/Scene7.unity
 >>>>>>> origin/'mhee_return
+=======
+- path: Assets/Scenes/Scene6.unity
+>>>>>>> origin/feature/tpcpc
   isLoaded: 1
   isActive: 1
