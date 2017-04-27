@@ -13,11 +13,13 @@ public class GoToNextStage : MonoBehaviour {
 	public DataScript datascript;
 	public GameObject Stageclear;
 	public GameObject blackscreen;
+	private MenuScript menu;
 
 	void Awake(){
 		name = Application.loadedLevelName;
 		can = int.TryParse (name.Substring (name.Length - 1, 1), out nextStage);
 		nextStage += 1;
+		menu = FindObjectOfType<MenuScript> ();
 
 		if(!can)
 			print ("Error");
@@ -27,11 +29,11 @@ public class GoToNextStage : MonoBehaviour {
 		PlaySound (0);
 		yield return new WaitForSeconds (0.8f);
 
-
-			datascript.setClear (nextStage - 1, true);
-			
-			blackscreen.SetActive (true);
-			Stageclear.SetActive(true);
+//		menu.SetPause (true);
+		datascript.setClear (nextStage - 1, true);
+		
+		blackscreen.SetActive (true);
+		Stageclear.SetActive(true);
 
 //		if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage)) {
 //			//SceneManager.LoadScene ("Scene" + nextStage);	
