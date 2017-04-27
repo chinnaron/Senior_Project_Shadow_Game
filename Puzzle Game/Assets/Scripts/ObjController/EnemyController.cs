@@ -36,8 +36,8 @@ public class EnemyController : MonoBehaviour {
 	private float sinkSpeed = 2.5f;
 	private float flashSpeed = 5f; 
 	private float nearest = 0f;
-	private readonly float speed = 4f;
-	private readonly float turnSpeed = 10f;
+	public float speed = 4f;
+	public float turnSpeed = 10f;
 	private readonly float camRayLength = 100f;
 
 	private Quaternion lookAt;
