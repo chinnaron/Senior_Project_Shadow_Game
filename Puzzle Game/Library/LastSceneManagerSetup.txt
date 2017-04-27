@@ -1,12 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-<<<<<<< HEAD
-- path: Assets/Scenes/Scene1.unity
-=======
-- path: Assets/Scenes/Scene11.unity
->>>>>>> origin/'mhee_return
-=======
-- path: Assets/Scenes/Scene7.unity
->>>>>>> origin/'mhee_return
+- path: Assets/Scenes/JCScene.unity
   isLoaded: 1
   isActive: 1

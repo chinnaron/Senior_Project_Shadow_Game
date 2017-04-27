@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour {
 	private Vector3 point;
 	private Vector3 grabPoint;
 
-	private Animator anim;
+	public Animator anim;
 	private GameObject grabObj;
 	private PushController grabPush;
 	private PushController playerPush;
