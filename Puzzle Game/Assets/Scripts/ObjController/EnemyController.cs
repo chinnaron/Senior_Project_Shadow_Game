@@ -27,6 +27,7 @@ public class EnemyController : MonoBehaviour {
 	private bool cannotWalk;
 	private bool reverse;
 	private bool falling;
+	private bool punching;
 
 	private int dieSpeed;
 	private int grabType;
@@ -56,6 +57,7 @@ public class EnemyController : MonoBehaviour {
 		dieSpeed = 10;
 		reverse = false;
 		now = 0;
+		punching = false;
 //		print (inputPath.Length);
 
 		if (inputPath.Length > 0) {
@@ -94,7 +96,7 @@ public class EnemyController : MonoBehaviour {
 	void FixedUpdate () {
 //		print (walking);
 
-		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping) {
+		if (!punching && !walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping) {
 //			print (grid.GetGrid (transform.position));
 			if (grid.GetGrid (transform.position) == grid.unwalkable) {
 				Fall ();
@@ -177,6 +179,11 @@ public class EnemyController : MonoBehaviour {
 		anim.SetBool ("IsDead",dying);
 		Stop ();
 		Destroy (gameObject);
+	}
+
+	public void Punch(){
+		Stop ();
+		punching = true;
 	}
 
 	public void ContinueWalking () {

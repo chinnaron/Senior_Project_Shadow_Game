@@ -412,7 +412,9 @@ public class PlayerController : MonoBehaviour {
 
 		if (dying) {
 			count++;
-			if(count > 50)
+			if (count > 50)
+				anim.SetBool ("IsDead", true);
+			if (count > 100)
 				Application.LoadLevel (Application.loadedLevel);
 		}
 
@@ -423,9 +425,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void YouDied(){
-		dying = true;
-		anim.SetBool ("IsDead", true);
 		Stop ();
+		dying = true;
+//		if (i == 2)
+			count = 50;
 		GetComponent<BoxCollider> ().enabled = false;
 	}
 

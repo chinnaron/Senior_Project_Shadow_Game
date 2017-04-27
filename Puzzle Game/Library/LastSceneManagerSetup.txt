@@ -1,20 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-- path: Assets/Scenes/Scene1.unity
-=======
-- path: Assets/Scenes/Scene11.unity
->>>>>>> origin/'mhee_return
-=======
-- path: Assets/Scenes/Scene7.unity
->>>>>>> origin/'mhee_return
-=======
-- path: Assets/Scenes/Scene6.unity
->>>>>>> origin/feature/tpcpc
-=======
-- path: Assets/Scenes/JCScene.unity
->>>>>>> origin/mhee_return_2
+- path: Assets/Scenes/TPC_TestSite.unity
   isLoaded: 1
   isActive: 1
