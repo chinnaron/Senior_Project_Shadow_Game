@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/JCScene.unity
+=======
+- path: Assets/Scenes/Scene13.unity
+>>>>>>> origin/feature/tpcpc
   isLoaded: 1
   isActive: 1
