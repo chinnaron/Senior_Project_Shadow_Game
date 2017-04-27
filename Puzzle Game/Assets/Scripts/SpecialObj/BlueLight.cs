@@ -83,9 +83,10 @@ public class BlueLight : MonoBehaviour {
 					if (i % 2 == 0) {
 						positions.Add (wayP [i] * (Mathf.Abs (hit [i].collider.transform.position.z - transform.position.z) - 1f));
 
-						if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit2 [i], distance - Mathf.Abs (hit [i].collider.transform.position.z - old.z)))
+						if (Physics.Raycast (grid.SetYFrom (hit [i].collider.transform.position, transform.position), reflect, out hit2 [i], distance - Mathf.Abs (hit [i].collider.transform.position.z - old.z))) {
 							rayDistance [i] = Mathf.Abs (hit2 [i].collider.transform.position.z - old.z) - 1f;
-						else
+
+						} else
 							rayDistance [i] = distance;
 					} else {
 						positions.Add (wayP [i] * (Mathf.Abs (hit [i].collider.transform.position.x - transform.position.x) - 1f));
@@ -133,7 +134,7 @@ public class BlueLight : MonoBehaviour {
 							break;
 					}
 
-					rayDistance [i] = Mathf.Floor (rayDistance [i]);
+					rayDistance [i] = Mathf.Round (rayDistance [i]);
 
 					if (reflect == Vector3.forward)
 						pushDirection [i] = 0;
@@ -152,7 +153,7 @@ public class BlueLight : MonoBehaviour {
 					}
 
 					line [i].SetPositions (positionsFinal);
-
+//					print(Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).z - grid.ToPoint0Y (old).z) + "" + rayDistance[i]);
 					if (hit [i].collider != null && hit [i].collider.GetComponent<ObjectController> ().isPushable
 					    && (((reflect.z != 0) && hit [i].collider.transform.position.x < old.x + 0.1f
 					    && hit [i].collider.transform.position.x > old.x - 0.1f
@@ -162,6 +163,7 @@ public class BlueLight : MonoBehaviour {
 					    && Mathf.Abs (grid.ToPoint0Y (hit [i].collider.transform.position).x - grid.ToPoint0Y (old).x) < rayDistance [i]))) {
 						obj [i] = hit [i].collider.GetComponent<PushController> ();
 //						print (rayDistance [i]);
+
 						if (!obj [i].moving && !obj [i].jumping && !obj [i].falling) {
 							if (player.IsGrabbing () && (obj [i].gameObject == player.gameObject || obj [i] == player.GetGrabPush ())) {
 								if (obj [i].gameObject == player.gameObject) {

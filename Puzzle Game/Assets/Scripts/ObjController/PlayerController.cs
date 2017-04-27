@@ -485,6 +485,7 @@ public class PlayerController : MonoBehaviour {
 		grabObj = null;
 		goToGrab = false;
 		nearest = 0;
+		transform.position = grid.ToPoint (transform.position);
 	}
 
 	public bool IsGrabbing(){
