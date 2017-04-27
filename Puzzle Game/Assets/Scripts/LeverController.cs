@@ -16,7 +16,8 @@ public class LeverController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		setInitialLeverHand ();
-	}
+        setInitialLight();
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -56,7 +57,16 @@ public class LeverController : MonoBehaviour {
 		}
 	}
 
-	public void setLightOn(){
+    public void setInitialLight() {
+        if (state) {
+            setLightOn();
+        }
+        else if (!state) {
+            setLightOff();
+        }
+    }
+
+    public void setLightOn(){
 		string type = getType ();
 		if (type == "WhiteLight") {
 			//			Debug.Log ("White light on = " + state);
