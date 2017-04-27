@@ -28,6 +28,7 @@ public class GoToNextStage : MonoBehaviour {
 
 	IEnumerator OnTriggerEnter(Collider other){
 		if (other.GetComponent<ObjectController>().isPlayer) {
+			menu.SetPause (true);
 			PlaySound (0);
 			yield return new WaitForSeconds (0.8f);
 
