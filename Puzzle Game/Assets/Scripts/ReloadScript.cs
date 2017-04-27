@@ -11,11 +11,10 @@ public class ReloadScript : MonoBehaviour {
 		btn.onClick.AddListener(TaskOnClick);
 	}
 
-
 	void TaskOnClick(){
 		MenuScript a = menu.GetComponent<MenuScript>();
-
-		if (!a.isPaused()) 
-			Application.LoadLevel (Application.loadedLevel);
+		a.SetPause(false);
+		Time.timeScale = 1;
+		Application.LoadLevel (Application.loadedLevel);
 	}
 }

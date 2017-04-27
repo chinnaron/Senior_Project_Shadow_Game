@@ -13,6 +13,8 @@ public class BackToStageSelection : MonoBehaviour {
 
 	void TaskOnClick(){
 //		print ("YAY");
+
+		Time.timeScale = 1;
 		SceneManager.LoadScene("StageSelection");
 	}
 }

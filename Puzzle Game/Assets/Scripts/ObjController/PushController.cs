@@ -108,7 +108,7 @@ public class PushController : MonoBehaviour {
 			moveSpeed = speed;
 			jumpSpeed = 9f;
 		}
-		
+
 		moveY = Vector3.up;
 	}
 
@@ -205,12 +205,12 @@ public class PushController : MonoBehaviour {
 				if (!objController.isPlayer)
 					grid.SetGridHere (destination);
 
-				if (onFloor && transform.position.y != 0f) {
+				if (onFloor && transform.position.y != height) {
 					SetFallTo (grid.ToPoint0Y (transform.position));
 				} else if (!onFloor) {
 					if (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable)
 						SetFallTo (grid.ToPoint0Y (transform.position));
-					else if (transform.position.y != 1f)
+					else if (transform.position.y != height + 1)
 						SetFallTo (grid.ToPointY (transform.position, onFloor));
 				}
 			}

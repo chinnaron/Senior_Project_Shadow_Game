@@ -28,10 +28,13 @@ public class ContinueNextStage : MonoBehaviour {
 	
 	// Update is called once per frame
 	void TaskOnClick(){
-		if(Application.CanStreamedLevelBeLoaded("Scene"+nextStage))
-			SceneManager.LoadScene("Scene"+nextStage);
-		else SceneManager.LoadScene("StageSelection");
-
+		if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage)) {	
+			Time.timeScale = 1;
+			SceneManager.LoadScene ("Scene" + nextStage);
+		} else {
+			Time.timeScale = 1;
+			SceneManager.LoadScene ("StageSelection");
+		}
 
 	}
 }

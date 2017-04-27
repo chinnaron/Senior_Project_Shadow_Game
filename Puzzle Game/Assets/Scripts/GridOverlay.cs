@@ -291,6 +291,18 @@ public class GridOverlay : MonoBehaviour {
 		return true;
 	}
 
+	public bool IsWalkable(Vector3 v, bool onFloor){
+		int vX = ToGridX (v);
+		int vZ = ToGridZ (v);
+
+		if ((onFloor && (grid [vX, vZ] != walkable && grid [vX, vZ] != tempWalkable))
+			|| (!onFloor && (grid [vX, vZ] != walkable && grid [vX, vZ] != tempWalkable)
+				&& (grid [vX, vZ] != walkable2 && grid [vX, vZ] != tempWalkable2)))
+			return false;
+
+		return true;
+	}
+
 	public bool IsWalkable(Vector3 v1, Vector3 v2, bool onFloor){
 		int v1X = ToGridX (v1);
 		int v1Z = ToGridZ (v1);

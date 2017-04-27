@@ -409,10 +409,9 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (dying) {
-			transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
 			count++;
 			if(count > 50)
-			Application.LoadLevel (Application.loadedLevel);
+				Application.LoadLevel (Application.loadedLevel);
 		}
 
 		anim.SetBool ("IsWalking", walking);
@@ -423,6 +422,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void YouDied(){
 		dying = true;
+		anim.SetBool ("IsDead", true);
 		Stop ();
 		GetComponent<BoxCollider> ().enabled = false;
 	}

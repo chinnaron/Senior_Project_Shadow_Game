@@ -13,6 +13,7 @@ public class GoToNextStage : MonoBehaviour {
 	public DataScript datascript;
 	public GameObject Stageclear;
 	public GameObject blackscreen;
+	public MenuScript menuscript;
 
 	void Awake(){
 		name = Application.loadedLevelName;
@@ -30,8 +31,12 @@ public class GoToNextStage : MonoBehaviour {
 
 			datascript.setClear (nextStage - 1, true);
 			
+
+		menuscript.SetPause (true);
+		Debug.Log (menuscript.isPaused());
 			blackscreen.SetActive (true);
 			Stageclear.SetActive(true);
+		Time.timeScale = 0;	
 
 //		if (Application.CanStreamedLevelBeLoaded ("Scene" + nextStage)) {
 //			//SceneManager.LoadScene ("Scene" + nextStage);	
@@ -41,7 +46,7 @@ public class GoToNextStage : MonoBehaviour {
 //		}
 	}
 	public void PlaySound(int s){
-		//GetComponent<AudioSource>().clip = sound [s];
-		//GetComponent<AudioSource>().Play ();
+		GetComponent<AudioSource>().clip = sound [s];
+		GetComponent<AudioSource>().Play ();
 	}
 }
