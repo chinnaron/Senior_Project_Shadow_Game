@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/Scene1.unity
+=======
+- path: Assets/Scenes/Scene11.unity
+>>>>>>> origin/'mhee_return
   isLoaded: 1
   isActive: 1
