@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/TPC_TestSite.unity
+- path: Assets/Scenes/StageSelection.unity
   isLoaded: 1
   isActive: 1
