@@ -35,7 +35,7 @@ public class EnemyController : MonoBehaviour {
 	private float sinkSpeed = 2.5f;
 	private float flashSpeed = 5f; 
 	private float nearest = 0f;
-	private readonly float speed = 5f;
+	private readonly float speed = 4f;
 	private readonly float turnSpeed = 10f;
 	private readonly float camRayLength = 100f;
 
@@ -56,6 +56,7 @@ public class EnemyController : MonoBehaviour {
 		dieSpeed = 10;
 		reverse = false;
 		now = 0;
+//		print (inputPath.Length);
 
 		if (inputPath.Length > 0) {
 			int i = 0;
@@ -83,7 +84,7 @@ public class EnemyController : MonoBehaviour {
 			movement = pathDestination [1] - pathDestination [0];
 		} else
 			walking = false;
-//		print (now);
+
 
 		anim = GetComponent<Animator> ();
 		playerPush = GetComponent<PushController> ();
@@ -91,20 +92,27 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping && grid.GetGrid (transform.position) == grid.unwalkable) {
-			Fall ();
+//		print (walking);
+
+		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping) {
+//			print (grid.GetGrid (transform.position));
+			if (grid.GetGrid (transform.position) == grid.unwalkable) {
+				Fall ();
+//				print ("A");
+			} else if (pathDestination.Count > 1) {
+				walking = true;
+//				print ("B");
+			}
+		}
+
+		if (playerPush.falling) {
+			walking = false;
 		}
 
 		if (!grid.IsWalkable (pathDestination [now], playerPush.GetOnFloor ()))
 			walking = false;
 
 		if (walking) {
-			//			if (nearest >= Vector3.Distance (transform.position, pathDestination[now])) {
-			//				nearest = Vector3.Distance (transform.position, pathDestination[now]);
-			//			} else if (nearest < Vector3.Distance (transform.position, pathDestination[now])) {
-			//				nearest = 0;
-			//				transform.position = pathDestination[now];
-			//			}
 
 			if (transform.position == pathDestination[now] + Vector3.up) {
 				if (!playerPush.falling && playerPush.CheckFall ()) {
@@ -154,7 +162,7 @@ public class EnemyController : MonoBehaviour {
 			dieSpeed++;
 
 			if (transform.position.y < -8)
-				Application.LoadLevel (Application.loadedLevel);
+				Destroy (gameObject);
 		}
 			
 		anim.SetBool ("IsWalking", walking);

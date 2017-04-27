@@ -40,7 +40,7 @@ public class PushController : MonoBehaviour {
 		else
 			onFloor = false;
 
-		if (!objController.isPlayer) {
+		if (!objController.isPlayer && !objController.isEnemy) {
 			if (onFloor) {
 				objController.isBlock = true;
 				objController.isBlock2 = false;
@@ -143,7 +143,7 @@ public class PushController : MonoBehaviour {
 				if (CheckFall ())
 					SetFall ();
 				
-				if (!objController.isPlayer)
+				if (!objController.isPlayer && !objController.isEnemy)
 					grid.SetGridHere (destination);
 			}
 
@@ -175,7 +175,7 @@ public class PushController : MonoBehaviour {
 					objController.GetComponent<EnemyController> ().ContinueWalking ();
 				}
 
-				if (!objController.isPlayer)
+				if (!objController.isPlayer && !objController.isEnemy)
 					grid.SetGridHere (destination);
 			}
 
@@ -202,7 +202,7 @@ public class PushController : MonoBehaviour {
 				moveY = Vector3.zero;
 				jumping = false;
 
-				if (!objController.isPlayer)
+				if (!objController.isPlayer && !objController.isEnemy)
 					grid.SetGridHere (destination);
 
 				if (onFloor && transform.position.y != height) {

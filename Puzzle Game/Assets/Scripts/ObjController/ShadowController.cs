@@ -6,7 +6,7 @@ public class ShadowController : MonoBehaviour {
 	public GameObject[] shadow = new GameObject[4];
 
 	private ObjectController[] shadowObj = new ObjectController[4];
-	private readonly Vector3 high = Vector3.up * -0.4999f;
+	private readonly Vector3 height = Vector3.up * 0.0001f;
 	private readonly Vector3[] wayP = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left };
 	private float[] oldScale = new float[4];
 	private GridOverlay grid;
@@ -62,24 +62,23 @@ public class ShadowController : MonoBehaviour {
 				} else
 					grid.SetGrid (transform.position + wayP [i] * (1 + j), grid.unwalkable);
 			}
-			
-			return;
+		} else if (active) {
+
+			shadow [i].SetActive (true);
+
+			if (i % 2 == 0) {
+				shadow [i].transform.localScale = new Vector3 (1f, scale + 0.5f, 1f);
+			} else {
+				shadow [i].transform.localScale = new Vector3 (scale + 0.5f, 1f, 1f);
+			}
+
+			shadow [i].transform.position = Vector3.forward * transform.position.z + wayP [i] * (scale / 2f + 0.25f) + Vector3.right * transform.position.x + height;
+
+			for (int j = 0; j < (int)scale; j++) {
+				grid.SetGrid (transform.position + wayP [i] * (1 + j), pushController.GetOnFloor () ? grid.tempWalkable : grid.tempWalkable2);
+			}
+
+			oldScale [i] = scale;
 		}
-
-		shadow[i].SetActive (true);
-
-		if (i % 2 == 0) {
-			shadow [i].transform.localScale = new Vector3 (1f, scale + 0.5f, 1f);
-		} else {
-			shadow [i].transform.localScale = new Vector3 (scale + 0.5f, 1f, 1f);
-		}
-
-		shadow [i].transform.localPosition = wayP [i] * (scale / 2f + 0.25f) + high;
-
-		for (int j = 0; j < (int)scale; j++) {
-			grid.SetGrid (transform.position + wayP [i] * (1 + j), pushController.GetOnFloor () ? grid.tempWalkable : grid.tempWalkable2);
-		}
-
-		oldScale [i] = scale;
 	}
 }
