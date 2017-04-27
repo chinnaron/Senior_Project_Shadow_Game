@@ -21,8 +21,8 @@ public class ShadowController : MonoBehaviour {
 		playerMask = LayerMask.GetMask ("Player");
 
 		for (int i = 0; i < 4; i++) {
-			shadow [i].SetActive (false);
 			shadowObj [i] = shadow [i].GetComponent<ObjectController> ();
+			shadow [i].SetActive (false);
 		}
 	}
 

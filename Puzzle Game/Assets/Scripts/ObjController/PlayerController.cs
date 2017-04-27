@@ -98,19 +98,21 @@ public class PlayerController : MonoBehaviour {
 
 			#endif
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-
+//				print(hit.collider.GetComponent<ObjectController> ().isTempWalkable + "" + hit.collider.gameObject.name);
 				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask & ~ignMask)) {
 					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2
 						|| hit.collider.GetComponent<ObjectController> ().isTempWalkable || hit.collider.GetComponent<ObjectController> ().isTempWalkable2) {
 						point = grid.ToPoint (hit.point);
-
 						if (grabbing) {
 							if (point != grid.ToPoint (transform.position + grabPoint) && point != grid.ToPoint (transform.position)) {
+								//push
 								if (grid.Set0Y (point - transform.position + grabPoint).normalized == grabPoint
 								    && grid.IsWalkable (point, transform.position + (grabPoint * 2), playerPush.GetOnFloor ())) {
 									path.Clear ();
-									path = grid.FindGrabPath (point - grabPoint, transform.position + (grabPoint * 2), grabPoint);
-									path.Push (grid.ToPointY (transform.position, playerPush.GetOnFloor ()) + grabPoint);
+									path = grid.FindGrabPath (point - grabPoint, transform.position + grabPoint * 2, grabPoint);
+									path.Push (grid.ToPointY (transform.position + grabPoint, playerPush.GetOnFloor ()));
+									path.Push (grid.ToPointY (transform.position, playerPush.GetOnFloor ()));
+//									print(path.Peek());
 									StartToWalk (point, grabPoint);
 									lookAt = Quaternion.LookRotation (grabPoint);
 
@@ -121,9 +123,9 @@ public class PlayerController : MonoBehaviour {
 									
 									nearest = Vector3.Distance (transform.position, destination);
 									movement = grid.Set0Y (pathDestination - transform.position);
+									//pull
 								} else if (grid.Set0Y (point - transform.position).normalized == -grabPoint
-								           && grid.IsWalkable (point, transform.position - grabPoint, playerPush.GetOnFloor ())
-								           && grid.BallCanMove (transform.position, point + grabPoint)) {
+								           && grid.IsWalkable (point, transform.position - grabPoint, playerPush.GetOnFloor ())) {
 									path.Clear ();
 									if (grid.ToPoint0Y (point) == grid.ToPoint0Y (transform.position - grabPoint))
 										path.Push (point);
@@ -159,7 +161,7 @@ public class PlayerController : MonoBehaviour {
 						} else {
 							path.Clear ();
 							path = grid.FindPath (transform.position, point, playerPush.GetOnFloor ());
-
+//							print(path.Count);
 							if (path.Count > 0) {
 								StartToWalk (point, Vector3.zero);
 								nearest = Vector3.Distance (transform.position, destination);
@@ -234,7 +236,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-//		print(grid.GetGrid(transform.position));
+//		print(grid.GetGrid(transform.position + Vector3.forward * 2));
 
 		if (!walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping && grid.GetGrid (transform.position) == grid.unwalkable) {
 			Fall ();
@@ -435,7 +437,7 @@ public class PlayerController : MonoBehaviour {
 		Destroy (desPlane);
 //		Destroy (desNotPlane);
 		destination = des - grabPoi;
-
+//		print(grabbing && grid.GetGrid (des - grabPoi) == grid.block);
 		if (grid.GetGrid (des - grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable || (grabbing && grid.GetGrid (des - grabPoi) == grid.block))
 			destination.y = 0f;
 		else
@@ -444,7 +446,7 @@ public class PlayerController : MonoBehaviour {
 		pathDestination = path.Peek ();
 		path.Pop ();
 
-		if (grid.GetGrid (destination + grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable)
+		if (grid.GetGrid (des - grabPoi) == grid.walkable || grid.GetGrid (des - grabPoi) == grid.tempWalkable || (grabbing && grid.GetGrid (des - grabPoi) == grid.block))
 			desPlane = Instantiate (desPic, grid.Set0Y (destination + grabPoi), Quaternion.LookRotation (Vector3.forward));
 		else
 			desPlane = Instantiate (desPic, grid.Set1Y (destination + grabPoi), Quaternion.LookRotation (Vector3.forward));

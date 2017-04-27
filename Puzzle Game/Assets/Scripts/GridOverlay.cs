@@ -341,100 +341,18 @@ public class GridOverlay : MonoBehaviour {
 		return false;
 	}
 
-//	public void SetWalkable(Vector3 v1, Vector3 v2){
-//		int v1X = ToGridX (v1);
-//		int v1Z = ToGridZ (v1);
-//		int v2X = ToGridX (v2);
-//		int v2Z = ToGridZ (v2);
-//		int far;
-//		int dir;
-//
-//		if (IsOutOfGrid (v1))
-//			return;
-//
-//		if (v2X < 0)
-//			v2X = 0;
-//		
-//		if (v2X > lengthX - 1)
-//			v2X = lengthX - 1;
-//
-//		if (v2Z < 0)
-//			v2Z = 0;
-//		
-//		if (v2Z > lengthZ - 1)
-//			v2Z = lengthZ - 1;
-//
-//		if (v1X == v2X) {
-//			dir = v1Z > v2Z ? 1 : -1;
-//			far = (v1Z - v2Z) * dir;
-//			for (int i = 0; i < far; i++) {
-//				if (grid [v2X, v2Z + i * dir] == unwalkable)
-//					grid [v2X, v2Z + i * dir] = tempWalkable;
-//			}
-//		} else if (v1Z == v2Z) {
-//			dir = v1X > v2X ? 1 : -1;
-//			far = (v1X - v2X) * dir;
-//			for (int i = 0; i < far; i++) {
-//				if (grid [v2X + i * dir, v2Z] == unwalkable)
-//					grid [v2X + i * dir, v2Z] = tempWalkable;
-//			}
-//		} else
-//			return;
-//	}
-//
-//	public void SetWalkableBack(Vector3 v1, Vector3 v2){
-//		int v1X = ToGridX (v1);
-//		int v1Z = ToGridZ (v1);
-//		int v2X = ToGridX (v2);
-//		int v2Z = ToGridZ (v2);
-//		int far;
-//		int dir;
-//
-//		if (IsOutOfGrid (v1))
-//			return;
-//
-//		if (v2X < 0)
-//			v2X = 0;
-//
-//		if (v2X > lengthX - 1)
-//			v2X = lengthX - 1;
-//
-//		if (v2Z < 0)
-//			v2Z = 0;
-//
-//		if (v2Z > lengthZ - 1)
-//			v2Z = lengthZ - 1;
-//		
-//		if (v1X == v2X) {
-//			dir = v1Z > v2Z ? 1 : -1;
-//			far = (v1Z - v2Z) * dir;
-//			for (int i = 0; i < far; i++) {
-//				if (grid [v2X, v2Z + i * dir] == tempWalkable)
-//					grid [v2X, v2Z + i * dir] = unwalkable;
-//			}
-//		} else if (v1Z == v2Z) {
-//			dir = v1X > v2X ? 1 : -1;
-//			far = (v1X - v2X) * dir;
-//			for (int i = 0; i < far; i++) {
-//				if (grid [v2X + i * dir, v2Z] == tempWalkable)
-//					grid [v2X + i * dir, v2Z] = unwalkable;
-//			}
-//		} else
-//			return;
-//	}
-
 	public Stack<Vector3> FindGrabPath(Vector3 goal, Vector3 start, Vector3 direction){
 		int b = 0;
 		start = ToPoint (start);
 		Vector3 current = goal = ToPoint (goal);
-		start.y = (GetGrid (start) == walkable ? 0f : 1f);
-		current.y = goal.y = (GetGrid (goal) == walkable ? 0f : 1f);
+		start.y = (GetGrid (start) == walkable || GetGrid (start) == tempWalkable ? 0f : 1f);
+		current.y = goal.y = (GetGrid (goal) == walkable || GetGrid (goal) == tempWalkable ? 0f : 1f);
 		Stack<Vector3> ans = new Stack<Vector3> ();
 
 		if (ToPoint0Y (goal) + direction != ToPoint0Y (start)) {
 			ans.Push (goal);
 			while (current != start || b > 1000) {
-				if (GetGrid (current - direction) == walkable2) {
+				if (GetGrid (current - direction) == walkable2 || GetGrid (current - direction) == tempWalkable2) {
 					current = current - direction;
 					current.y = 1f;
 				} else {
@@ -444,7 +362,9 @@ public class GridOverlay : MonoBehaviour {
 				ans.Push (current);
 				b++;
 			}
-		}
+		} else 
+			ans.Push (goal);
+			
 
 		return ans;
 	}
