@@ -19,6 +19,8 @@ public class GoToNextStage : MonoBehaviour {
 		datascript = GetComponent<DataScript> ();
 		name = Application.loadedLevelName;
 		can = int.TryParse (name.Substring (name.Length - 1, 1), out nextStage);
+		if (name.Length == 7)
+			nextStage += 10;
 		nextStage += 1;
 		menu = FindObjectOfType<MenuScript> ();
 
