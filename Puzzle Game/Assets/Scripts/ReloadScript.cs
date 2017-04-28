@@ -14,8 +14,7 @@ public class ReloadScript : MonoBehaviour {
 
 	void TaskOnClick(){
 		MenuScript a = menu.GetComponent<MenuScript>();
-
-		if (!a.isPaused()) 
-			Application.LoadLevel (Application.loadedLevel);
+		Time.timeScale = 1;
+		Application.LoadLevel (Application.loadedLevel);
 	}
 }
