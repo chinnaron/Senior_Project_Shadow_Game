@@ -91,13 +91,13 @@ public class PlayerController : MonoBehaviour {
 		if (!menu._isPaused && !walking && !playerPush.moving && !playerPush.falling && !playerPush.jumping) {
 			#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 			if (Input.GetButtonDown ("Fire1")) {
+				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 				
 			#else
 			if (click) {
 				click = false;
-
+				ray = Camera.main.ScreenPointToRay (Input.touches[0].position);
 			#endif
-				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 //				print(hit.collider.GetComponent<ObjectController> ().isTempWalkable + "" + hit.collider.gameObject.name);
 				if (Physics.Raycast (ray, out hit, camRayLength, ~playerMask & ~ignMask)) {
 					if (hit.collider.GetComponent<ObjectController> ().isWalkable || hit.collider.GetComponent<ObjectController> ().isWalkable2
