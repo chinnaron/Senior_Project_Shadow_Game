@@ -27,7 +27,7 @@ public class StageSelectionScript : MonoBehaviour {
 
 	void Start(){
 		
-		
+		Debug.Log(PlayerPrefs.GetInt("Stage 10")==1);
 
 		if(PlayerPrefs.GetInt("Stage 1")==1)
 			Stage2.SetActive(true);	
@@ -50,7 +50,7 @@ public class StageSelectionScript : MonoBehaviour {
 		if(PlayerPrefs.GetInt("Stage 10")==1)
 			Stage11.SetActive(true);	
 		if(PlayerPrefs.GetInt("Stage 11")==1)
-    		Stage12.SetActive(true);
+    			Stage12.SetActive(true);
 		if(PlayerPrefs.GetInt("Stage 12")==1)
 			Stage13.SetActive(true);	
 		if(PlayerPrefs.GetInt("Stage 13")==1)
@@ -67,6 +67,7 @@ public class StageSelectionScript : MonoBehaviour {
 	}		
 	
 	void awake(){
+		
 		
 		if(PlayerPrefs.GetInt("Stage 1")==1)
 			Stage2.SetActive(true);	
@@ -85,8 +86,8 @@ public class StageSelectionScript : MonoBehaviour {
 		if(PlayerPrefs.GetInt("Stage 8")==1)
 			Stage9.SetActive(true);
 		if(PlayerPrefs.GetInt("Stage 9")==1)
-	    	Stage10.SetActive(true);	
-		if(PlayerPrefs.GetInt("Stage 10")==1)
+	    		Stage10.SetActive(true);	
+		if(PlayerPrefs.GetInt("Stage 10")==1);
 		    Stage11.SetActive(true);	
 		if(PlayerPrefs.GetInt("Stage 11")==1)
 		    Stage12.SetActive(true);
