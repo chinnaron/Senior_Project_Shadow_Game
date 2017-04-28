@@ -39,7 +39,8 @@ public class JumpPad : MonoBehaviour {
 			    && hit.collider.transform.position.z > transform.position.z - 0.1f) {
 				obj = hit.collider.GetComponent<PushController> ();
 
-				if (!obj.moving && !obj.jumping && !obj.falling) {
+				if (!obj.moving && !obj.jumping && !obj.falling && grid.ToPoint0Y (player.transform.position) != grid.ToPoint0Y (transform.position) + direction) {
+					//2 away
 					if ((onFloor && grid.GetGrid (transform.position + direction) != grid.block && grid.GetGrid (transform.position + direction) != grid.block2
 					    && grid.GetGrid (transform.position + direction) != grid.walkable2 && grid.GetGrid (transform.position + direction) != grid.tempWalkable2
 					    && grid.GetGrid (transform.position + direction * 2) != grid.block && grid.GetGrid (transform.position + direction * 2) != grid.block2
@@ -47,8 +48,8 @@ public class JumpPad : MonoBehaviour {
 					    || (!onFloor && (grid.GetGrid (transform.position + direction) != grid.block2) && grid.GetGrid (transform.position + direction * 2) != grid.block2)) {
 						PlaySound (0);
 						obj.SetJumpTo ((transform.position + direction * 2), onFloor, direction, 2);
-
 						CheckObj (obj);
+						//1 away
 					} else if ((onFloor && grid.GetGrid (transform.position + direction) != grid.block && grid.GetGrid (transform.position + direction) != grid.block2
 					           && grid.GetGrid (transform.position + direction) != grid.walkable2 && grid.GetGrid (transform.position + direction) != grid.tempWalkable2
 					           && (grid.GetGrid (transform.position + direction * 2) == grid.block || grid.GetGrid (transform.position + direction * 2) == grid.block2
@@ -57,12 +58,11 @@ public class JumpPad : MonoBehaviour {
 					           && grid.GetGrid (transform.position + direction * 2) == grid.block2)) {
 						PlaySound (0);
 						obj.SetJumpTo (transform.position + direction, onFloor, direction, 3);
-
 						CheckObj (obj);
+						//second floor
 					} else if (onFloor && (grid.GetGrid (transform.position + direction) == grid.walkable2 || grid.GetGrid (transform.position + direction) == grid.tempWalkable2)) {
 						PlaySound (0);
 						obj.SetJumpTo (transform.position + direction, !onFloor, direction, 1);
-
 						CheckObj (obj);
 					}
 				}
@@ -78,6 +78,11 @@ public class JumpPad : MonoBehaviour {
 		else if (obj == player.GetGrabPush ()) {
 			player.GrabRelease ();
 		}
+
+		if (transform.position.y < 1)
+			grid.SetGrid (transform.position, grid.walkable);
+		else
+			grid.SetGrid (transform.position, grid.walkable2);
 	}
 
 	public void PlaySound(int s){

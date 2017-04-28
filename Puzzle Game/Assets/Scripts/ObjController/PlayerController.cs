@@ -352,11 +352,11 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 
-			movement = movement.normalized * speed * Time.deltaTime;
-
 			if (Vector3.Dot (grid.Set0Y (transform.position + movement - pathDestination).normalized
 				, grid.Set0Y (transform.position - pathDestination).normalized) == -1f)
 				movement = grid.Set0Y (pathDestination - transform.position);
+
+			movement = movement.normalized * speed * Time.deltaTime;
 
 			transform.position = transform.position + movement;
 

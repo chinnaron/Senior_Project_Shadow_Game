@@ -45,7 +45,7 @@ public class StageSelectionScript : MonoBehaviour {
 			Stage8.SetActive(true);	
 		if(PlayerPrefs.GetInt("Stage 8")==1)
 			Stage9.SetActive(true);
-		if(PlayerPrefs.GetInt("Stage 9")==1);
+		if(PlayerPrefs.GetInt("Stage 9")==1)
 			Stage10.SetActive(true);	
 		if(PlayerPrefs.GetInt("Stage 10")==1)
 			Stage11.SetActive(true);	

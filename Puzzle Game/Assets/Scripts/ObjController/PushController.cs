@@ -69,12 +69,12 @@ public class PushController : MonoBehaviour {
 			grid.SetGrid (transform.position, grid.walkable2);
 	}
 
-	public void SetFallTo (Vector3 des) {
-		transform.position = grid.ToPointIgnoreY (transform.position) + Vector3.up * height;
-		destination = grid.ToPoint0Y (des) + Vector3.up * height;
+	public void SetFallTo (Vector3 des,bool onF) {
+		transform.position = grid.ToPointIgnoreY (transform.position);
+		destination = grid.ToPointY (des,onF) + Vector3.up * height;
 		falling = true;
-		onFloor = true;
-
+		onFloor = onF;
+//		print (destination + "" + transform.position);
 		if (objController.isBlock2) {
 			objController.isBlock2 = false;
 			objController.isBlock = true;
@@ -82,6 +82,7 @@ public class PushController : MonoBehaviour {
 
 		nearest = Vector3.Distance (transform.position, destination);
 		movement = Vector3.down;
+//		print (onFloor);
 	}
 
 	public void SetJumpTo (Vector3 des, bool onF, Vector3 dir, int num) {
@@ -122,16 +123,17 @@ public class PushController : MonoBehaviour {
 
 	public void SetFall () {
 		if (!onFloor && (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable)) {
-			SetFallTo (grid.ToPoint0Y (transform.position));
+			SetFallTo (grid.ToPoint0Y (transform.position), true);
 		}
 	}
 
 	void FixedUpdate () {
+//		print (onFloor);
 		if (moving) {
 //			print (transform.position + "" + destination);
 			if (nearest > Vector3.Distance (transform.position, destination)) {
 				nearest = Vector3.Distance (transform.position, destination);
-			} else if (nearest < Vector3.Distance (transform.position, destination)) {
+			} else if (nearest < Vector3.Distance (transform.position, destination)|| nearest < 0.01) {
 				nearest = 0;
 				transform.position = destination;
 			}
@@ -147,25 +149,31 @@ public class PushController : MonoBehaviour {
 					grid.SetGridHere (destination);
 			}
 
-			movement = movement.normalized * speed * Time.deltaTime;
-
 			if (Vector3.Dot (grid.Set0Y (movement + transform.position - destination).normalized
 				, grid.Set0Y (transform.position - destination).normalized) == -1f) {
-				movement = destination - transform.position;
+				if (movement == destination - transform.position) {
+					transform.position = destination;
+					movement = Vector3.zero;
+				} else
+					movement = destination - transform.position;
 			}
+
+			movement = movement.normalized * speed * Time.deltaTime;
 
 			transform.position = transform.position + movement;
 		}
 
 		if (falling) {
+//			transform.position = grid.ToPointIgnoreY (transform.position);
+//			print(nearest+""+ Vector3.Distance (transform.position, destination));
 			if (nearest > Vector3.Distance (transform.position, destination)) {
 				nearest = Vector3.Distance (transform.position, destination);
-			} else if (nearest < Vector3.Distance (transform.position, destination)) {
+			} else if (nearest < Vector3.Distance (transform.position, destination) || nearest < 0.01) {
 				nearest = 0;
 				transform.position = destination;
 			}
-
-			if (transform.position == destination) {
+//			print (nearest);
+			if (transform.position == destination || Mathf.Approximately(nearest,0)) {
 				movement = Vector3.zero;
 				falling = false;
 
@@ -179,12 +187,12 @@ public class PushController : MonoBehaviour {
 					grid.SetGridHere (destination);
 			}
 
-			movement = movement.normalized * speed * Time.deltaTime;
-
 			if (Vector3.Dot ((movement + transform.position - destination).normalized
 				, (transform.position - destination).normalized) == -1f) {
-				movement = destination - transform.position;
+					movement = destination - transform.position;
 			}
+
+			movement = movement.normalized * speed * Time.deltaTime;
 
 			transform.position = transform.position + movement;
 		}
@@ -192,7 +200,7 @@ public class PushController : MonoBehaviour {
 		if (jumping) {
 			if (nearest > Vector3.Distance (transform.position, destination)) {
 				nearest = Vector3.Distance (transform.position, destination);
-			} else if (nearest < Vector3.Distance (transform.position, destination)) {
+			} else if (nearest < Vector3.Distance (transform.position, destination)|| nearest < 0.01) {
 				nearest = 0;
 				transform.position = destination;
 			}
@@ -206,23 +214,23 @@ public class PushController : MonoBehaviour {
 					grid.SetGridHere (destination);
 
 				if (onFloor && transform.position.y != height) {
-					SetFallTo (grid.ToPoint0Y (transform.position));
+					SetFallTo (grid.ToPoint0Y (transform.position), true);
 				} else if (!onFloor) {
 					if (grid.GetGrid (transform.position) == grid.walkable || grid.GetGrid (transform.position) == grid.tempWalkable)
-						SetFallTo (grid.ToPoint0Y (transform.position));
+						SetFallTo (grid.ToPoint0Y (transform.position), true);
 					else if (transform.position.y != height + 1)
-						SetFallTo (grid.ToPointY (transform.position, onFloor));
+						SetFallTo (grid.ToPointY (transform.position, onFloor), false);
 				}
 			}
-
-			movement = movement.normalized * moveSpeed * Time.deltaTime;
-			moveY = moveY.normalized * jumpSpeed * Time.deltaTime;
 
 			if (Vector3.Dot (grid.Set0Y (movement + transform.position - destination).normalized
 				, grid.Set0Y (transform.position - destination).normalized) == -1f) {
 				movement = destination - transform.position;
 				moveY = Vector3.zero;
 			}
+
+			movement = movement.normalized * moveSpeed * Time.deltaTime;
+			moveY = moveY.normalized * jumpSpeed * Time.deltaTime;
 
 			transform.position = transform.position + movement + moveY;
 
