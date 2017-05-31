@@ -11,8 +11,6 @@ Should Know:
   - Ray/Raycast/RaycastHit
 - How to call function from other script
 
-Code Explain:
-- ช่างแม่ง
 
 What should do next
 - สร้างloading
